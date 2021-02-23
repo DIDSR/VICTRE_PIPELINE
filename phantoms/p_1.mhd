@@ -1,0 +1,14 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = False
+TransformMatrix = 1 0 0 0 1 0 0 0 1
+Offset = -9.4000 -36.0534 -45.1184
+CenterOfRotation = 0 0 0
+ElementSpacing = 0.2000 0.2000 0.2000
+DimSize = 374 448 449
+AnatomicalOrientation = ???
+ElementType = MET_UCHAR
+ObjectType = Image
+ElementDataFile = p_1.raw

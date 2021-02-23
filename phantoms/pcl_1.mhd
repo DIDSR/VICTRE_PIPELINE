@@ -1,0 +1,14 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = False
+TransformMatrix = 1 0 0 0 1 0 0 0 1
+Offset = -20.8 -46.4534 -56.3184
+CenterOfRotation = 0 0 0
+ElementSpacing = 0.2 0.2 0.2
+DimSize = 331 539 258
+AnatomicalOrientation = ???
+ElementType = MET_UCHAR
+ObjectType = Image
+ElementDataFile = pcl_{:d}.raw
