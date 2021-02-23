@@ -11,4 +11,4 @@ DimSize = 331 539 258
 AnatomicalOrientation = ???
 ElementType = MET_UCHAR
 ObjectType = Image
-ElementDataFile = pcl_{:d}.raw
+ElementDataFile = pcl_1.raw

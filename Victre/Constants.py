@@ -23,7 +23,7 @@ PHANTOM_MATERIALS = {
 
 FLATFIELD_REPETITIONS = 5
 
-FORBIDDEN_OVERLAP = [0, 2, 33, 48]
+FORBIDDEN_OVERLAP = [0, 2, 33, 40]
 
 VICTRE_DEFAULT_MATERIALS = [
     {"material": "./Victre/projection/material/air__5-120keV.mcgpu.gz",

@@ -77,7 +77,7 @@ class Pipeline:
         self.lesions = []
         self.lesion_locations = {"dbt": [], "dm": []}
         self.results_folder = results_folder
-        self.roi_sizes=roi_sizes
+        self.roi_sizes = roi_sizes
 
         random.seed(self.seed)
 
@@ -272,7 +272,8 @@ class Pipeline:
                 self.arguments_mcgpu["voxel_size"] = [
                     x / 10 for x in self.mhd["ElementSpacing"]]
             if os.path.exists("{:s}/{:s}.loc".format(path, filename)):
-                locations = list(np.loadtxt("{:s}/{:s}.loc".format(path, filename)))
+                locations = list(np.loadtxt(
+                    "{:s}/{:s}.loc".format(path, filename)))
                 self.insert_lesions(locations=locations,
                                     save_phantom=False)
 
@@ -765,7 +766,7 @@ class Pipeline:
             return
 
         if roi_sizes is not None:
-            self.roi_sizes=roi_sizes
+            self.roi_sizes = roi_sizes
 
         # SAVE DBT ROIs
         if clean:
@@ -935,11 +936,11 @@ class Pipeline:
                     lesion = f.read()
                 lesion = np.fromstring(
                     lesion, dtype=np.uint8).reshape(lesion_size)
-        
+
         if roi_sizes is None and lesion is not None:
             roi_shape = lesion.shape
         elif roi_sizes is not None:
-                self.roi_sizes = roi_sizes
+            self.roi_sizes = roi_sizes
 
         if locations is not None:
             for cand in locations:
@@ -949,7 +950,7 @@ class Pipeline:
 
                 if lesion is None:
                     lesion_shape = self.roi_sizes[np.abs(cand_type)]
-            
+
                 if lesion is not None:
                     lesion_shape = lesion.shape
                     roi = phantom[int(cand[0] - lesion_shape[0] / 2):int(cand[0] + lesion_shape[0] / 2),
@@ -1089,7 +1090,8 @@ class Pipeline:
                 with open("{:s}/{:d}/pcl_{:d}.mhd".format(self.results_folder, self.seed, self.seed), "w") as f:
                     src = Template(Constants.MHD_FILE)
                     template_arguments = self.mhd.copy()
-                    template_arguments["ElementDataFile"] = "pcl_{:d}.raw"
+                    template_arguments["ElementDataFile"] = "pcl_{:d}.raw".format(
+                        self.seed)
                     for key in template_arguments.keys():
                         if type(template_arguments[key]) is list:
                             template_arguments[key] = ' '.join(
@@ -1182,7 +1184,7 @@ class Pipeline:
                     list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], -lesion_type]).astype(int)))
 
                 c += 1
-                
+
         np.savetxt("{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed),
                    np.asarray(self.lesions), fmt="%d")
 
@@ -1355,6 +1357,8 @@ class Pipeline:
         with open("{:s}/{:d}/pc_{:d}_crop.mhd".format(self.results_folder, self.seed, self.seed), "w") as f:
             src = Template(Constants.MHD_FILE)
             template_arguments = self.mhd.copy()
+            template_arguments["ElementDataFile"] = "pc_{:d}_crop.raw".format(
+                        self.seed)
             for key in template_arguments.keys():
                 if type(template_arguments[key]) is list:
                     template_arguments[key] = ' '.join(
