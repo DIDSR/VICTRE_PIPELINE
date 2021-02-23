@@ -12,9 +12,6 @@ from os import walk
 import contextlib
 import pathlib
 import glob
-import matplotlib.pyplot as plt
-import cv2
-import cc3d
 import progressbar
 import h5py
 import subprocess
@@ -1358,7 +1355,7 @@ class Pipeline:
             src = Template(Constants.MHD_FILE)
             template_arguments = self.mhd.copy()
             template_arguments["ElementDataFile"] = "pc_{:d}_crop.raw".format(
-                        self.seed)
+                self.seed)
             for key in template_arguments.keys():
                 if type(template_arguments[key]) is list:
                     template_arguments[key] = ' '.join(
