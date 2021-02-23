@@ -2,9 +2,10 @@
 
 
 
-CUDA_INC=/projects01/sysadmin/stuartb/cuda/cuda-10.2/cuda-samples/common/inc/
-
-
+CUDA_INC=/usr/local/cuda/include 
+CUDA_SAMPLES=/usr/local/cuda/samples/common/inc
+MPI_INCLUDE=/usr/include/openmpi
+MPI_LIB=-lmpi
 
 
 
@@ -155,7 +156,7 @@ Press any other key to exit...
     ;;
 
     4* )
-        ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I $MPI_INCLUDE -L $MPI_LIB -lmpi -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70)
+        ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -L $MPI_LIB -lmpi -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70 )
     ;;
 
     5* )     
