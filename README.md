@@ -71,7 +71,7 @@ Each example file starts the pipeline from a different step, use `example1.py` t
 * `pc_1.raw.gz`: compressed phantom
 * `pc_1_crop.raw.gz`: cropped compressed phantom
 * `pcl_1.raw.gz`: compressed original phantom with the inserted lesions
-* `lesions.loc`: file containing the coordinates of the inserted lesions in the phantom
+* `pcl_1.loc`: file containing the coordinates of the inserted lesions in the phantom
   * Last number is the lesion type: `1` for calcification clusters, `2` for masses
 * `projection_DM.raw`: contains the DM projection with a size of 3000 x 1000 pixels in raw format
 * `reconstruction.raw`: contains the DBT reconstruction with a size of 3000 x 1000 x 25 voxels in raw format
