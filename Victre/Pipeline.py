@@ -27,6 +27,7 @@ import datetime
 from pydicom.encaps import encapsulate
 import re
 import gzip
+from scipy import interpolate
 
 
 class Pipeline:
@@ -43,11 +44,12 @@ class Pipeline:
                  lesion_file=None,
                  materials=None,
                  roi_sizes=None,
+                 arguments_generation=dict(),
                  arguments_mcgpu=dict(),
                  arguments_recon=dict(),
-                 arguments_generation=dict(),
                  flatfield_DBT=None,
-                 flatfield_DM=None):
+                 flatfield_DM=None,
+                 density=None):
         """!
         Object constructor for the Victre pipeline class
 
@@ -58,9 +60,13 @@ class Pipeline:
         @param spectrum_file Path to file containing the spectrum used to project in MCGPU
         @param lesion_file Path to file containing the lesion to be inserted (in HDF5 format)
         @param materials Dictionary including the materials to be used during projection
+        @param roi_sizes Dictionary with the ROI sizes for the extraction
+        @param arguments_generation Arguments to be overriden for the breast phantom generation
         @param arguments_mcgpu Arguments to be overridden for the projection in MCGPU
         @param arguments_recon Arguments to be overridden for the reconstruction algorithm
-        @param flatfield_file Path to the flatfield file for projection
+        @param flatfield_DBT Path to the flatfield file for the DBT reconstruction
+        @param flatfield_DM Path to the flatfield file for the digital mammography
+        @param density Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
         @return None
         """
 
@@ -78,56 +84,12 @@ class Pipeline:
 
         random.seed(self.seed)
 
-        self.arguments_mcgpu = dict(
-            number_histories=1.02e10,
-            random_seed=31415990,
-            selected_gpu=0,
-            number_gpus=1,
-            gpu_threads=128,
-            histories_per_thread=5000,
-            spectrum_file=spectrum_file,
-            source_position=[0.00001, 4.825, 63.0],
-            source_direction=[0.0, 0.0, -1.0],
-            fam_beam_aperture=[15.0, 7.4686667],
-            euler_angles=[90.0, -90.0, 180.0],
-            focal_spot=0.0300,
-            angular_blur=0.18,
-            collimate_beam="YES",
-            output_file="{:s}/{:d}/projection".format(
-                self.results_folder, self.seed),
-            image_pixels=[3000, 1500],
-            image_size=[25.50, 12.75],
-            distance_source=65.00,
-            image_offset=[0, 0],
-            detector_thickness=0.02,
-            mean_free_path=0.004027,
-            k_edge_energy=[12658.0, 11223.0, 0.596, 0.00593],
-            detector_gain=[50.0, 0.99],
-            additive_noise=5200.0,
-            cover_thickness=[0.10, 1.9616],
-            antiscatter_grid_ratio=[5.0, 31.0, 0.0065],
-            antiscatter_strips=[0.00089945, 1.9616],
-            antiscatter_grid_lines=0,
-            number_projections=25,
-            rotation_axis_distance=60.0,
-            projections_angle=2.083333333333,
-            angular_rotation_first=-25.0,
-            rotation_axis=[1.0, 0.0, 0.0],
-            axis_translation=0,
-            detector_fixed="YES",
-            simulate_both="YES",
-            tally_material_dose="YES",
-            tally_voxel_dose="NO",
-            output_dose_filename="mc-gpu_dose.dat",
-            roi_voxel_dose_x=[1, 751],
-            roi_voxel_dose_y=[1, 1301],
-            roi_voxel_dose_z=[250, 250],
-            phantom_file=phantom_file,
-            voxel_geometry_offset=[0, 0, 0],
-            number_voxels=[810, 1920, 745],
-            voxel_size=[0.005, 0.005, 0.005],
-            low_resolution_voxel_size=[1, 1, 1]
-        )
+        self.arguments_mcgpu = Constants.VICTRE_DEFAULT_MCGPU
+        self.arguments_mcgpu["spectrum_file"] = spectrum_file
+        self.arguments_mcgpu["phantom_file"] = phantom_file
+        self.arguments_mcgpu["output_file"] = "{:s}/{:d}/projection".format(
+            self.results_folder, self.seed)
+
         if phantom_file is None:
             if os.path.exists("{:s}/{:d}/pcl_{:d}.mhd".format(self.results_folder, seed, seed)):
                 cprint("Found phantom with lesions information!", 'cyan')
@@ -173,6 +135,8 @@ class Pipeline:
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/p_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
+
+        self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] / 400
 
         self.arguments_mcgpu.update(arguments_mcgpu)
 
@@ -240,11 +204,31 @@ class Pipeline:
 
         self.arguments_recon.update(arguments_recon)
 
-        self.arguments_generation = Constants.VICTRE_DENSE
+        self.arguments_generation = Constants.VICTRE_DENSE  # dense by default
 
         self.arguments_generation["outputDir"] = os.path.abspath("{:s}/{:d}/".format(
             self.results_folder, self.seed))
         self.arguments_generation["seed"] = self.seed
+
+        if density is not None:
+            fat = np.max([0.4, np.min([0.95, 1 - density])])
+            ranges = {}
+            for key in Constants.DENSITY_RANGES.keys():
+                interp = interpolate.interp1d(
+                    Constants.DENSITY_RANGES["targetFatFrac"], Constants.DENSITY_RANGES[key])
+                ranges[key] = float(interp(fat))
+
+            ranges["numBackSeeds"] = int(
+                ranges["numBackSeeds"])  # this should be integer
+
+            self.arguments_generation.update(ranges)
+            if fat >= 0.75:  # increase the kVp when breast has low density
+                # this is hardcoded here, careful
+                self.arguments_mcgpu["spectrum_file"] = "./Victre/projection/spectrum/W30kVp_Rh50um_Be1mm"
+                self.arguments_mcgpu["fam_beam_aperture"][1] = 11.2
+
+            self.arguments_mcgpu["number_histories"] = ranges["number_histories"]
+
         self.arguments_generation.update(arguments_generation)
 
         self.recon_size = dict(
@@ -285,7 +269,20 @@ class Pipeline:
             Method that runs MCGPU to project the phantom.
 
             @param clean If True, it will delete the contents of the output folder before projecting.
+            @param do_flatfield If > 0, it will generate an empty flat field projection
         """
+
+        def get_gpu_memory():
+            def _output_to_list(x): return x.decode('ascii').split('\n')[:-1]
+
+            ACCEPTABLE_AVAILABLE_MEMORY = 1024
+            COMMAND = "nvidia-smi --query-gpu=memory.free --format=csv"
+            memory_free_info = _output_to_list(
+                subprocess.check_output(COMMAND.split()))[1:]
+            memory_free_values = [int(x.split()[0])
+                                  for i, x in enumerate(memory_free_info)]
+
+            return memory_free_values
 
         if do_flatfield > 0:
             filename = "flatfield"
@@ -335,8 +332,17 @@ class Pipeline:
                 template_arguments["phantom_file"] = "{:s}/{:d}/empty_phantom.raw.gz".format(
                     self.results_folder,
                     self.seed)
+                template_arguments["number_histories"] *= Constants.FLATFIELD_DOSE_MULTIPLIER
             template_arguments["output_file"] = "{:s}/{:d}/{:s}".format(
                 self.results_folder, self.seed, filename)
+
+            # from MBytes to Bytes and reduce 500MB for extra room
+            # this would be for the first GPU
+            gpu_ram = (get_gpu_memory()[0] - 500) * 1024 * 1024
+
+            if gpu_ram < template_arguments["number_voxels"][0] * template_arguments["number_voxels"][1] * template_arguments["number_voxels"][2]:
+                template_arguments["low_resolution_voxel_size"] = [1, 1, 0]
+
             for key in template_arguments.keys():
                 if type(template_arguments[key]) is list:
                     template_arguments[key] = ' '.join(
@@ -445,7 +451,8 @@ class Pipeline:
                                                                          self.arguments_recon["detector_elements_perpendicular"],
                                                                          self.arguments_recon["detector_elements"])
 
-                prev_flatfield_DM += curr_flatfield_DM / do_flatfield
+                prev_flatfield_DM += curr_flatfield_DM / \
+                    do_flatfield / Constants.FLATFIELD_DOSE_MULTIPLIER
 
                 prev_flatfield_DM.tofile(
                     "{:s}/{:d}/flatfield_DM.raw".format(self.results_folder, self.seed))
@@ -460,7 +467,8 @@ class Pipeline:
                                              self.arguments_mcgpu["image_pixels"][0],
                                              self.arguments_mcgpu["image_pixels"][1])
 
-                prev_flatfield_DBT += curr_flatfield_DBT / do_flatfield
+                prev_flatfield_DBT += curr_flatfield_DBT / \
+                    do_flatfield / Constants.FLATFIELD_DOSE_MULTIPLIER
 
                 prev_flatfield_DBT.tofile("{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
                     self.results_folder,
@@ -824,20 +832,6 @@ class Pipeline:
 
         cprint("ROIs saved!", 'green', attrs=['bold'])
 
-    def get_folder_contents(self, folder):
-        """!
-            Gets a list of files in the given folder
-
-            @param folder Path to the folder to be processed
-            @return List with files inside the given folder
-        """
-        dir_folder = pathlib.Path(folder)
-        files = []
-        for currentFile in dir_folder.iterdir():
-            files.append(join(folder, currentFile.name))
-
-        return files
-
     def generate_spiculated(self, seed, size):
         """!
             Generates a spiculated mass using the breastMass software
@@ -898,7 +892,9 @@ class Pipeline:
             @param lesion_size If lesion_file is a raw file, lesion_size indicates the size of this file
             @param locations List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
             @param roi_sizes Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
-            @return None. A location file will be saved inside the `phantom` folder with the corresponding seed. Positive lesion type means absent ROI.
+
+            @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: `pcl_SEED.raw.gz` with the raw data, `pcl_SEED.mhd` with the information about the raw data, and `pcl_SEED.loc` with the voxel coordinates of the lesion centers.
+
         """
         if self.lesion_file is None and lesion_file is None:
             cprint(
@@ -1186,6 +1182,11 @@ class Pipeline:
                    np.asarray(self.lesions), fmt="%d")
 
     def generate_phantom(self):
+        """!
+            Runs breast phantom generation.
+
+            @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `p_SEED.raw.gz` with the raw data, and `p_SEED.mhd` with the information about the raw data.
+        """
         generation_config = "{:s}/{:d}/input_generation.in".format(
             self.results_folder, self.seed)
 
@@ -1228,7 +1229,7 @@ class Pipeline:
                 f.write(output.encode('utf-8'))
                 f.flush()
 
-        if completed == 0:
+        if not os.path.exists("{:s}/{:d}/p_{:d}.mhd".format(self.results_folder, self.seed, self.seed)):
             output = process.stderr.readline().decode("utf-8")
             with open("{:s}/{:d}/output_generation.out".format(self.results_folder, self.seed), "ab+") as f:
                 f.write(output.encode('utf-8'))
@@ -1245,8 +1246,18 @@ class Pipeline:
         self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
         self.arguments_mcgpu["voxel_size"] = self.mhd["ElementSpacing"]
         self.arguments_recon["voxel_size"] = self.arguments_mcgpu["voxel_size"][0]
+        self.lesions = []
 
-    def compress_phantom(self, thickness):
+    def compress_phantom(self, thickness=None):
+        """!
+            Runs the FEBio compression.
+
+            @param thickness Specifies the objective thickness for the phantom to be compressed (in cm)
+            @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED.raw.gz` with the raw data, and `pc_SEED.mhd` with the information about the raw data.
+        """
+        if thickness is None:
+            thickness = int(self.arguments_generation["compressionThickness"])
+
         command = "cd {:s} && ./Victre/compression/build/breastCompressMain -s {:d} -t {:f} -d {:s}/{:d}".format(
             os.getcwd(),
             self.seed,
@@ -1303,6 +1314,11 @@ class Pipeline:
         self.arguments_recon["voxels_z"] = self.arguments_mcgpu["number_voxels"][2]
 
     def crop(self, size=None):
+        """!
+            Runs breast phantom cropping.
+
+            @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED_crop.raw.gz` with the raw data, and `pc_SEED_crop.mhd` with the information about the raw data.
+        """
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
             phantom = f.read()
 
@@ -1362,6 +1378,21 @@ class Pipeline:
                         map(str, template_arguments[key]))
             result = src.substitute(template_arguments)
             f.write(result)
+
+    @staticmethod
+    def get_folder_contents(folder):
+        """!
+            Gets a list of files in the given folder
+
+            @param folder Path to the folder to be processed
+            @return List with files inside the given folder
+        """
+        dir_folder = pathlib.Path(folder)
+        files = []
+        for currentFile in dir_folder.iterdir():
+            files.append(join(folder, currentFile.name))
+
+        return files
 
     @staticmethod
     def _read_mhd(filename):

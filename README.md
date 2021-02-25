@@ -56,7 +56,7 @@ Follow the instructions and compile the 5 parts.
 
 Install the required python libraries:
 
-`pip install numpy termcolor progressbar2 h5py pydicom`
+`pip install numpy scipy termcolor progressbar2 h5py pydicom`
 
 Usage
 -----
