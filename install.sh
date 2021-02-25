@@ -58,7 +58,7 @@ then
     printf "${GREEN}FOUND${NC}\n"
 else
     printf "${RED}NOT FOUND${NC}"
-    printf "\t*** You won't be able to compile many things on this computer."
+    printf "\t*** You won't be able to compile many things on this computer.\n"
 fi
 
 printf "Checking cmake: \t\t"
@@ -69,7 +69,7 @@ then
     printf "${GREEN}FOUND${NC}\n"
 else
     printf "${RED}NOT FOUND${NC}"
-    printf "\t*** You won't be able to compile breast generation, compression and mass generation on this computer."
+    printf "\t*** You won't be able to compile breast generation, compression and mass generation on this computer.\n"
 fi
 
 printf "Checking python: \t\t"
@@ -80,7 +80,7 @@ then
     printf "${GREEN}FOUND${NC}\n"
 else
     printf "${RED}NOT FOUND${NC}"
-    printf "\t*** You won't be able to run the pipeline in this computer."
+    printf "\t*** You won't be able to run the pipeline in this computer.\n"
 fi
 
 printf "Checking febio2.lnx64: \t\t"
@@ -91,7 +91,7 @@ then
     printf "${GREEN}FOUND${NC}\n"
 else
     printf "${RED}NOT FOUND${NC}"
-    printf "\t*** You won't be able to run the breast compression in this computer."
+    printf "\t*** You won't be able to run the breast compression in this computer.\n"
 fi
 
 printf "Checking VTK_DIR \t\t"
@@ -100,7 +100,7 @@ then
     printf "${GREEN}FOUND${NC}\n"
 else
     printf "${RED}NOT FOUND${NC}"
-    printf "\t*** You might not be able to compile breast generation, compression and mass generation on this computer."
+    printf "\t*** You might not be able to compile breast generation, compression and mass generation on this computer.\n"
 fi
 
 printf "Checking boost \t\t\t"
@@ -108,7 +108,7 @@ if [[ "$C_INCLUDE_PATH" == *"boost"* && "$CPLUS_INCLUDE_PATH" == *"boost"* ]]; t
     printf "${GREEN}FOUND${NC}\n"
 else
     printf "${RED}NOT FOUND${NC}"
-    printf "\t*** You might not be able to compile breast generation, compression and mass generation on this computer."
+    printf "\t*** You might not be able to compile breast generation, compression and mass generation on this computer.\n"
 fi
 
 
