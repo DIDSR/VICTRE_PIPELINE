@@ -34,12 +34,32 @@ The code included in this repository will allow you to compile and execute the f
 
 Requirements
 ------------
-* cmake 3+
-* gcc/g++
-* FEBio
-* VTK library
-* boost library
-* CUDA 10.4+
+* For phantom generation
+  * cmake 3+
+  * gcc/g++
+  * VTK library
+  * Lapack library
+  * boost library
+* For phantom compression
+  * FEBio
+  * gcc/g++
+  * cmake 3+
+  * VTK library
+  * Lapack library
+  * boost library
+* For mass generation
+  * gcc/g++
+  * cmake 3+
+  * VTK library
+  * Lapack library
+  * boost library
+* For MCGPU projection
+  * CUDA 10.4+
+  * GPU-enabled computer (8GB+ recommended)
+* For reconstruction
+  * gcc/g++
+* For the pipeline
+  * Python 3.6+
 
 Installation
 ------------
@@ -52,11 +72,17 @@ Execute the installation script:
 
 `source install.sh`
 
-Follow the instructions and compile the 5 parts.
+Follow the instructions and compile the 5 parts. You might need to edit the `install.sh` file to change the route of some libraries at the beginning.
 
 Install the required python libraries:
 
 `pip install numpy scipy termcolor progressbar2 h5py pydicom`
+
+Add the `FEBio` executable to the path:
+
+`export PATH="$PATH:/routetofebio/FEBio-2.9.1/bin"`
+
+And rename it to `febio2.lnx64`.
 
 Usage
 -----

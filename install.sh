@@ -5,27 +5,40 @@
 CUDA_INC=/usr/local/cuda/include 
 CUDA_SAMPLES=/usr/local/cuda/samples/common/inc
 MPI_INCLUDE=/usr/include/openmpi
-MPI_LIB=-lmpi
+LAPACK_LIB=/usr/lib64/
+BOOST_OPTIONS_LIB=/usr/lib64/ # route to libboost_program_options
+VTK_DIR=/usr/local/VTK-build
 
 
 
-echo "
-============================================
-    __   __ ___  ___  _____  ___  ___       
-    \ \ / /|_ _|/ __||_   _|| _ \| __|      
-     \ V /  | || (__   | |  |   /| _|       
-      \_/  |___|\___|  |_|  |_|_\|___|      
-  ___  ___  ___  ___  _     ___  _  _  ___ 
- | _ \|_ _|| _ \| __|| |   |_ _|| \| || __|
- |  _/ | | |  _/| _| | |__  | | | .\` || _| 
- |_|  |___||_|  |___||____||___||_|\_||___|
-============================================
 
-WELCOME TO THE VICTRE PIPELINE INSTALLATION SCRIPT.
 
-We are going to check the requirements.
+
+# ------------------ DO NOT MODIFY --------------------------
+
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+BLUE='\033[1;36m'
+NC='\033[0m' # No Color
+
+echo -e "$GREEN
+==================================================
+        __   __ ___  ___  _____  ___  ___       
+        \ \ / /|_ _|/ __||_   _|| _ \| __|      
+         \ V /  | || (__   | |  |   /| _|       
+          \_/  |___|\___|  |_|  |_|_\|___|      
+     ___  ___  ___  ___  _     ___  _  _  ___ 
+    | _ \|_ _|| _ \| __|| |   |_ _|| \| || __|
+    |  _/ | | |  _/| _| | |__  | | | .\` || _| 
+    |_|  |___||_|  |___||____||___||_|\_||___|
+    
+==================================================
+$NC
+${BLUE}Citation:${NC} \"Evaluation of Digital Breast Tomosynthesis as Replacement of Full-Field Digital Mammography Using an In Silico Imaging Trial.\" Aldo Badano, Ph. D., Christian G. Graff, Ph. D., Andreu Badal, Ph. D., Diksha Sharma, M. Sc., Rongping Zeng, Ph. D., Frank W. Samuelson, Ph. D., Stephen Glick, Ph. D., and Kyle J. Myers, Ph. D. JAMA Network Open. 2018;1(7):e185474; doi:10.1001/jamanetworkopen.2018.5474.
+
+${BLUE}VICTRE team:${NC} Aldo Badano, Ph. D., Christian G. Graff, Ph. D., Andreu Badal, Ph. D., Diksha Sharma, M. Sc., Rongping Zeng, Ph. D., Aunnasha Sengupta, Miguel A. Lago, Ph. D., Frank W. Samuelson, Ph. D., Stephen Glick, Ph. D., and Kyle J. Myers, Ph. D.
 "
-
+read -n 1 -r -s -p $'Press enter to continue...\n'
 check_command () {
     if ! command -v $1 &> /dev/null
     then
@@ -35,9 +48,7 @@ check_command () {
     exists=1
 }
 
-RED='\033[1;31m'
-GREEN='\033[1;32m'
-NC='\033[0m' # No Color
+
 
 printf "Checking nvcc: \t\t\t"
 check_command nvcc
@@ -156,7 +167,7 @@ Press any other key to exit...
     ;;
 
     4* )
-        ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -L $MPI_LIB -lmpi -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70 )
+        ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -lmpi -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70 )
     ;;
 
     5* )     
