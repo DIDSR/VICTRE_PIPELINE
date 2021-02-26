@@ -100,7 +100,7 @@ class Pipeline:
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
                 self.lesions = np.loadtxt(
-                    "{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed))
+                    "{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed)).tolist()
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pcl_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -216,7 +216,7 @@ class Pipeline:
             for key in Constants.DENSITY_RANGES.keys():
                 interp = interpolate.interp1d(
                     Constants.DENSITY_RANGES["targetFatFrac"], Constants.DENSITY_RANGES[key])
-                ranges[key] = float(interp(fat))
+                ranges[key] = np.round(float(interp(fat)), 2)
 
             ranges["numBackSeeds"] = int(
                 ranges["numBackSeeds"])  # this should be integer
@@ -378,7 +378,7 @@ class Pipeline:
 
         process = subprocess.Popen(ssh_command, shell=True,
                                    stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
+                                   stderr=subprocess.STDOUT)
 
         bar = None
         with open("{:s}/{:d}/output_{:s}.out".format(self.results_folder, self.seed, filename), "wb") as f:
@@ -402,10 +402,7 @@ class Pipeline:
                 f.flush()
 
         if completed != self.arguments_mcgpu["number_projections"]:
-            output = process.stderr.readline().decode("utf-8")
-            with open("{:s}/{:d}/output_{:s}.out".format(self.results_folder, self.seed, filename), "ab+") as f:
-                f.write(output.encode('utf-8'))
-            cprint("\nError while projecting, check the output file in the results folder",
+            cprint("\nError while projecting, check the output_{:s}.out file in the results folder".format(filename),
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Projection error")
 
@@ -568,7 +565,7 @@ class Pipeline:
 
         process = subprocess.Popen(ssh_command, shell=True,
                                    stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
+                                   stderr=subprocess.STDOUT)
 
         bar = None
         with open("{:s}/{:d}/output_recon.out".format(self.results_folder, self.seed), "wb") as f:
@@ -590,10 +587,7 @@ class Pipeline:
                 f.flush()
 
         if completed != self.recon_size["y"]:
-            output = process.stderr.readline().decode("utf-8")
-            with open("{:s}/{:d}/output_recon.out".format(self.results_folder, self.seed), "ab+") as f:
-                f.write(output.encode('utf-8'))
-            cprint("\nError while reconstructing, check the input file",
+            cprint("\nError while reconstructing, check the output_recon.out file",
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Reconstruction error")
 
@@ -604,7 +598,7 @@ class Pipeline:
         """!
             Method to get the corresponding coordinates in the DBT volume from the voxelized coordinates
 
-            @param vx_location Coordinates in the voxel/phantom space 
+            @param vx_location Coordinates in the voxel/phantom space
             @return Coordinates in the DBT space
         """
         location = vx_location.copy()
@@ -631,7 +625,7 @@ class Pipeline:
         """!
             Method to get the corresponding coordinates in the DM volume from the voxelized coordinates
 
-            @param vx_location Coordinates in the voxel/phantom space 
+            @param vx_location Coordinates in the voxel/phantom space
             @return Coordinates in the DM space
         """
         location = vx_location.copy()
@@ -977,15 +971,16 @@ class Pipeline:
             c = 0
             current_seed = self.seed
             random.seed(current_seed)
-            max_attempts = 10
+            max_attempts = Constants.INSERTION_MAX_TOTAL_ATTEMPTS
             while c < n and max_attempts >= 0:
                 found = False
                 roi = None
                 cand = None
                 loc = None
                 attempts = 0
-                bar = progressbar.ProgressBar(max_value=200)
-                while not found and max_attempts >= 0:
+                bar = progressbar.ProgressBar(
+                    max_value=Constants.INSERTION_MAX_TRIES)
+                while not found and max_attempts > 0:
                     attempts += 1
                     bar.update(attempts)
                     if attempts == bar.max_value:  # if too many attempts
@@ -1057,7 +1052,7 @@ class Pipeline:
 
         if lesion is not None:
             np.savetxt("{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed),
-                       self.lesions, fmt="%d")
+                       np.asarray(self.lesions), fmt="%d")
 
             # with h5py.File("phantom/pcl_{:d}_crop.h5".format(self.seed), "w") as hf:
             #     hf.create_dataset("phantom", data=phantom.astype(
@@ -1179,7 +1174,7 @@ class Pipeline:
                 c += 1
 
         np.savetxt("{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed),
-                   np.asarray(self.lesions), fmt="%d")
+                   self.lesions, fmt="%d")
 
     def generate_phantom(self):
         """!
@@ -1211,29 +1206,28 @@ class Pipeline:
             ssh_command = "ssh -Y {:s} \"{:s}\"".format(
                 self.ips["cpu"], command)
 
-        cprint("Starting phantom generation, this will take some time...", 'cyan')
+        cprint("Starting phantom generation (seed = {:d}), this will take some time...".format(
+            self.seed), 'cyan')
 
         completed = 0
 
         process = subprocess.Popen(ssh_command, shell=True,
                                    stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
+                                   stderr=subprocess.STDOUT)
 
         with open("{:s}/{:d}/output_generation.out".format(self.results_folder, self.seed), "wb") as f:
             while True:
                 output = process.stdout.readline().decode("utf-8")
-                if output == "" and process.poll() is not None:
-                    break
-
-                completed += 1
                 f.write(output.encode('utf-8'))
                 f.flush()
+                if output == "" and process.poll() is not None:
+                    break
+                elif "Error" in output:
+                    break
+                completed += 1
 
         if not os.path.exists("{:s}/{:d}/p_{:d}.mhd".format(self.results_folder, self.seed, self.seed)):
-            output = process.stderr.readline().decode("utf-8")
-            with open("{:s}/{:d}/output_generation.out".format(self.results_folder, self.seed), "ab+") as f:
-                f.write(output.encode('utf-8'))
-            cprint("\nError while generating, check the output file in the results folder",
+            cprint("\nError while generating, check the output_generation.out file in the results folder",
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Generation error")
 
@@ -1278,7 +1272,7 @@ class Pipeline:
 
         process = subprocess.Popen(ssh_command, shell=True,
                                    stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
+                                   stderr=subprocess.STDOUT)
 
         with open("{:s}/{:d}/output_compression.out".format(self.results_folder, self.seed), "wb") as f:
             while True:
@@ -1292,10 +1286,7 @@ class Pipeline:
                 f.flush()
 
         if completed == 0:
-            output = process.stderr.readline().decode("utf-8")
-            with open("{:s}/{:d}/output_compression.out".format(self.results_folder, self.seed), "ab+") as f:
-                f.write(output.encode('utf-8'))
-            cprint("\nError while compressing, check the output file in the results folder",
+            cprint("\nError while compressing, check the output_compression.out file in the results folder",
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Generation error")
 
