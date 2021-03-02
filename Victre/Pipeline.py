@@ -99,8 +99,10 @@ class Pipeline:
                 self.arguments_mcgpu["voxel_size"] = [
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
-                self.lesions = np.loadtxt(
+                locations = np.loadtxt(
                     "{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed)).tolist()
+                self.insert_lesions(locations=locations,
+                                    save_phantom=False)
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pcl_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -890,7 +892,7 @@ class Pipeline:
             @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: `pcl_SEED.raw.gz` with the raw data, `pcl_SEED.mhd` with the information about the raw data, and `pcl_SEED.loc` with the voxel coordinates of the lesion centers.
 
         """
-        if self.lesion_file is None and lesion_file is None:
+        if self.lesion_file is None and lesion_file is None and save_phantom is True:
             cprint(
                 "There is no lesion to insert, just adding lesion locations...", color="cyan")
             # raise Exceptions.VictreError("No lesion file has been specified")
@@ -984,12 +986,11 @@ class Pipeline:
                     attempts += 1
                     bar.update(attempts)
                     if attempts == bar.max_value:  # if too many attempts
-                        attempts = 1
+                        attempts = 0
                         max_attempts -= 1
-                        bar.finish()
-                        bar = progressbar.ProgressBar(max_value=bar.max_value)
+
                         cprint(
-                            "\nToo many attempts at inserting, restarting the insertion! ({:d} remaining)".format(max_attempts), 'red')
+                            "Too many attempts at inserting, restarting the insertion! ({:d} remaining)".format(max_attempts), 'red')
                         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
                             phantom = f.read()
 
@@ -999,6 +1000,17 @@ class Pipeline:
                             self.arguments_mcgpu["number_voxels"][0])
                         current_seed += 1
                         random.seed(current_seed)  # try with a different seed
+
+                        # rollback
+                        self.lesions = self.lesions[:-c]
+                        c = 0
+
+                        if max_attempts == 0:
+                            raise Exceptions.VictreError(
+                                "Insertion attempts exceeded")
+                        bar.finish()
+                        bar = progressbar.ProgressBar(max_value=bar.max_value)
+                        continue
 
                     cand = [
                         random.randint(0, phantom.shape[0] - roi_shape[0]),
@@ -1040,15 +1052,24 @@ class Pipeline:
                                               lesion_type
                                               ]))
 
-                self.lesion_locations["dm"].append(
-                    list(np.round([loc["dm"][0], loc["dm"][1], lesion_type]).astype(int)))
-
-                self.lesion_locations["dbt"].append(
-                    list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], lesion_type]).astype(int)))
-
                 c += 1
 
                 bar.finish()
+
+        for cand in self.lesions:
+            loc = {"dm": self.get_coordinates_dm([
+                cand[1],
+                cand[2],
+                cand[0]]),
+                "dbt": self.get_coordinates_dbt([
+                    cand[1],
+                    cand[2],
+                    cand[0]])}
+            self.lesion_locations["dm"].append(
+                list(np.round([loc["dm"][0], loc["dm"][1], lesion_type]).astype(int)))
+
+            self.lesion_locations["dbt"].append(
+                list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], lesion_type]).astype(int)))
 
         if lesion is not None:
             np.savetxt("{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed),
@@ -1222,7 +1243,7 @@ class Pipeline:
                 f.flush()
                 if output == "" and process.poll() is not None:
                     break
-                elif "Error" in output:
+                elif "Error extracting eigenfunctions" in output:
                     break
                 completed += 1
 
