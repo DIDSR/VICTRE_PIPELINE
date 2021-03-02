@@ -10,12 +10,12 @@ import numpy as np
 
 seed = 1
 
-cropped_phantom = "phantoms/pcl_1.raw.gz"
+inserted_phantom = "phantoms/pcl_1.raw.gz"
 roi_sizes = {Constants.VICTRE_SPICULATED: [65, 65, 5],
              Constants.VICTRE_CLUSTERCALC: [65, 65, 5]}
 
 pline = Pipeline(seed=seed,
-                 phantom_file=cropped_phantom,
+                 phantom_file=inserted_phantom,
                  roi_sizes=roi_sizes)
 
 # phantom is ready to project, lesions were added in a previous step
