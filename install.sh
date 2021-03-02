@@ -8,10 +8,7 @@ MPI_INCLUDE=/usr/include/openmpi
 LAPACK_LIB=/usr/lib64/
 BOOST_OPTIONS_LIB=/usr/lib64/ # route to libboost_program_options
 VTK_DIR=/usr/local/VTK-build
-
-
-
-
+BOOST_INCLUDE=/usr/local/boost/ # route to boost source code
 
 
 # ------------------ DO NOT MODIFY --------------------------
@@ -49,6 +46,8 @@ check_command () {
 }
 
 
+export C_INCLUDE_PATH=$BOOST_INCLUDE:${C_INCLUDE_PATH}
+export CPLUS_INCLUDE_PATH=${C_INCLUDE_PATH}:${CPLUS_INCLUDE_PATH}
 
 printf "Checking nvcc: \t\t\t"
 check_command nvcc
@@ -167,7 +166,12 @@ Press any other key to exit...
     ;;
 
     4* )
-        ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -lmpi -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70 )
+        read -n 1 -p "Compile with MPI support? (y/n): " yn
+        case $yn in
+            [Yy]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -lmpi -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70 );;
+            [Nn]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -I. -I$CUDA_INC -I$CUDA_SAMPLES -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70 );;
+            * ) echo "No answer";;
+        esac
     ;;
 
     5* )     
