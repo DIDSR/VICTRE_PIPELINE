@@ -3,8 +3,7 @@
 #   MOVE THIS FILE TO THE PARENT DIRECTORY BEFORE RUNNING   #
 #############################################################
 
-
-from Victre.Pipeline import Pipeline
+from Victre import Pipeline
 from Victre import Constants
 
 
