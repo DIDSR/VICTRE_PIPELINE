@@ -207,12 +207,12 @@ class Pipeline:
                 'x'.join(map(str, self.arguments_mcgpu["image_pixels"])),
                 self.arguments_mcgpu["number_projections"])
 
-        if self.flatfield_DM is None and os.path.exists("{:s}/{:d}/flatfield_DM.raw".format(
+        if self.flatfield_DM is None and os.path.exists("{:s}/{:d}/flatfield_DM{:d}.raw".format(
                 self.results_folder,
-                self.seed)):
-            self.flatfield_DM = "{:s}/{:d}/flatfield_DM.raw".format(
+                self.seed,self.seed)):
+            self.flatfield_DM = "{:s}/{:d}/flatfield_DM{:d}.raw".format(
                 self.results_folder,
-                self.seed)
+                self.seed,self.seed)
 
         self.arguments_recon.update(arguments_recon)
 
@@ -454,10 +454,29 @@ class Pipeline:
             os.remove(
                 "{:s}/{:d}/{:s}_0000".format(self.results_folder, self.seed, filename))
             os.remove(
-                "{:s}/{:d}/{:s}_DM.raw".format(self.results_folder, self.seed, filename))
+                "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename,self.seed))
 
         os.rename("{:s}/{:d}/{:s}_0000.raw".format(self.results_folder, self.seed, filename),
-                  "{:s}/{:d}/{:s}_DM.raw".format(self.results_folder, self.seed, filename))
+                  "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename,self.seed))
+
+        with open("{:s}/{:d}/{:s}_DM{:d}.mhd".format(self.results_folder, self.seed, filename,self.seed), "w") as f:
+            src = Template(Constants.MHD_FILE)
+            template_arguments = copy.deepcopy(self.mhd)
+            template_arguments["ElementSpacing"] = [self.arguments_mcgpu["image_size"][0] / self.arguments_mcgpu["image_pixels"][0] * 10,  # cm to mm
+                                                    self.arguments_mcgpu["image_size"][1] / self.arguments_mcgpu["image_pixels"][1] * 10]
+            template_arguments["DimSize"] = self.arguments_mcgpu["image_pixels"]
+            template_arguments["ElementType"] = "MET_FLOAT"
+            template_arguments["NDims"] = 2
+            template_arguments["ElementDataFile"] = "{:s}_DM{:d}.raw".format(
+                filename,self.seed)
+            template_arguments["Offset"] = [0, 0, 0]
+
+            for key in template_arguments.keys():
+                if type(template_arguments[key]) is list:
+                    template_arguments[key] = ' '.join(
+                        map(str, template_arguments[key]))
+            result = src.substitute(template_arguments)
+            f.write(result)
 
         for i in range(self.arguments_mcgpu["number_projections"]):
             with contextlib.suppress(FileNotFoundError):
@@ -471,7 +490,7 @@ class Pipeline:
                 self.results_folder, self.seed))
 
             if prev_flatfield_DM is not None:
-                curr_flatfield_DM = np.fromfile("{:s}/{:d}/flatfield_DM.raw".format(self.results_folder, self.seed),
+                curr_flatfield_DM = np.fromfile("{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed,self.seed),
                                                 dtype="float32").reshape(2,
                                                                          self.arguments_recon["detector_elements_perpendicular"],
                                                                          self.arguments_recon["detector_elements"])
@@ -480,7 +499,7 @@ class Pipeline:
                     do_flatfield / Constants.FLATFIELD_DOSE_MULTIPLIER
 
                 prev_flatfield_DM.tofile(
-                    "{:s}/{:d}/flatfield_DM.raw".format(self.results_folder, self.seed))
+                    "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed,self.seed))
 
             if prev_flatfield_DBT is not None:
                 curr_flatfield_DBT = np.fromfile("{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
@@ -504,7 +523,7 @@ class Pipeline:
         elif self.arguments_recon["flatfield_file"] is None:
             with contextlib.suppress(FileNotFoundError):
                 os.remove(
-                    "{:s}/{:d}/flatfield_DM.raw".format(self.results_folder, self.seed).format(
+                    "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed,self.seed).format(
                         self.results_folder,
                         self.seed,
                         'x'.join(
@@ -530,8 +549,8 @@ class Pipeline:
                 'x'.join(map(str, self.arguments_mcgpu["image_pixels"])),
                 self.arguments_mcgpu["number_projections"])
 
-            self.flatfield_DM = "{:s}/{:d}/flatfield_DM.raw".format(
-                self.results_folder, self.seed)
+            self.flatfield_DM = "{:s}/{:d}/flatfield_DM{:d}.raw".format(
+                self.results_folder, self.seed,self.seed)
 
         if do_flatfield == 0:
             # normalize with flatfield
@@ -539,7 +558,7 @@ class Pipeline:
                                             dtype="float32").reshape(2,
                                                                      self.arguments_recon["detector_elements_perpendicular"],
                                                                      self.arguments_recon["detector_elements"])
-            projection_DM = np.fromfile("{:s}/{:d}/projection_DM.raw".format(self.results_folder, self.seed),
+            projection_DM = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed,self.seed),
                                         dtype="float32").reshape(2,
                                                                  self.arguments_recon["detector_elements_perpendicular"],
                                                                  self.arguments_recon["detector_elements"])
@@ -547,7 +566,7 @@ class Pipeline:
             projection_DM = np.divide(curr_flatfield_DM, projection_DM)
 
             projection_DM.tofile(
-                "{:s}/{:d}/projection_DM.raw".format(self.results_folder, self.seed))
+                "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed,self.seed))
 
     def reconstruct(self):
         """!
@@ -620,6 +639,31 @@ class Pipeline:
             raise Exceptions.VictreError("Reconstruction error")
 
         bar.finish()
+
+        self.mhd["ElementDataFile"] = "reconstruction{:d}.raw".format(
+            self.seed)
+        self.mhd["Offset"] = [0, 0, 0]
+        self.mhd["DimSize"] = [self.recon_size["x"],
+                               self.recon_size["y"],
+                               self.recon_size["z"]]
+        self.mhd["ElementType"] = "MET_DOUBLE"
+        self.mhd["ElementSpacing"] = [self.arguments_recon["recon_pixel_size"] * 10,  # cm to mm
+                                      self.arguments_recon["recon_pixel_size"] * 10,
+                                      self.arguments_recon["recon_thickness"] * 10]
+
+        with open("{:s}/{:d}/reconstruction{:d}.mhd".format(
+                self.results_folder,
+                self.seed,
+                self.seed), "w") as f:
+            src = Template(Constants.MHD_FILE)
+            template_arguments = copy.deepcopy(self.mhd)
+            for key in template_arguments.keys():
+                if type(template_arguments[key]) is list:
+                    template_arguments[key] = ' '.join(
+                        map(str, template_arguments[key]))
+            result = src.substitute(template_arguments)
+            f.write(result)
+
         cprint("Reconstruction finished!", 'green', attrs=['bold'])
 
     def get_coordinates_dbt(self, vx_location):
@@ -824,13 +868,10 @@ class Pipeline:
                              data=np.array(self.lesion_locations["dbt"])[:, 3])
 
         # SAVE DM ROIs
-        pixel_array = np.fromfile("{:s}/{:d}/projection_DM.raw".format(self.results_folder, self.seed),
+        pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed),
                                   dtype="float32").reshape(2,
                                                            self.arguments_recon["detector_elements_perpendicular"],
                                                            self.arguments_recon["detector_elements"])
-
-        # invert LUT
-        pixel_array = np.max(pixel_array) - pixel_array
 
         hfdm = hf.create_group("dm")
 

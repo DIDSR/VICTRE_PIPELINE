@@ -149,9 +149,6 @@ VICTRE_DENSE = {
     "leftBreast": "false",
     # desired fat fraction
     "targetFatFrac": 0.4,
-    # random number seed (unsigned int)
-    # chosen randomly if not set
-    "seed": 96043084,
 
     #####################
     # breast surface shape
@@ -587,9 +584,6 @@ VICTRE_HETERO = {
     "leftBreast": "false",
     # desired fat fraction
     "targetFatFrac": 0.66,
-    # random number seed (unsigned int)
-    # chosen randomly if not set
-    "seed": 96043084,
 
     #####################
     # breast surface shape
@@ -1025,9 +1019,6 @@ VICTRE_SCATTERED = {
     "leftBreast": "false",
     # desired fat fraction
     "targetFatFrac": 0.85,
-    # random number seed (unsigned int)
-    # chosen randomly if not set
-    "seed": 96043084,
 
     #####################
     # breast surface shape
@@ -1463,9 +1454,6 @@ VICTRE_FATTY = {
     "leftBreast": "false",
     # desired fat fraction
     "targetFatFrac": 0.95,
-    # random number seed (unsigned int)
-    # chosen randomly if not set
-    "seed": 96043084,
 
     #####################
     # breast surface shape
