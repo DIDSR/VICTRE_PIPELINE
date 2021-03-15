@@ -19,7 +19,7 @@ import asyncio
 from string import Template
 import random
 import time
-from . import Constants
+from . import Constants, Exceptions
 import pydicom
 from pydicom.dataset import Dataset, FileDataset, FileMetaDataset
 import copy
@@ -1107,6 +1107,7 @@ class Pipeline:
                             cand[2] + lesion.shape[2] / 2,
                             cand[0] + lesion.shape[0] / 2])}
 
+                    # check if the locations in DM and DBT are inside the ROI
                     if np.any(np.array(loc["dm"]) < np.array(roi_shape[:2])) or \
                        np.any(np.array(loc["dbt"]) < np.array(roi_shape)):
                         continue
