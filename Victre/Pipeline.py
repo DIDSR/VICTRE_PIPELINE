@@ -19,7 +19,7 @@ import asyncio
 from string import Template
 import random
 import time
-from . import Constants, Exceptions
+from . import Constants
 import pydicom
 from pydicom.dataset import Dataset, FileDataset, FileMetaDataset
 import copy
