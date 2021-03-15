@@ -66,7 +66,7 @@ class Pipeline:
         @param arguments_recon Arguments to be overridden for the reconstruction algorithm
         @param flatfield_DBT Path to the flatfield file for the DBT reconstruction
         @param flatfield_DM Path to the flatfield file for the digital mammography
-        @param density Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
+        @param density [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
         @return None
         """
 
@@ -144,7 +144,7 @@ class Pipeline:
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
                 self.candidate_locations = np.loadtxt(
-                    "{:s}/{:d}/p_{:d}.loc".format(self.results_folder, self.seed, self.seed)).tolist()
+                    "{:s}/{:d}/p_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/p_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -209,10 +209,10 @@ class Pipeline:
 
         if self.flatfield_DM is None and os.path.exists("{:s}/{:d}/flatfield_DM{:d}.raw".format(
                 self.results_folder,
-                self.seed,self.seed)):
+                self.seed, self.seed)):
             self.flatfield_DM = "{:s}/{:d}/flatfield_DM{:d}.raw".format(
                 self.results_folder,
-                self.seed,self.seed)
+                self.seed, self.seed)
 
         self.arguments_recon.update(arguments_recon)
 
@@ -454,12 +454,12 @@ class Pipeline:
             os.remove(
                 "{:s}/{:d}/{:s}_0000".format(self.results_folder, self.seed, filename))
             os.remove(
-                "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename,self.seed))
+                "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed))
 
         os.rename("{:s}/{:d}/{:s}_0000.raw".format(self.results_folder, self.seed, filename),
-                  "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename,self.seed))
+                  "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed))
 
-        with open("{:s}/{:d}/{:s}_DM{:d}.mhd".format(self.results_folder, self.seed, filename,self.seed), "w") as f:
+        with open("{:s}/{:d}/{:s}_DM{:d}.mhd".format(self.results_folder, self.seed, filename, self.seed), "w") as f:
             src = Template(Constants.MHD_FILE)
             template_arguments = copy.deepcopy(self.mhd)
             template_arguments["ElementSpacing"] = [self.arguments_mcgpu["image_size"][0] / self.arguments_mcgpu["image_pixels"][0] * 10,  # cm to mm
@@ -468,7 +468,7 @@ class Pipeline:
             template_arguments["ElementType"] = "MET_FLOAT"
             template_arguments["NDims"] = 2
             template_arguments["ElementDataFile"] = "{:s}_DM{:d}.raw".format(
-                filename,self.seed)
+                filename, self.seed)
             template_arguments["Offset"] = [0, 0, 0]
 
             for key in template_arguments.keys():
@@ -490,7 +490,7 @@ class Pipeline:
                 self.results_folder, self.seed))
 
             if prev_flatfield_DM is not None:
-                curr_flatfield_DM = np.fromfile("{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed,self.seed),
+                curr_flatfield_DM = np.fromfile("{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                                 dtype="float32").reshape(2,
                                                                          self.arguments_recon["detector_elements_perpendicular"],
                                                                          self.arguments_recon["detector_elements"])
@@ -499,7 +499,7 @@ class Pipeline:
                     do_flatfield / Constants.FLATFIELD_DOSE_MULTIPLIER
 
                 prev_flatfield_DM.tofile(
-                    "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed,self.seed))
+                    "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
 
             if prev_flatfield_DBT is not None:
                 curr_flatfield_DBT = np.fromfile("{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
@@ -523,7 +523,7 @@ class Pipeline:
         elif self.arguments_recon["flatfield_file"] is None:
             with contextlib.suppress(FileNotFoundError):
                 os.remove(
-                    "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed,self.seed).format(
+                    "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed, self.seed).format(
                         self.results_folder,
                         self.seed,
                         'x'.join(
@@ -550,7 +550,7 @@ class Pipeline:
                 self.arguments_mcgpu["number_projections"])
 
             self.flatfield_DM = "{:s}/{:d}/flatfield_DM{:d}.raw".format(
-                self.results_folder, self.seed,self.seed)
+                self.results_folder, self.seed, self.seed)
 
         if do_flatfield == 0:
             # normalize with flatfield
@@ -558,7 +558,7 @@ class Pipeline:
                                             dtype="float32").reshape(2,
                                                                      self.arguments_recon["detector_elements_perpendicular"],
                                                                      self.arguments_recon["detector_elements"])
-            projection_DM = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed,self.seed),
+            projection_DM = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                         dtype="float32").reshape(2,
                                                                  self.arguments_recon["detector_elements_perpendicular"],
                                                                  self.arguments_recon["detector_elements"])
@@ -566,7 +566,7 @@ class Pipeline:
             projection_DM = np.divide(curr_flatfield_DM, projection_DM)
 
             projection_DM.tofile(
-                "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed,self.seed))
+                "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
 
     def reconstruct(self):
         """!
@@ -868,7 +868,7 @@ class Pipeline:
                              data=np.array(self.lesion_locations["dbt"])[:, 3])
 
         # SAVE DM ROIs
-        pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed),
+        pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                   dtype="float32").reshape(2,
                                                            self.arguments_recon["detector_elements_perpendicular"],
                                                            self.arguments_recon["detector_elements"])
@@ -985,8 +985,11 @@ class Pipeline:
                 else:
                     n = 1
 
-            cprint(
-                "Inserting {:d} non-overlapping lesions...".format(n), 'cyan')
+            if save_phantom:
+                cprint("Inserting {:d} non-overlapping lesions...".format(n),
+                       'cyan')
+            else:
+                cprint("Retrieving {:d} lesion locations...".format(n), 'cyan')
 
             if "h5" in self.lesion_file:
                 with h5py.File(self.lesion_file, "r") as hf:
@@ -1025,31 +1028,20 @@ class Pipeline:
                                               cand[2],
                                               cand_type
                                               ]))
-                loc = {"dm": self.get_coordinates_dm([
-                    cand[1] + lesion_shape[1] / 2,
-                    cand[2] + lesion_shape[2] / 2,
-                    cand[0] + lesion_shape[0] / 2]),
-                    "dbt": self.get_coordinates_dbt([
-                        cand[1] + lesion_shape[1] / 2,
-                        cand[2] + lesion_shape[2] / 2,
-                        cand[0] + lesion_shape[0] / 2])}
-
-                self.lesion_locations["dm"].append(
-                    list(np.round([loc["dm"][0], loc["dm"][1], cand_type]).astype(int)))
-
-                self.lesion_locations["dbt"].append(
-                    list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], cand_type]).astype(int)))
         else:
             if self.candidate_locations is not None:
-                for cand in self.candidate_locations:  # from mm to voxels
-                    cand[0] = int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                           self.mhd["ElementSpacing"][0]))
-                    cand[1] = int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                           self.mhd["ElementSpacing"][1]))
-                    cand[2] = int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                           self.mhd["ElementSpacing"][2]))
+                # from mm to voxels
+                for idx, cand in enumerate(self.candidate_locations):
+                    self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
+                                                                  self.mhd["ElementSpacing"][0])),
+                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                                                  self.mhd["ElementSpacing"][2])),
+                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                                                  self.mhd["ElementSpacing"][1]))]
                 Constants.INSERTION_MAX_TRIES = len(self.candidate_locations)
+                Constants.INSERTION_MAX_TOTAL_ATTEMPTS = 1000
                 # current_candidate = 0
+
             roi_shape = self.roi_sizes[lesion_type]
             c = 0
             current_seed = self.seed
@@ -1088,8 +1080,7 @@ class Pipeline:
                         c = 0
 
                         if self.candidate_locations is not None:
-                            self.candidate_locations = np.random.shuffle(
-                                self.candidate_locations)
+                            np.random.shuffle(self.candidate_locations)
 
                         if max_attempts == 0:
                             raise Exceptions.VictreError(
@@ -1099,7 +1090,8 @@ class Pipeline:
                         continue
 
                     if self.candidate_locations is not None:
-                        cand = self.candidate_locations[attempts]
+                        cand = (
+                            self.candidate_locations[attempts] - np.array(lesion.shape) / 2).astype(int)
                     else:
                         cand = [
                             random.randint(0, phantom.shape[0] - roi_shape[0]),
@@ -1172,12 +1164,6 @@ class Pipeline:
             if save_phantom:
                 cprint("Saving new phantom...", 'cyan')
 
-                # UNCOMMENT TO USE SYSTEM'S GZIP
-                # phantom.tofile(
-                #     "{:s}/{:d}/phantom.raw".format(self.results_folder, self.seed))
-                # os.system("gzip -f {:s}/{:d}/phantom.raw".format(
-                #     self.results_folder, self.seed))
-
                 # We save the phantom in gzip to reduce needed disk space
                 with gzip.open("{:s}/{:d}/pcl_{:d}.raw.gz".format(self.results_folder, self.seed, self.seed), "wb") as gz:
                     gz.write(phantom)
@@ -1188,7 +1174,7 @@ class Pipeline:
                 with open("{:s}/{:d}/pcl_{:d}.mhd".format(self.results_folder, self.seed, self.seed), "w") as f:
                     src = Template(Constants.MHD_FILE)
                     template_arguments = copy.deepcopy(self.mhd)
-                    template_arguments["ElementDataFile"] = "pcl_{:d}.raw".format(
+                    template_arguments["ElementDataFile"] = "pcl_{:d}.raw.gz".format(
                         self.seed)
                     for key in template_arguments.keys():
                         if type(template_arguments[key]) is list:
@@ -1197,7 +1183,7 @@ class Pipeline:
                     result = src.substitute(template_arguments)
                     f.write(result)
 
-            cprint("Insertion finished!", 'green', attrs=['bold'])
+                cprint("Insertion finished!", 'green', attrs=['bold'])
 
     def add_absent_ROIs(self, lesion_type, n=1, locations=None, roi_sizes=None):
         """!
@@ -1348,9 +1334,30 @@ class Pipeline:
         self.mhd = self._read_mhd(
             "{:s}/{:d}/p_{:d}.mhd".format(self.results_folder, self.seed, self.seed))
         self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
-        self.arguments_mcgpu["voxel_size"] = self.mhd["ElementSpacing"]
+        self.arguments_mcgpu["voxel_size"] = [
+            x / 10 for x in self.mhd["ElementSpacing"]]
+        self.arguments_recon["voxels_x"] = self.arguments_mcgpu["number_voxels"][1]
+        self.arguments_recon["voxels_y"] = self.arguments_mcgpu["number_voxels"][0]
+        self.arguments_recon["voxels_z"] = self.arguments_mcgpu["number_voxels"][2]
+
         self.arguments_recon["voxel_size"] = self.arguments_mcgpu["voxel_size"][0]
+
+        self.recon_size = dict(
+            x=np.ceil(self.arguments_recon["voxels_x"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_pixel_size"]).astype(int),
+            y=np.ceil(self.arguments_recon["voxels_y"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_pixel_size"]).astype(int),
+            z=np.ceil(self.arguments_recon["voxels_z"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_thickness"]).astype(int)
+        )
+
+        self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
+            self.arguments_mcgpu["voxel_size"][1] / 2
+
         self.lesions = []
+
+        self.candidate_locations = np.loadtxt(
+            "{:s}/{:d}/p_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
     def compress_phantom(self, thickness=None):
         """!
@@ -1407,12 +1414,13 @@ class Pipeline:
         self.mhd = self._read_mhd(
             "{:s}/{:d}/pc_{:d}.mhd".format(self.results_folder, self.seed, self.seed))
         self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
-        self.arguments_mcgpu["voxel_size"] = self.mhd["ElementSpacing"]
-        self.arguments_recon["voxel_size"] = self.arguments_mcgpu["voxel_size"][0]
 
         self.arguments_recon["voxels_x"] = self.arguments_mcgpu["number_voxels"][1]
         self.arguments_recon["voxels_y"] = self.arguments_mcgpu["number_voxels"][0]
         self.arguments_recon["voxels_z"] = self.arguments_mcgpu["number_voxels"][2]
+
+        self.candidate_locations = np.loadtxt(
+            "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
     def crop(self, size=None):
         """!
@@ -1420,6 +1428,9 @@ class Pipeline:
 
             @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED_crop.raw.gz` with the raw data, and `pc_SEED_crop.mhd` with the information about the raw data.
         """
+
+        cprint("Cropping phantom...", 'cyan')
+
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
             phantom = f.read()
 
@@ -1470,7 +1481,7 @@ class Pipeline:
 
         prevOffset = copy.deepcopy(self.mhd["Offset"])
 
-        self.mhd["ElementDataFile"] = "pc_{:d}_crop.raw".format(
+        self.mhd["ElementDataFile"] = "pc_{:d}_crop.raw.gz".format(
             self.seed)
         self.mhd["Offset"][0] = self.mhd["Offset"][0] + \
             crop["from"][0] * self.mhd["ElementSpacing"][0]
