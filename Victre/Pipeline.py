@@ -45,6 +45,7 @@ class Pipeline:
                  materials=None,
                  roi_sizes=None,
                  arguments_generation=dict(),
+                 arguments_spiculated=dict(),
                  arguments_mcgpu=dict(),
                  arguments_recon=dict(),
                  flatfield_DBT=None,
@@ -90,6 +91,9 @@ class Pipeline:
         self.arguments_mcgpu["phantom_file"] = phantom_file
         self.arguments_mcgpu["output_file"] = "{:s}/{:d}/projection".format(
             self.results_folder, self.seed)
+
+        self.arguments_spiculated = Constants.VICTRE_DEFAULT_SPICULATED_MASS
+        self.arguments_spiculated["seed"] = self.seed
 
         locations = None
 
@@ -150,6 +154,11 @@ class Pipeline:
                     self.results_folder, seed, seed)
 
         self.arguments_mcgpu.update(arguments_mcgpu)
+
+        # cm to mm
+        self.arguments_spiculated["imgRes"] = self.arguments_mcgpu["voxel_size"][0] * 10
+
+        self.arguments_spiculated.update(arguments_spiculated)
 
         self.materials = materials
         if self.materials is None:
@@ -430,7 +439,7 @@ class Pipeline:
                 f.flush()
 
         if completed != self.arguments_mcgpu["number_projections"]:
-            cprint("\nError while projecting, check the output_{:s}.out file in the results folder (seed = {:d})".format(filename,self.seed),
+            cprint("\nError while projecting, check the output_{:s}.out file in the results folder (seed = {:d})".format(filename, self.seed),
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Projection error")
 
@@ -555,15 +564,15 @@ class Pipeline:
         if do_flatfield == 0:
             # normalize with flatfield
             projection_DM = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
-                                            dtype="float32").reshape(2,
-                                                                    self.arguments_recon["detector_elements_perpendicular"],
-                                                                    self.arguments_recon["detector_elements"])
+                                        dtype="float32").reshape(2,
+                                                                 self.arguments_recon["detector_elements_perpendicular"],
+                                                                 self.arguments_recon["detector_elements"])
             if self.flatfield_DM is not None:
                 curr_flatfield_DM = np.fromfile(self.flatfield_DM,
                                                 dtype="float32").reshape(2,
-                                                                        self.arguments_recon["detector_elements_perpendicular"],
-                                                                        self.arguments_recon["detector_elements"])
-                
+                                                                         self.arguments_recon["detector_elements_perpendicular"],
+                                                                         self.arguments_recon["detector_elements"])
+
                 projection_DM = np.divide(curr_flatfield_DM, projection_DM)
             else:
                 projection_DM = np.divide(1, projection_DM)
@@ -898,7 +907,7 @@ class Pipeline:
 
         cprint("ROIs saved!", 'green', attrs=['bold'])
 
-    def generate_spiculated(self, seed, size):
+    def generate_spiculated(self, seed=None, size=None):
         """!
             Generates a spiculated mass using the breastMass software
 
@@ -906,33 +915,44 @@ class Pipeline:
             @param size Size of the mass to be used in the breastMass config file
             @return None. The result is saved in the `lesions` subfolder
         """
+
+        if seed is not None:
+            self.arguments_spiculated["seed"] = seed
+        if size is not None:
+            self.arguments_spiculated["alpha"] = size
+
         with open("./Victre/breastMass/configs/spiculated.tpl", "r") as f:
             src = Template(f.read())
-            result = src.substitute({"alpha": size, "seed": seed})
+            result = src.substitute(self.arguments_spiculated)
 
-        os.makedirs("./lesions/", exist_ok=True)
-        os.makedirs("./lesions/spiculated/", exist_ok=True)
+        os.makedirs("{:s}/lesions/".format(self.results_folder), exist_ok=True)
+        os.makedirs(
+            "{:s}/lesions/spiculated/".format(self.results_folder), exist_ok=True)
 
-        with open("./lesions/spiculated/input_breastMass_{:d}.in".format(seed), "w") as f:
+        with open("{:s}/lesions/spiculated/input_breastMass_{:d}.in".format(self.results_folder, seed), "w") as f:
             f.write(result)
 
-        command = "cd ./lesions/spiculated/ && ../../Victre/breastMass/breastMass -c input_breastMass_{:d}.in".format(
-            seed)
+        command = "cd {:s}/lesions/spiculated/ && {:s}/Victre/breastMass/build/breastMass -c input_breastMass_{:d}.in".format(
+            self.results_folder,
+            os.getcwd(),
+            self.arguments_spiculated["seed"])
 
-        # print(ssh_command)
+        # print(command)
         cprint("Generating mass (seed={:d}, size={:.2f})...".format(
-            seed, size), 'cyan')
+            self.arguments_spiculated["seed"], self.arguments_spiculated["alpha"]), 'cyan')
         os.system(command)
 
-        generated_files = self.get_folder_contents("./lesions/spiculated/")
+        generated_files = self.get_folder_contents(
+            "{:s}/lesions/spiculated/".format(self.results_folder))
 
         side = None
         for name in generated_files:
-            s = re.search(".*\/mass_{:d}_([0-9]*)\.raw".format(seed), name)
+            s = re.search(
+                ".*\/mass_{:d}_([0-9]*)\.raw".format(self.arguments_spiculated["seed"]), name)
             if s is not None:
                 side = int(s[1])
 
-        lesion_raw = np.fromfile("./lesions/spiculated/mass_{:d}_{:d}.raw".format(seed, side),
+        lesion_raw = np.fromfile("{:s}/lesions/spiculated/mass_{:d}_{:d}.raw".format(self.results_folder, self.arguments_spiculated["seed"], side),
                                  dtype=np.int8).reshape(side, side, side)
 
         # clean files
@@ -941,10 +961,15 @@ class Pipeline:
                 os.remove(name)
 
         # save in HDF
-        with h5py.File("./lesions/spiculated/mass_{:d}_size{:.2f}.h5".format(seed, size), "w") as hf:
-            hf.create_dataset("volume", data=lesion_raw, compression="gzip")
-            hf.create_dataset("seed", data=seed)
-            hf.create_dataset("size", data=size)
+        with h5py.File("{:s}/lesions/spiculated/mass_{:d}_size{:.2f}_thick_{:.2f}.h5".format(
+                self.results_folder,
+                self.arguments_spiculated["seed"],
+                self.arguments_spiculated["alpha"],
+                self.arguments_spiculated["meanInitRad"]), "w") as hf:
+            hf.create_dataset("volume", data=lesion_raw,
+                              compression="gzip")
+            hf.create_dataset("seed", data=self.arguments_spiculated["seed"])
+            hf.create_dataset("size", data=self.arguments_spiculated["alpha"])
 
         cprint("Generation finished!", 'green', attrs=['bold'])
 
@@ -1033,15 +1058,16 @@ class Pipeline:
                                               ]))
         else:
             if self.candidate_locations is not None:
-                for idx, cand in enumerate(self.candidate_locations):  # from mm to voxels
+                # from mm to voxels
+                for idx, cand in enumerate(self.candidate_locations):
                     self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                         self.mhd["ElementSpacing"][0])),
-                            int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                         self.mhd["ElementSpacing"][2])),
-                            int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                         self.mhd["ElementSpacing"][1]))]
+                                                                  self.mhd["ElementSpacing"][0])),
+                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                                                  self.mhd["ElementSpacing"][2])),
+                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                                                  self.mhd["ElementSpacing"][1]))]
                 Constants.INSERTION_MAX_TRIES = len(self.candidate_locations)
-                Constants.INSERTION_MAX_TOTAL_ATTEMPTS=1000
+                Constants.INSERTION_MAX_TOTAL_ATTEMPTS = 1000
                 # current_candidate = 0
 
             roi_shape = self.roi_sizes[lesion_type]
@@ -1092,7 +1118,8 @@ class Pipeline:
                         continue
 
                     if self.candidate_locations is not None:
-                        cand = (self.candidate_locations[attempts] - np.array(lesion.shape) / 2).astype(int)
+                        cand = (
+                            self.candidate_locations[attempts] - np.array(lesion.shape) / 2).astype(int)
                     else:
                         cand = [
                             random.randint(0, phantom.shape[0] - roi_shape[0]),
