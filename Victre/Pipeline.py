@@ -430,7 +430,7 @@ class Pipeline:
                 f.flush()
 
         if completed != self.arguments_mcgpu["number_projections"]:
-            cprint("\nError while projecting, check the output_{:s}.out file in the results folder".format(filename),
+            cprint("\nError while projecting, check the output_{:s}.out file in the results folder (seed = {:d})".format(filename,self.seed),
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Projection error")
 
@@ -554,16 +554,19 @@ class Pipeline:
 
         if do_flatfield == 0:
             # normalize with flatfield
-            curr_flatfield_DM = np.fromfile(self.flatfield_DM,
-                                            dtype="float32").reshape(2,
-                                                                     self.arguments_recon["detector_elements_perpendicular"],
-                                                                     self.arguments_recon["detector_elements"])
             projection_DM = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
-                                        dtype="float32").reshape(2,
-                                                                 self.arguments_recon["detector_elements_perpendicular"],
-                                                                 self.arguments_recon["detector_elements"])
-
-            projection_DM = np.divide(curr_flatfield_DM, projection_DM)
+                                            dtype="float32").reshape(2,
+                                                                    self.arguments_recon["detector_elements_perpendicular"],
+                                                                    self.arguments_recon["detector_elements"])
+            if self.flatfield_DM is not None:
+                curr_flatfield_DM = np.fromfile(self.flatfield_DM,
+                                                dtype="float32").reshape(2,
+                                                                        self.arguments_recon["detector_elements_perpendicular"],
+                                                                        self.arguments_recon["detector_elements"])
+                
+                projection_DM = np.divide(curr_flatfield_DM, projection_DM)
+            else:
+                projection_DM = np.divide(1, projection_DM)
 
             projection_DM.tofile(
                 "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
@@ -634,7 +637,7 @@ class Pipeline:
                 f.flush()
 
         if completed != self.recon_size["y"]:
-            cprint("\nError while reconstructing, check the output_recon.out file",
+            cprint("\nError while reconstructing, check the output_recon.out file (seed = {:d})".format(self.seed),
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Reconstruction error")
 
@@ -1030,16 +1033,15 @@ class Pipeline:
                                               ]))
         else:
             if self.candidate_locations is not None:
-                # from mm to voxels
-                for idx, cand in enumerate(self.candidate_locations):
+                for idx, cand in enumerate(self.candidate_locations):  # from mm to voxels
                     self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                                                  self.mhd["ElementSpacing"][0])),
-                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                                                  self.mhd["ElementSpacing"][2])),
-                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                                                  self.mhd["ElementSpacing"][1]))]
+                                         self.mhd["ElementSpacing"][0])),
+                            int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                         self.mhd["ElementSpacing"][2])),
+                            int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                         self.mhd["ElementSpacing"][1]))]
                 Constants.INSERTION_MAX_TRIES = len(self.candidate_locations)
-                Constants.INSERTION_MAX_TOTAL_ATTEMPTS = 1000
+                Constants.INSERTION_MAX_TOTAL_ATTEMPTS=1000
                 # current_candidate = 0
 
             roi_shape = self.roi_sizes[lesion_type]
@@ -1090,8 +1092,7 @@ class Pipeline:
                         continue
 
                     if self.candidate_locations is not None:
-                        cand = (
-                            self.candidate_locations[attempts] - np.array(lesion.shape) / 2).astype(int)
+                        cand = (self.candidate_locations[attempts] - np.array(lesion.shape) / 2).astype(int)
                     else:
                         cand = [
                             random.randint(0, phantom.shape[0] - roi_shape[0]),
