@@ -28,7 +28,8 @@ FLATFIELD_REPETITIONS = 1
 
 FLATFIELD_DOSE_MULTIPLIER = 10
 
-FORBIDDEN_OVERLAP = [0, 2, 33, 40]
+FORBIDDEN_OVERLAP = [PHANTOM_MATERIALS["air"], PHANTOM_MATERIALS["skin"],
+                     PHANTOM_MATERIALS["nipple"], PHANTOM_MATERIALS["muscle"]]
 
 VICTRE_DEFAULT_MATERIALS = [
     {"material": "./Victre/projection/material/air__5-120keV.mcgpu.gz",
@@ -1964,9 +1965,9 @@ VICTRE_DEFAULT_SPICULATED_MASS = {
     "meanRadDec": 0.89,
     # std. deviation radius decrease
     "stdRadDec": 0.31,
-    # mean initial relative radius
+    # mean initial relative length
     "meanInitLen": 0.173,
-    # std. deviation initial relative radius
+    # std. deviation initial relative length
     "stdInitLen": 0.018,
     # mean length decrease
     "meanLenDec": 0.91,
