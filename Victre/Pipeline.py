@@ -50,7 +50,8 @@ class Pipeline:
                  arguments_recon=dict(),
                  flatfield_DBT=None,
                  flatfield_DM=None,
-                 density=None):
+                 density=None,
+                 verbosity=True):
         """!
         Object constructor for the Victre pipeline class
 
@@ -68,6 +69,7 @@ class Pipeline:
         @param flatfield_DBT Path to the flatfield file for the DBT reconstruction
         @param flatfield_DM Path to the flatfield file for the digital mammography
         @param density [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
+        @param verbosity True will output the progress of each process and steps
         @return None
         """
 
@@ -83,6 +85,7 @@ class Pipeline:
         self.results_folder = results_folder
         self.roi_sizes = roi_sizes
         self.candidate_locations = None
+        self.verbosity = verbosity
 
         random.seed(self.seed)
 
@@ -99,7 +102,7 @@ class Pipeline:
 
         if phantom_file is None:
             if os.path.exists("{:s}/{:d}/pcl_{:d}.mhd".format(self.results_folder, seed, seed)):
-                cprint("Found phantom with lesions information!", 'cyan')
+                cprint("Found phantom with lesions information!", 'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:d}/pcl_{:d}.mhd".format(self.results_folder, self.seed, self.seed))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -113,7 +116,7 @@ class Pipeline:
                     self.results_folder, seed, seed)
 
             elif os.path.exists("{:s}/{:d}/pc_{:d}_crop.mhd".format(self.results_folder, seed, seed)):
-                cprint("Found cropped phantom information!", 'cyan')
+                cprint("Found cropped phantom information!", 'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:d}/pc_{:d}_crop.mhd".format(self.results_folder, self.seed, self.seed))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -126,7 +129,7 @@ class Pipeline:
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
                     self.results_folder, seed, seed)
             elif os.path.exists("{:s}/{:d}/pc_{:d}.mhd".format(self.results_folder, seed, seed)):
-                cprint("Found compressed phantom information!", 'cyan')
+                cprint("Found compressed phantom information!", 'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:d}/pc_{:d}.mhd".format(self.results_folder, self.seed, self.seed))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -140,7 +143,7 @@ class Pipeline:
                     self.results_folder, seed, seed)
 
             elif os.path.exists("{:s}/{:d}/p_{:d}.mhd".format(self.results_folder, seed, seed)):
-                cprint("Found phantom generation information!", 'cyan')
+                cprint("Found phantom generation information!", 'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:d}/p_{:d}.mhd".format(self.results_folder, self.seed, self.seed))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -267,7 +270,7 @@ class Pipeline:
             filename = splitted[-1].split('.')[0]
 
             if os.path.exists("{:s}/{:s}.mhd".format(path, filename)):
-                cprint("Found phantom information!", 'cyan')
+                cprint("Found phantom information!", 'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:s}.mhd".format(path, filename))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -409,7 +412,7 @@ class Pipeline:
                 self.ips["gpu"], command)
         # print(os.system("cd {:s} && ls -la ./Victre/projection/MC-GPU_v1.5b.x > log.txt".format(os.getcwd())))
         # os.system(ssh_command, sh)
-        cprint("Initializing MCGPU for {:s}...".format(filename), 'cyan')
+        cprint("Initializing MCGPU for {:s}...".format(filename), 'cyan') if self.verbosity else None
 
         completed = 0
 
@@ -425,15 +428,15 @@ class Pipeline:
                     break
                 elif "!!DBT!! Simulating first" in output.strip():
                     cprint(
-                        "Starting DM projection, this may take a few minutes...", 'cyan')
+                        "Starting DM projection, this may take a few minutes...", 'cyan') if self.verbosity else None
                 elif "Simulating tomographic projection" in output.strip():
                     if completed == 0:
-                        cprint("Starting DBT projection...", 'cyan')
+                        cprint("Starting DBT projection...", 'cyan') if self.verbosity else None
                         bar = progressbar.ProgressBar(
-                            max_value=self.arguments_mcgpu["number_projections"])
-                        bar.update(0)
+                            max_value=self.arguments_mcgpu["number_projections"]) if self.verbosity else None
+                        bar.update(0) if self.verbosity else None
                     completed += 1
-                    bar.update(completed)
+                    bar.update(completed) if self.verbosity else None
                 # rc = process.poll()
                 f.write(output.encode('utf-8'))
                 f.flush()
@@ -443,8 +446,8 @@ class Pipeline:
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Projection error")
 
-        bar.finish()
-        cprint("Projection finished!", 'green', attrs=['bold'])
+        bar.finish() if self.verbosity else None
+        cprint("Projection finished!", 'green', attrs=['bold']) if self.verbosity else None
 
         command = "cd {:s} && ./Victre/reconstruction/extract_projections_RAW.x {:s} {:d} 0001 {:s}/{:d}/{:s}".format(
             os.getcwd(),
@@ -549,7 +552,7 @@ class Pipeline:
             # number of iterations to average the flatfield
             for n in range(Constants.FLATFIELD_REPETITIONS):
                 cprint("Flatfield file not specified, projecting {:d}/{:d}...".format(
-                    n + 1, Constants.FLATFIELD_REPETITIONS), 'cyan')
+                    n + 1, Constants.FLATFIELD_REPETITIONS), 'cyan') if self.verbosity else None
                 self.project(do_flatfield=Constants.FLATFIELD_REPETITIONS)
 
             self.arguments_recon["flatfield_file"] = "{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
@@ -618,7 +621,7 @@ class Pipeline:
                       self.arguments_recon["recon_thickness"]).astype(int)
         )
 
-        cprint("Initializing reconstruction, this may take a few minutes...", 'cyan')
+        cprint("Initializing reconstruction, this may take a few minutes...", 'cyan') if self.verbosity else None
 
         completed = 0
 
@@ -634,13 +637,13 @@ class Pipeline:
                     break
                 elif "Image slice" in output.strip():
                     if completed == 0:
-                        cprint("Starting reconstruction...", 'cyan')
+                        cprint("Starting reconstruction...", 'cyan') if self.verbosity else None
                         bar = progressbar.ProgressBar(
-                            max_value=self.recon_size["y"])
-                        bar.update(0)
+                            max_value=self.recon_size["y"]) if self.verbosity else None
+                        bar.update(0) if self.verbosity else None
                     completed += 1
-                    bar.update(completed)
-                    progressbar.streams.flush()
+                    bar.update(completed) if self.verbosity else None
+                    progressbar.streams.flush() if self.verbosity else None
                 # rc = process.poll()
                 f.write(output.encode('utf-8'))
                 f.flush()
@@ -650,7 +653,7 @@ class Pipeline:
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Reconstruction error")
 
-        bar.finish()
+        bar.finish() if self.verbosity else None
 
         self.mhd["ElementDataFile"] = "reconstruction{:d}.raw".format(
             self.seed)
@@ -676,7 +679,7 @@ class Pipeline:
             result = src.substitute(template_arguments)
             f.write(result)
 
-        cprint("Reconstruction finished!", 'green', attrs=['bold'])
+        cprint("Reconstruction finished!", 'green', attrs=['bold']) if self.verbosity else None
 
     def get_coordinates_dbt(self, vx_location):
         """!
@@ -845,7 +848,7 @@ class Pipeline:
         """
 
         if len(self.lesion_locations["dbt"]) == 0:
-            cprint("There are no ROIs!", 'red')
+            cprint("There are no ROIs!", 'red') if self.verbosity else None
             return
 
         if roi_sizes is not None:
@@ -905,7 +908,7 @@ class Pipeline:
 
         hf.close()
 
-        cprint("ROIs saved!", 'green', attrs=['bold'])
+        cprint("ROIs saved!", 'green', attrs=['bold']) if self.verbosity else None
 
     def generate_spiculated(self, seed=None, size=None):
         """!
@@ -939,7 +942,7 @@ class Pipeline:
 
         # print(command)
         cprint("Generating mass (seed={:d}, size={:.2f})...".format(
-            self.arguments_spiculated["seed"], self.arguments_spiculated["alpha"]), 'cyan')
+            self.arguments_spiculated["seed"], self.arguments_spiculated["alpha"]), 'cyan') if self.verbosity else None
         os.system(command)
 
         generated_files = self.get_folder_contents(
@@ -971,7 +974,7 @@ class Pipeline:
             hf.create_dataset("seed", data=self.arguments_spiculated["seed"])
             hf.create_dataset("size", data=self.arguments_spiculated["alpha"])
 
-        cprint("Generation finished!", 'green', attrs=['bold'])
+        cprint("Generation finished!", 'green', attrs=['bold']) if self.verbosity else None
 
     def insert_lesions(self, lesion_type=None, n=-1, lesion_file=None, lesion_size=None, locations=None, roi_sizes=None, save_phantom=True):
         """!
@@ -989,7 +992,7 @@ class Pipeline:
         """
         if self.lesion_file is None and lesion_file is None and save_phantom is True:
             cprint(
-                "There is no lesion to insert, just adding lesion locations...", color="cyan")
+                "There is no lesion to insert, just adding lesion locations...", color="cyan") if self.verbosity else None
             # raise Exceptions.VictreError("No lesion file has been specified")
 
         lesion, phantom = None, None
@@ -1015,9 +1018,9 @@ class Pipeline:
 
             if save_phantom:
                 cprint("Inserting {:d} non-overlapping lesions...".format(n),
-                       'cyan')
+                       'cyan') if self.verbosity else None
             else:
-                cprint("Retrieving {:d} lesion locations...".format(n), 'cyan')
+                cprint("Retrieving {:d} lesion locations...".format(n), 'cyan') if self.verbosity else None
 
             if "h5" in self.lesion_file:
                 with h5py.File(self.lesion_file, "r") as hf:
@@ -1082,17 +1085,17 @@ class Pipeline:
                 loc = None
                 attempts = 0
                 bar = progressbar.ProgressBar(
-                    max_value=Constants.INSERTION_MAX_TRIES)
+                    max_value=Constants.INSERTION_MAX_TRIES) if self.verbosity else None
                 while not found and max_attempts > 0:
                     attempts += 1
-                    bar.update(attempts)
-                    if attempts == bar.max_value:  # if too many attempts
-                        bar.finish()
+                    bar.update(attempts) if self.verbosity else None
+                    if attempts == Constants.INSERTION_MAX_TRIES:  # if too many attempts
+                        bar.finish() if self.verbosity else None
                         attempts = 0
                         max_attempts -= 1
 
                         cprint(
-                            "Too many attempts at inserting, restarting the insertion! ({:d} remaining)".format(max_attempts), 'red')
+                            "Too many attempts at inserting, restarting the insertion! ({:d} remaining)".format(max_attempts), 'red') if self.verbosity else None
                         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
                             phantom = f.read()
 
@@ -1114,7 +1117,7 @@ class Pipeline:
                             raise Exceptions.VictreError(
                                 "Insertion attempts exceeded")
 
-                        bar = progressbar.ProgressBar(max_value=bar.max_value)
+                        bar = progressbar.ProgressBar(max_value=bar.max_value) if self.verbosity else None
                         continue
 
                     if self.candidate_locations is not None:
@@ -1164,7 +1167,7 @@ class Pipeline:
 
                 c += 1
 
-                bar.finish()
+                bar.finish()  if self.verbosity else None
 
         for cand in self.lesions:
             loc = {"dm": self.get_coordinates_dm([
@@ -1191,7 +1194,7 @@ class Pipeline:
 
             # save new phantom file
             if save_phantom:
-                cprint("Saving new phantom...", 'cyan')
+                cprint("Saving new phantom...", 'cyan') if self.verbosity else None
 
                 # We save the phantom in gzip to reduce needed disk space
                 with gzip.open("{:s}/{:d}/pcl_{:d}.raw.gz".format(self.results_folder, self.seed, self.seed), "wb") as gz:
@@ -1212,7 +1215,7 @@ class Pipeline:
                     result = src.substitute(template_arguments)
                     f.write(result)
 
-                cprint("Insertion finished!", 'green', attrs=['bold'])
+                cprint("Insertion finished!", 'green', attrs=['bold']) if self.verbosity else None
 
     def add_absent_ROIs(self, lesion_type, n=1, locations=None, roi_sizes=None):
         """!
@@ -1332,7 +1335,7 @@ class Pipeline:
                 self.ips["cpu"], command)
 
         cprint("Starting phantom generation (seed = {:d}), this will take some time...".format(
-            self.seed), 'cyan')
+            self.seed), 'cyan') if self.verbosity else None
 
         completed = 0
 
@@ -1356,7 +1359,7 @@ class Pipeline:
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Generation error")
 
-        cprint("Generation finished!", 'green', attrs=['bold'])
+        cprint("Generation finished!", 'green', attrs=['bold']) if self.verbosity else None
         self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/p_{:d}.raw.gz".format(
             self.results_folder, self.seed, self.seed)
 
@@ -1412,7 +1415,7 @@ class Pipeline:
             ssh_command = "ssh -Y {:s} \"{:s}\"".format(
                 self.ips["cpu"], command)
 
-        cprint("Starting phantom compression, this will take some time...", 'cyan')
+        cprint("Starting phantom compression, this will take some time...", 'cyan') if self.verbosity else None
 
         completed = 0
 
@@ -1436,7 +1439,7 @@ class Pipeline:
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Generation error")
 
-        cprint("Compression finished!", 'green', attrs=['bold'])
+        cprint("Compression finished!", 'green', attrs=['bold']) if self.verbosity else None
         self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}.raw.gz".format(
             self.results_folder, self.seed, self.seed)
 
@@ -1458,7 +1461,7 @@ class Pipeline:
             @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED_crop.raw.gz` with the raw data, and `pc_SEED_crop.mhd` with the information about the raw data.
         """
 
-        cprint("Cropping phantom...", 'cyan')
+        cprint("Cropping phantom...", 'cyan') if self.verbosity else None
 
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
             phantom = f.read()
