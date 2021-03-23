@@ -107,10 +107,4 @@ Each example file starts the pipeline from a different step, use `example1.py` t
   * `T = 1` for calcification clusters, `T = 2` for masses
 
 
-Updates
--------
-
-### **[0.1] - 2021-02-23**
-* First public version
-
 *This code is currently in development, use with caution.*

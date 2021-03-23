@@ -1,8 +1,3 @@
-"""!
-Documentation for the Victre pipeline class.
-"""
-
-
 import numpy as np
 import os
 from termcolor import colored, cprint
@@ -31,8 +26,25 @@ from scipy import interpolate
 
 
 class Pipeline:
-    """!
-    Victre Pipeline class. **This is all you need!**
+    """
+        Object constructor for the Victre pipeline class
+
+        @param ips: Dictionary with two IP addresses to run the pipeline: "gpu" for the projection process. "cpu" for the reconstruction.
+        @param seed: Random seed used to generate or read the phantom
+        @param results_folder: Path to folder to be used when saving the results
+        @param phantom_file: Path to file containing the phantom to be loaded
+        @param spectrum_file: Path to file containing the spectrum used to project in MCGPU
+        @param lesion_file: Path to file containing the lesion to be inserted (in HDF5 format)
+        @param materials: Dictionary including the materials to be used during projection
+        @param roi_sizes: Dictionary with the ROI sizes for the extraction
+        @param arguments_generation: Arguments to be overriden for the breast phantom generation
+        @param arguments_mcgpu: Arguments to be overridden for the projection in MCGPU
+        @param arguments_recon: Arguments to be overridden for the reconstruction algorithm
+        @param flatfield_DBT: Path to the flatfield file for the DBT reconstruction
+        @param flatfield_DM: Path to the flatfield file for the digital mammography
+        @param density: [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
+        @param verbosity: True will output the progress of each process and steps
+        @return: None
     """
 
     def __init__(self,
@@ -52,26 +64,6 @@ class Pipeline:
                  flatfield_DM=None,
                  density=None,
                  verbosity=True):
-        """!
-        Object constructor for the Victre pipeline class
-
-        @param ips Dictionary with two IP addresses to run the pipeline: "gpu" for the projection process. "cpu" for the reconstruction.
-        @param seed Random seed used to generate or read the phantom
-        @param results_folder Path to folder to be used when saving the results
-        @param phantom_file Path to file containing the phantom to be loaded
-        @param spectrum_file Path to file containing the spectrum used to project in MCGPU
-        @param lesion_file Path to file containing the lesion to be inserted (in HDF5 format)
-        @param materials Dictionary including the materials to be used during projection
-        @param roi_sizes Dictionary with the ROI sizes for the extraction
-        @param arguments_generation Arguments to be overriden for the breast phantom generation
-        @param arguments_mcgpu Arguments to be overridden for the projection in MCGPU
-        @param arguments_recon Arguments to be overridden for the reconstruction algorithm
-        @param flatfield_DBT Path to the flatfield file for the DBT reconstruction
-        @param flatfield_DM Path to the flatfield file for the digital mammography
-        @param density [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
-        @param verbosity True will output the progress of each process and steps
-        @return None
-        """
 
         if seed is None:
             self.seed = int(time.time())
@@ -79,22 +71,24 @@ class Pipeline:
             self.seed = seed
 
         self.ips = ips
-        self.lesion_file = lesion_file
-        self.lesions = []
+        self.lesion_file = lesion_file  # lesion file
+        self.lesions = []  # lesion locations in phantom coordinates
+        # lesion locations in the dbt and dm coordinates
         self.lesion_locations = {"dbt": [], "dm": []}
-        self.results_folder = results_folder
-        self.roi_sizes = roi_sizes
-        self.candidate_locations = None
-        self.verbosity = verbosity
+        self.results_folder = results_folder  # results folder
+        self.roi_sizes = roi_sizes  # ROI sizes
+        self.candidate_locations = None  # loaded candidate locations from breast generation
+        self.verbosity = verbosity  # verbosity
 
         random.seed(self.seed)
 
-        self.arguments_mcgpu = Constants.VICTRE_DEFAULT_MCGPU
+        self.arguments_mcgpu = Constants.VICTRE_DEFAULT_MCGPU  # arguments for MCGPU
         self.arguments_mcgpu["spectrum_file"] = spectrum_file
         self.arguments_mcgpu["phantom_file"] = phantom_file
         self.arguments_mcgpu["output_file"] = "{:s}/{:d}/projection".format(
             self.results_folder, self.seed)
 
+        # arguments for spiculated mass generation
         self.arguments_spiculated = Constants.VICTRE_DEFAULT_SPICULATED_MASS
         self.arguments_spiculated["seed"] = self.seed
 
@@ -102,7 +96,8 @@ class Pipeline:
 
         if phantom_file is None:
             if os.path.exists("{:s}/{:d}/pcl_{:d}.mhd".format(self.results_folder, seed, seed)):
-                cprint("Found phantom with lesions information!", 'cyan') if self.verbosity else None
+                cprint("Found phantom with lesions information!",
+                       'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:d}/pcl_{:d}.mhd".format(self.results_folder, self.seed, self.seed))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -116,7 +111,8 @@ class Pipeline:
                     self.results_folder, seed, seed)
 
             elif os.path.exists("{:s}/{:d}/pc_{:d}_crop.mhd".format(self.results_folder, seed, seed)):
-                cprint("Found cropped phantom information!", 'cyan') if self.verbosity else None
+                cprint("Found cropped phantom information!",
+                       'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:d}/pc_{:d}_crop.mhd".format(self.results_folder, self.seed, self.seed))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -129,7 +125,8 @@ class Pipeline:
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
                     self.results_folder, seed, seed)
             elif os.path.exists("{:s}/{:d}/pc_{:d}.mhd".format(self.results_folder, seed, seed)):
-                cprint("Found compressed phantom information!", 'cyan') if self.verbosity else None
+                cprint("Found compressed phantom information!",
+                       'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:d}/pc_{:d}.mhd".format(self.results_folder, self.seed, self.seed))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -143,7 +140,8 @@ class Pipeline:
                     self.results_folder, seed, seed)
 
             elif os.path.exists("{:s}/{:d}/p_{:d}.mhd".format(self.results_folder, seed, seed)):
-                cprint("Found phantom generation information!", 'cyan') if self.verbosity else None
+                cprint("Found phantom generation information!",
+                       'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:d}/p_{:d}.mhd".format(self.results_folder, self.seed, self.seed))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -163,7 +161,7 @@ class Pipeline:
 
         self.arguments_spiculated.update(arguments_spiculated)
 
-        self.materials = materials
+        self.materials = materials  # material densities for MCGPU
         if self.materials is None:
             self.materials = Constants.VICTRE_DEFAULT_MATERIALS
 
@@ -198,10 +196,10 @@ class Pipeline:
                 self.results_folder,
                 self.seed,
                 self.seed)
-        )
+        )  # arguments for reconstruction
 
-        self.flatfield_DBT = flatfield_DBT
-        self.flatfield_DM = flatfield_DM
+        self.flatfield_DBT = flatfield_DBT  # flatfield for DBT
+        self.flatfield_DM = flatfield_DM  # flatfield for DM
 
         if self.flatfield_DBT is None and os.path.exists("{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
                 self.results_folder,
@@ -228,7 +226,8 @@ class Pipeline:
 
         self.arguments_recon.update(arguments_recon)
 
-        self.arguments_generation = Constants.VICTRE_DENSE  # dense by default
+        # arguments for phantom generation
+        self.arguments_generation = Constants.VICTRE_DENSE
 
         self.arguments_generation["outputDir"] = os.path.abspath("{:s}/{:d}/".format(
             self.results_folder, self.seed))
@@ -262,7 +261,7 @@ class Pipeline:
                       self.arguments_recon["recon_pixel_size"]).astype(int),
             z=np.ceil(self.arguments_recon["voxels_z"] * self.arguments_recon["voxel_size"] /
                       self.arguments_recon["recon_thickness"]).astype(int)
-        )
+        )  # reconstruction size
 
         if phantom_file is not None:
             splitted = phantom_file.split('/')
@@ -270,7 +269,8 @@ class Pipeline:
             filename = splitted[-1].split('.')[0]
 
             if os.path.exists("{:s}/{:s}.mhd".format(path, filename)):
-                cprint("Found phantom information!", 'cyan') if self.verbosity else None
+                cprint("Found phantom information!",
+                       'cyan') if self.verbosity else None
                 self.mhd = self._read_mhd(
                     "{:s}/{:s}.mhd".format(path, filename))
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
@@ -294,11 +294,11 @@ class Pipeline:
                                        self.seed), exist_ok=True)
 
     def project(self, clean=True, do_flatfield=0):
-        """!
+        """
             Method that runs MCGPU to project the phantom.
 
-            @param clean If True, it will delete the contents of the output folder before projecting.
-            @param do_flatfield If > 0, it will generate an empty flat field projection
+            @param clean: If True, it will delete the contents of the output folder before projecting.
+            @param do_flatfield: If > 0, it will generate an empty flat field projection
         """
 
         def get_gpu_memory():
@@ -412,7 +412,8 @@ class Pipeline:
                 self.ips["gpu"], command)
         # print(os.system("cd {:s} && ls -la ./Victre/projection/MC-GPU_v1.5b.x > log.txt".format(os.getcwd())))
         # os.system(ssh_command, sh)
-        cprint("Initializing MCGPU for {:s}...".format(filename), 'cyan') if self.verbosity else None
+        cprint("Initializing MCGPU for {:s}...".format(
+            filename), 'cyan') if self.verbosity else None
 
         completed = 0
 
@@ -431,7 +432,8 @@ class Pipeline:
                         "Starting DM projection, this may take a few minutes...", 'cyan') if self.verbosity else None
                 elif "Simulating tomographic projection" in output.strip():
                     if completed == 0:
-                        cprint("Starting DBT projection...", 'cyan') if self.verbosity else None
+                        cprint("Starting DBT projection...",
+                               'cyan') if self.verbosity else None
                         bar = progressbar.ProgressBar(
                             max_value=self.arguments_mcgpu["number_projections"]) if self.verbosity else None
                         bar.update(0) if self.verbosity else None
@@ -447,7 +449,8 @@ class Pipeline:
             raise Exceptions.VictreError("Projection error")
 
         bar.finish() if self.verbosity else None
-        cprint("Projection finished!", 'green', attrs=['bold']) if self.verbosity else None
+        cprint("Projection finished!", 'green', attrs=[
+               'bold']) if self.verbosity else None
 
         command = "cd {:s} && ./Victre/reconstruction/extract_projections_RAW.x {:s} {:d} 0001 {:s}/{:d}/{:s}".format(
             os.getcwd(),
@@ -584,7 +587,7 @@ class Pipeline:
                 "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
 
     def reconstruct(self):
-        """!
+        """
             Method that runs the reconstruction code for the DBT volume
         """
 
@@ -621,7 +624,8 @@ class Pipeline:
                       self.arguments_recon["recon_thickness"]).astype(int)
         )
 
-        cprint("Initializing reconstruction, this may take a few minutes...", 'cyan') if self.verbosity else None
+        cprint("Initializing reconstruction, this may take a few minutes...",
+               'cyan') if self.verbosity else None
 
         completed = 0
 
@@ -637,7 +641,8 @@ class Pipeline:
                     break
                 elif "Image slice" in output.strip():
                     if completed == 0:
-                        cprint("Starting reconstruction...", 'cyan') if self.verbosity else None
+                        cprint("Starting reconstruction...",
+                               'cyan') if self.verbosity else None
                         bar = progressbar.ProgressBar(
                             max_value=self.recon_size["y"]) if self.verbosity else None
                         bar.update(0) if self.verbosity else None
@@ -679,14 +684,15 @@ class Pipeline:
             result = src.substitute(template_arguments)
             f.write(result)
 
-        cprint("Reconstruction finished!", 'green', attrs=['bold']) if self.verbosity else None
+        cprint("Reconstruction finished!", 'green',
+               attrs=['bold']) if self.verbosity else None
 
     def get_coordinates_dbt(self, vx_location):
-        """!
+        """
             Method to get the corresponding coordinates in the DBT volume from the voxelized coordinates
 
-            @param vx_location Coordinates in the voxel/phantom space
-            @return Coordinates in the DBT space
+            @param vx_location: Coordinates in the voxel/phantom space
+            @return: Coordinates in the DBT space
         """
         location = vx_location.copy()
 
@@ -709,11 +715,11 @@ class Pipeline:
         return location
 
     def get_coordinates_dm(self, vx_location):
-        """!
+        """
             Method to get the corresponding coordinates in the DM volume from the voxelized coordinates
 
-            @param vx_location Coordinates in the voxel/phantom space
-            @return Coordinates in the DM space
+            @param vx_location: Coordinates in the voxel/phantom space
+            @return: Coordinates in the DM space
         """
         location = vx_location.copy()
 
@@ -763,7 +769,7 @@ class Pipeline:
         return location[0], location[1]
 
     def save_DICOM(self):
-        """!
+        """
             Saves the DBT generated reconstruction (if available) in DICOM format
         """
         def save_DICOM_one(data, count):
@@ -840,11 +846,11 @@ class Pipeline:
             save_DICOM_one(np.squeeze(pixel_array[s, :, :]), s)
 
     def save_ROIs(self, roi_sizes=None, clean=True):
-        """!
+        """
             Saves the generated ROIs (absent and present) in RAW and HDF5 formats
 
-            @param roi_sizes Size of the ROIs for the defined lesion types
-            @param clean If True, the existing ROI folder will be deleted
+            @param roi_sizes: Size of the ROIs for the defined lesion types
+            @param clean: If True, the existing ROI folder will be deleted
         """
 
         if len(self.lesion_locations["dbt"]) == 0:
@@ -908,15 +914,16 @@ class Pipeline:
 
         hf.close()
 
-        cprint("ROIs saved!", 'green', attrs=['bold']) if self.verbosity else None
+        cprint("ROIs saved!", 'green', attrs=[
+               'bold']) if self.verbosity else None
 
     def generate_spiculated(self, seed=None, size=None):
-        """!
+        """
             Generates a spiculated mass using the breastMass software
 
-            @param seed Seed to be used when generating the mass
-            @param size Size of the mass to be used in the breastMass config file
-            @return None. The result is saved in the `lesions` subfolder
+            @param seed: Seed to be used when generating the mass
+            @param size: Size of the mass to be used in the breastMass config file
+            @return: None. The result is saved in the `lesions` subfolder
         """
 
         if seed is not None:
@@ -974,20 +981,21 @@ class Pipeline:
             hf.create_dataset("seed", data=self.arguments_spiculated["seed"])
             hf.create_dataset("size", data=self.arguments_spiculated["alpha"])
 
-        cprint("Generation finished!", 'green', attrs=['bold']) if self.verbosity else None
+        cprint("Generation finished!", 'green', attrs=[
+               'bold']) if self.verbosity else None
 
     def insert_lesions(self, lesion_type=None, n=-1, lesion_file=None, lesion_size=None, locations=None, roi_sizes=None, save_phantom=True):
-        """!
+        """
             Inserts the specified number of lesions in the phantom.
 
-            @param lesion_type Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
-            @param n Number of lesions to be added
-            @param lesion_file Path to file including the lesion to be inserted (in HDF5 format). If specified, it will overrite the lesion file specified in the constructor.
-            @param lesion_size If lesion_file is a raw file, lesion_size indicates the size of this file
-            @param locations List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
-            @param roi_sizes Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
+            @param lesion_type: Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
+            @param n: Number of lesions to be added
+            @param lesion_file: Path to file including the lesion to be inserted (in HDF5 format). If specified, it will overrite the lesion file specified in the constructor.
+            @param lesion_size: If lesion_file is a raw file, lesion_size indicates the size of this file
+            @param locations: List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
+            @param roi_sizes: Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
 
-            @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: `pcl_SEED.raw.gz` with the raw data, `pcl_SEED.mhd` with the information about the raw data, and `pcl_SEED.loc` with the voxel coordinates of the lesion centers.
+            @return: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: `pcl_SEED.raw.gz` with the raw data, `pcl_SEED.mhd` with the information about the raw data, and `pcl_SEED.loc` with the voxel coordinates of the lesion centers.
 
         """
         if self.lesion_file is None and lesion_file is None and save_phantom is True:
@@ -1020,7 +1028,8 @@ class Pipeline:
                 cprint("Inserting {:d} non-overlapping lesions...".format(n),
                        'cyan') if self.verbosity else None
             else:
-                cprint("Retrieving {:d} lesion locations...".format(n), 'cyan') if self.verbosity else None
+                cprint("Retrieving {:d} lesion locations...".format(
+                    n), 'cyan') if self.verbosity else None
 
             if "h5" in self.lesion_file:
                 with h5py.File(self.lesion_file, "r") as hf:
@@ -1117,7 +1126,8 @@ class Pipeline:
                             raise Exceptions.VictreError(
                                 "Insertion attempts exceeded")
 
-                        bar = progressbar.ProgressBar(max_value=bar.max_value) if self.verbosity else None
+                        bar = progressbar.ProgressBar(
+                            max_value=bar.max_value) if self.verbosity else None
                         continue
 
                     if self.candidate_locations is not None:
@@ -1167,7 +1177,7 @@ class Pipeline:
 
                 c += 1
 
-                bar.finish()  if self.verbosity else None
+                bar.finish() if self.verbosity else None
 
         for cand in self.lesions:
             loc = {"dm": self.get_coordinates_dm([
@@ -1194,7 +1204,8 @@ class Pipeline:
 
             # save new phantom file
             if save_phantom:
-                cprint("Saving new phantom...", 'cyan') if self.verbosity else None
+                cprint("Saving new phantom...",
+                       'cyan') if self.verbosity else None
 
                 # We save the phantom in gzip to reduce needed disk space
                 with gzip.open("{:s}/{:d}/pcl_{:d}.raw.gz".format(self.results_folder, self.seed, self.seed), "wb") as gz:
@@ -1215,17 +1226,18 @@ class Pipeline:
                     result = src.substitute(template_arguments)
                     f.write(result)
 
-                cprint("Insertion finished!", 'green', attrs=['bold']) if self.verbosity else None
+                cprint("Insertion finished!", 'green', attrs=[
+                       'bold']) if self.verbosity else None
 
     def add_absent_ROIs(self, lesion_type, n=1, locations=None, roi_sizes=None):
-        """!
+        """
             Adds the specified number of absent regions of interest.
 
-            @param lesion_type Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
-            @param n Number of lesions to be added
-            @param locations List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
-            @param roi_sizes Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
-            @return None. A location file will be saved inside the `phantom` folder with the corresponding seed. Negative lesion type means absent ROI.
+            @param lesion_type: Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
+            @param n: Number of lesions to be added
+            @param locations: List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
+            @param roi_sizes: Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
+            @return: None. A location file will be saved inside the `phantom` folder with the corresponding seed. Negative lesion type means absent ROI.
         """
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
             phantom = f.read()
@@ -1305,10 +1317,10 @@ class Pipeline:
                    self.lesions, fmt="%d")
 
     def generate_phantom(self):
-        """!
+        """
             Runs breast phantom generation.
 
-            @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `p_SEED.raw.gz` with the raw data, and `p_SEED.mhd` with the information about the raw data.
+            @return: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `p_SEED.raw.gz` with the raw data, and `p_SEED.mhd` with the information about the raw data.
         """
         generation_config = "{:s}/{:d}/input_generation.in".format(
             self.results_folder, self.seed)
@@ -1359,7 +1371,8 @@ class Pipeline:
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Generation error")
 
-        cprint("Generation finished!", 'green', attrs=['bold']) if self.verbosity else None
+        cprint("Generation finished!", 'green', attrs=[
+               'bold']) if self.verbosity else None
         self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/p_{:d}.raw.gz".format(
             self.results_folder, self.seed, self.seed)
 
@@ -1392,11 +1405,11 @@ class Pipeline:
             "{:s}/{:d}/p_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
     def compress_phantom(self, thickness=None):
-        """!
+        """
             Runs the FEBio compression.
 
-            @param thickness Specifies the objective thickness for the phantom to be compressed (in cm)
-            @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED.raw.gz` with the raw data, and `pc_SEED.mhd` with the information about the raw data.
+            @param thickness: Specifies the objective thickness for the phantom to be compressed (in cm)
+            @return: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED.raw.gz` with the raw data, and `pc_SEED.mhd` with the information about the raw data.
         """
         if thickness is None:
             thickness = int(self.arguments_generation["compressionThickness"])
@@ -1415,7 +1428,8 @@ class Pipeline:
             ssh_command = "ssh -Y {:s} \"{:s}\"".format(
                 self.ips["cpu"], command)
 
-        cprint("Starting phantom compression, this will take some time...", 'cyan') if self.verbosity else None
+        cprint("Starting phantom compression, this will take some time...",
+               'cyan') if self.verbosity else None
 
         completed = 0
 
@@ -1439,7 +1453,8 @@ class Pipeline:
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Generation error")
 
-        cprint("Compression finished!", 'green', attrs=['bold']) if self.verbosity else None
+        cprint("Compression finished!", 'green', attrs=[
+               'bold']) if self.verbosity else None
         self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}.raw.gz".format(
             self.results_folder, self.seed, self.seed)
 
@@ -1455,10 +1470,10 @@ class Pipeline:
             "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
     def crop(self, size=None):
-        """!
+        """
             Runs breast phantom cropping.
 
-            @return None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED_crop.raw.gz` with the raw data, and `pc_SEED_crop.mhd` with the information about the raw data.
+            @return: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED_crop.raw.gz` with the raw data, and `pc_SEED_crop.mhd` with the information about the raw data.
         """
 
         cprint("Cropping phantom...", 'cyan') if self.verbosity else None
@@ -1548,11 +1563,11 @@ class Pipeline:
 
     @staticmethod
     def get_folder_contents(folder):
-        """!
+        """
             Gets a list of files in the given folder
 
-            @param folder Path to the folder to be processed
-            @return List with files inside the given folder
+            @param folder: Path to the folder to be processed
+            @return: List with files inside the given folder
         """
         dir_folder = pathlib.Path(folder)
         files = []
