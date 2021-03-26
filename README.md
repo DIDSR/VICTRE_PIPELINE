@@ -59,9 +59,17 @@ Requirements
   * gcc/g++
 * For the unified pipeline script
   * Python 3.6+
-
+  
 Installation
 ------------
+
+Before proceeding, make sure you have all the requirements listed above. You can also install the required libraries using this:
+
+` sudo apt-get install cmake vtk7 libvtk7-dev 
+      libblas-dev liblapack-dev 
+      libboost-dev libboost-program-options-dev 
+      libproj-dev zlib1g-dev
+`
 
 Clone the repository 
 
@@ -77,11 +85,13 @@ Install the required python libraries:
 
 `pip install numpy scipy termcolor progressbar2 h5py pydicom`
 
-Add the `FEBio` executable to the path:
+> You might need to use `pip3` instead of `pip`.
 
-`export PATH="$PATH:/routetofebio/FEBio-2.9.1/bin"`
+Add the `FEBio` executable to the path (replace `{{{routetofebio}}}` with the path to your FEBio installation):
 
-And rename it to `febio2.lnx64`.
+`export PATH="$PATH:/{{{routetofebio}}}/FEBio-2.9.1/bin"`
+
+> You can also add that line to your `.bashrc` file to make it permanent.
 
 Usage
 -----
@@ -89,6 +99,8 @@ Usage
 Copy the examples files to the parent folder and run them in a GPU-enabled machine with CUDA:
 
 `python example1.py`
+
+> You might need to use `python3` instead of `python`.
 
 Each example file starts the pipeline from a different step, use `example1.py` to start from the phantom generation (it will need hours to complete), use `example5.py` to start from the projection step (it will finish in about ~10 minutes depending on your computer). When finished, you will find the results in the `results` folder under the `1` subfolder.
 
@@ -105,6 +117,8 @@ Each example file starts the pipeline from a different step, use `example1.py` t
   * `ROI_DM_XX_typeT`: DM cropped image for lesion number `XX` of lesion type `T` (absent regions will have `T < 0`)
   * `ROI_DBT_XX_typeT`: DBT cropped volume for lesion number `XX` of lesion type `T` (absent regions will have `T < 0`)
   * `T = 1` for calcification clusters, `T = 2` for masses
+
+
 
 
 *This code is currently in development, use with caution.*

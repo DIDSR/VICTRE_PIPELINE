@@ -971,7 +971,7 @@ class Pipeline:
                 os.remove(name)
 
         # save in HDF
-        with h5py.File("{:s}/lesions/spiculated/mass_{:d}_size{:.2f}_thick_{:.2f}.h5".format(
+        with h5py.File("{:s}/lesions/spiculated/mass_{:d}_size{:.2f}_{:.2f}.h5".format(
                 self.results_folder,
                 self.arguments_spiculated["seed"],
                 self.arguments_spiculated["alpha"],
@@ -980,6 +980,8 @@ class Pipeline:
                               compression="gzip")
             hf.create_dataset("seed", data=self.arguments_spiculated["seed"])
             hf.create_dataset("size", data=self.arguments_spiculated["alpha"])
+
+        self.lesion_file = "{:s}/lesions/spiculated/mass_{:d}_size{:.2f}_{:.2f}.h5"
 
         cprint("Generation finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
@@ -1231,7 +1233,7 @@ class Pipeline:
 
     def add_absent_ROIs(self, lesion_type, n=1, locations=None, roi_sizes=None):
         """
-            Adds the specified number of absent regions of interest.
+            Adds the specified number of lesion-absent regions of interest.
 
             @param lesion_type: Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
             @param n: Number of lesions to be added
@@ -1335,7 +1337,7 @@ class Pipeline:
 
         full_path = os.path.abspath(generation_config)
 
-        command = "cd {:s} && ./Victre/generation/breastPhantomMain -c {:s}".format(
+        command = "cd {:s} && ./Victre/generation/build/breastPhantomMain -c {:s}".format(
             os.getcwd(),
             full_path
         )

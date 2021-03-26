@@ -136,10 +136,9 @@ What do you want to compile?
     5. Reconstruction software
 
 Press any other key to exit...
-    "
+"
 
     read -n 1 -t 15 a
-    printf "\n"
     case $a in
     1* )
         echo "Compiling breast generation"
@@ -166,10 +165,27 @@ Press any other key to exit...
     ;;
 
     4* )
+        printf "
+What is your GPU architecture?
+    1. Maxwell: GTX 745-980, Quadro Kxxx
+    2. Pascal: GTX 1070, Tesla P100
+    3. Volta: Tesla V100
+    4. Turing: GTX 16X0, RTX 20X0, Quadro RTX, Tesla T4
+    5. Ampere: RTX 30X0, RTX A6000, Tesla A100
+"
+        read -n 1 -t 15 a
+        case $a in
+            1* ) GPU_OPTIONS="-gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_52,code=sm_52 -gencode=arch=compute_53,code=sm_53" ;;
+            2* ) GPU_OPTIONS="-gencode=arch=compute_60,code=sm_60 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_62,code=sm_62" ;;
+            3* ) GPU_OPTIONS="-gencode=arch=compute_70,code=sm_70 -gencode=arch=compute_72,code=sm_72" ;;
+            4* ) GPU_OPTIONS="-gencode=arch=compute_75,code=sm_75" ;;
+            5* ) GPU_OPTIONS="-gencode=arch=compute_80,code=sm_80" ;;
+        esac
+        printf "\n\n"
         read -n 1 -p "Compile with MPI support? (y/n): " yn
         case $yn in
-            [Yy]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -lmpi -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70 );;
-            [Nn]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -I. -I$CUDA_INC -I$CUDA_SAMPLES -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61 -gencode=arch=compute_70,code=sm_70 );;
+            [Yy]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -lmpi -lz --ptxas-options=-v $GPU_OPTIONS );;
+            [Nn]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -I. -I$CUDA_INC -I$CUDA_SAMPLES -lz --ptxas-options=-v $GPU_OPTIONS );;
             * ) echo "No answer";;
         esac
     ;;
