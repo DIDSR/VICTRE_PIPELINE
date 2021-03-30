@@ -1,3 +1,8 @@
+"""!
+Documentation for the Victre pipeline class.
+"""
+
+
 import numpy as np
 import os
 from termcolor import colored, cprint
@@ -71,24 +76,22 @@ class Pipeline:
             self.seed = seed
 
         self.ips = ips
-        self.lesion_file = lesion_file  # lesion file
-        self.lesions = []  # lesion locations in phantom coordinates
-        # lesion locations in the dbt and dm coordinates
+        self.lesion_file = lesion_file
+        self.lesions = []
         self.lesion_locations = {"dbt": [], "dm": []}
-        self.results_folder = results_folder  # results folder
-        self.roi_sizes = roi_sizes  # ROI sizes
-        self.candidate_locations = None  # loaded candidate locations from breast generation
-        self.verbosity = verbosity  # verbosity
+        self.results_folder = results_folder
+        self.roi_sizes = roi_sizes
+        self.candidate_locations = None
+        self.verbosity = verbosity
 
         random.seed(self.seed)
 
-        self.arguments_mcgpu = Constants.VICTRE_DEFAULT_MCGPU  # arguments for MCGPU
+        self.arguments_mcgpu = Constants.VICTRE_DEFAULT_MCGPU
         self.arguments_mcgpu["spectrum_file"] = spectrum_file
         self.arguments_mcgpu["phantom_file"] = phantom_file
         self.arguments_mcgpu["output_file"] = "{:s}/{:d}/projection".format(
             self.results_folder, self.seed)
 
-        # arguments for spiculated mass generation
         self.arguments_spiculated = Constants.VICTRE_DEFAULT_SPICULATED_MASS
         self.arguments_spiculated["seed"] = self.seed
 
@@ -119,8 +122,9 @@ class Pipeline:
                 self.arguments_mcgpu["voxel_size"] = [
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
-                self.candidate_locations = np.loadtxt(
-                    "{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+                if os.path.exists("{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, seed, seed)):
+                    self.candidate_locations = np.loadtxt(
+                        "{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -133,8 +137,9 @@ class Pipeline:
                 self.arguments_mcgpu["voxel_size"] = [
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
-                self.candidate_locations = np.loadtxt(
-                    "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+                if os.path.exists("{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, seed, seed)):
+                    self.candidate_locations = np.loadtxt(
+                        "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -161,7 +166,7 @@ class Pipeline:
 
         self.arguments_spiculated.update(arguments_spiculated)
 
-        self.materials = materials  # material densities for MCGPU
+        self.materials = materials
         if self.materials is None:
             self.materials = Constants.VICTRE_DEFAULT_MATERIALS
 
@@ -196,10 +201,10 @@ class Pipeline:
                 self.results_folder,
                 self.seed,
                 self.seed)
-        )  # arguments for reconstruction
+        )
 
-        self.flatfield_DBT = flatfield_DBT  # flatfield for DBT
-        self.flatfield_DM = flatfield_DM  # flatfield for DM
+        self.flatfield_DBT = flatfield_DBT
+        self.flatfield_DM = flatfield_DM
 
         if self.flatfield_DBT is None and os.path.exists("{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
                 self.results_folder,
@@ -226,8 +231,7 @@ class Pipeline:
 
         self.arguments_recon.update(arguments_recon)
 
-        # arguments for phantom generation
-        self.arguments_generation = Constants.VICTRE_DENSE
+        self.arguments_generation = Constants.VICTRE_DENSE  # dense by default
 
         self.arguments_generation["outputDir"] = os.path.abspath("{:s}/{:d}/".format(
             self.results_folder, self.seed))
@@ -261,12 +265,19 @@ class Pipeline:
                       self.arguments_recon["recon_pixel_size"]).astype(int),
             z=np.ceil(self.arguments_recon["voxels_z"] * self.arguments_recon["voxel_size"] /
                       self.arguments_recon["recon_thickness"]).astype(int)
-        )  # reconstruction size
+        )
+
+        os.makedirs("{:s}".format(self.results_folder), exist_ok=True)
+        os.makedirs("{:s}/{:d}".format(self.results_folder,
+                                       self.seed), exist_ok=True)
 
         if phantom_file is not None:
             splitted = phantom_file.split('/')
             path = '/'.join(splitted[:-1])
             filename = splitted[-1].split('.')[0]
+
+            shutil.copy(phantom_file,
+                        "{:s}/{:d}".format(self.results_folder, self.seed))
 
             if os.path.exists("{:s}/{:s}.mhd".format(path, filename)):
                 cprint("Found phantom information!",
@@ -276,9 +287,16 @@ class Pipeline:
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
                 self.arguments_mcgpu["voxel_size"] = [
                     x / 10 for x in self.mhd["ElementSpacing"]]
+                shutil.copy("{:s}/{:s}.mhd".format(path, filename),
+                            "{:s}/{:d}".format(self.results_folder, self.seed))
             if os.path.exists("{:s}/{:s}.loc".format(path, filename)):
-                locations = list(np.loadtxt(
-                    "{:s}/{:s}.loc".format(path, filename)))
+                try:
+                    locations = list(np.loadtxt(
+                        "{:s}/{:s}.loc".format(path, filename)))
+                except:
+                    pass
+                shutil.copy("{:s}/{:s}.loc".format(path, filename),
+                            "{:s}/{:d}".format(self.results_folder, self.seed))
 
         if locations is not None:
             self.insert_lesions(locations=locations,
@@ -288,10 +306,6 @@ class Pipeline:
             self.arguments_mcgpu["voxel_size"][1] / 2
 
         # self.arguments_mcgpu["number_voxels"]
-
-        os.makedirs("{:s}".format(self.results_folder), exist_ok=True)
-        os.makedirs("{:s}/{:d}".format(self.results_folder,
-                                       self.seed), exist_ok=True)
 
     def project(self, clean=True, do_flatfield=0):
         """
@@ -1450,6 +1464,10 @@ class Pipeline:
                 f.write(output.encode('utf-8'))
                 f.flush()
 
+                if "fault" in output:
+                    completed = 0
+                    break
+
         if completed == 0:
             cprint("\nError while compressing, check the output_compression.out file in the results folder",
                    'red', attrs=['bold'])
@@ -1557,11 +1575,12 @@ class Pipeline:
                            crop["from"][1]) * self.mhd["ElementSpacing"][1] + self.mhd["Offset"][1]
                 cand[2] = ((cand[2] - prevOffset[2]) / self.mhd["ElementSpacing"][2] -
                            crop["from"][2]) * self.mhd["ElementSpacing"][2] + self.mhd["Offset"][2]
-        np.savetxt("{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder,
-                                                       self.seed,
-                                                       self.seed),
-                   self.candidate_locations,
-                   delimiter=',')
+
+            np.savetxt("{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder,
+                                                           self.seed,
+                                                           self.seed),
+                       self.candidate_locations,
+                       delimiter=',')
 
     @staticmethod
     def get_folder_contents(folder):
