@@ -26,3 +26,6 @@ pline.add_absent_ROIs(lesion_type=Constants.VICTRE_SPICULATED,
                       n=4)
 
 pline.save_ROIs()
+
+pline.save_DICOM("dbt")
+pline.save_DICOM("dm")

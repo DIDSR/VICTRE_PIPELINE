@@ -15,7 +15,7 @@ import glob
 import progressbar
 import h5py
 import subprocess
-import asyncio
+from datetime import date
 from string import Template
 import random
 import time
@@ -782,29 +782,34 @@ class Pipeline:
 
         return location[0], location[1]
 
-    def save_DICOM(self):
+    def save_DICOM(self, modality="dbt"):
         """
-            Saves the DBT generated reconstruction (if available) in DICOM format
+            Saves the DM or DBT images in DICOM format. If present, lesion location will be 
+            stored in a custom tag 0x009900XX where XX is the lesion number.
+            @param modality: Modality to save: dbt or dm
         """
         def save_DICOM_one(data, count):
+
+            # data = np.fliplr(data)
+
             # Populate required values for file meta information
             file_meta = FileMetaDataset()
-            file_meta.MediaStorageSOPClassUID = pydicom.uid.generate_uid()
+            file_meta.MediaStorageSOPClassUID = "1.2.840.10008.5.1.4.1.1.2"
             # file_meta.TransferSyntaxUID = pydicom.uid.ImplicitVRLittleEndian
-            file_meta.MediaStorageSOPInstanceUID = pydicom.uid.generate_uid()
-            file_meta.ImplementationClassUID = pydicom.uid.PYDICOM_IMPLEMENTATION_UID
+            file_meta.MediaStorageSOPInstanceUID = pydicom.uid.generate_uid(
+                "1.3.6.1.4.1.9590.100.1.1.")
+            file_meta.ImplementationClassUID = "1.3.6.1.4.1.9590.100.1.0.100.4.0"
+            # file_meta.FileMetaInformationGroupLength = 208
 
-            # file_meta.ClinicalTrialProtocolName = 'VICTRE'
-            # file_meta.ClinicalTrialSiteName = 'FDA'
-
-            # file_meta.Manufacturer = 'VICTRE'
-            # file_meta.OrganExposed = 'BREAST'
-            # file_meta.Modality = "DBT"
+            # pydicom.uid.PYDICOM_IMPLEMENTATION_UID
 
             # Create the FileDataset instance (initially no data elements, but file_meta
             # supplied)
             ds = FileDataset("{:s}/{:d}/DICOM/{:03d}.dcm".format(self.results_folder, self.seed, count), {},
                              file_meta=file_meta, preamble=b"\0" * 128)
+
+            ds.SOPClassUID = file_meta.MediaStorageSOPClassUID
+            ds.SOPInstanceUID = file_meta.MediaStorageSOPInstanceUID
 
             # Add the data elements -- not trying to set all required here. Check DICOM
             # standard
@@ -815,17 +820,100 @@ class Pipeline:
             ds.BitsStored = 16
             ds.BitsAllocated = 16
             ds.SmallestImagePixelValue = 0
+
             ds[0x00280106].VR = 'US'
             ds.LargestImagePixelValue = 65535
             ds[0x00280107].VR = 'US'
 
-            ds.PatientName = "VICTRE 2.0"
+            ds.Manufacturer = 'VICTRE'
+            ds.OrganExposed = 'BREAST'
+            ds.Modality = "MG"
+
+            ds.PatientName = "VICTRE/FDA"
             ds.PatientID = str(self.seed)
+            ds.PatientComments = 'Density: {:.2f}%'.format(
+                (1 - self.arguments_generation["targetFatFrac"]) * 100)
+            ds.PatientState = "No lesions" if len(
+                self.lesion_locations[modality]) == 0 else "With lesions"
+
+            ds.ClinicalTrialProtocolName = "VICTRE"
+            ds.ClinicalTrialSiteName = "FDA"
+
+            ds.AccessionNumber = ' '
+            ds.AcquisitionContextSequence = ''
+            ds.AnatomicRegionSequence = ''
+            ds.BurnedInAnnotation = 'NO'
+            ds.ClinicalTrialProtocolID = ' '
+            ds.ClinicalTrialSiteID = ' '
+            ds.ClinicalTrialSponsorName = ' '
+            ds.ClinicalTrialSubjectID = ' '
+            ds.ClinicalTrialSubjectReadingID = ' '
+            ds.ImageLaterality = 'R'
+            ds.ImagerPixelSpacing = "{:f}\{:f}".format(
+                self.arguments_recon["recon_pixel_size"] * 10, self.arguments_recon["recon_pixel_size"] * 10)
+            ds.InstanceNumber = ''
+            ds.PatientBirthDate = ''
+            ds.PatientOrientation = 'P\H'
+            ds.PatientSex = 'F'
+            ds.PresentationIntentType = 'FOR PROCESSING'
+            ds.ReferringPhysicianName = 'Virtual'
+            ds.RescaleIntercept = 0
+            ds.RescaleSlope = 1
+            ds.RescaleType = 'US'
+            ds.SeriesNumber = []
+            ds.StudyID = ' '
+
+            ds.ViewCodeSequence = ''
+
+            ds.InstitutionName = 'FDA'
+            ds.InstitutionalDepartmentName = 'DIDSR'
+            ds.SoftwareVersions = 'MC-GPU_1.5b'
+
+            ds.ImageType = 'ORIGINAL\PRIMARY'
+            ds.ImageComments = "SA" if len(
+                self.lesion_locations[modality]) == 0 else "SP"
+            ds.LossyImageCompression = '00'
+            ds.ConversionType = 'SYN'
+
+            ds.DetectorType = 'DIRECT'
+            ds.DetectorConfiguration = 'AREA'
+            ds.DetectorDescription = 'a-Se, {:.2f} micron'.format(
+                self.arguments_mcgpu["detector_thickness"] * 10000)  # cm to um
+            ds.DetectorActiveShape = 'RECTANGLE'
+
+            # 28 kVp for dense and hetero; 30 kVp for scattered  and fatty
+            ds.KVP = '28' if self.arguments_generation["targetFatFrac"] < 0.75 else "30"
+            ds.ExposureInmAs = 3.5  # ??
+            ds.AnodeTargetMaterial = 'TUNGSTEN'
+            ds.FilterType = 'FLAT'
+            ds.FilterMaterial = 'RHODIUM'
+            # cm to mm
+            ds.FilterThicknessMinimum = self.arguments_mcgpu["antiscatter_grid_ratio"][0] * 10
+
+            # cm to mm from source to detector center
+            ds.DistanceSourceToDetector = self.arguments_mcgpu["distance_source"] * 10
+            # cm to mm from source to the breast support side
+            ds.DistanceSourceToPatient = self.arguments_mcgpu["source_position"][2] * 10
+            ds.PositionerType = 'MAMMOGRAPHIC'
+            ds.DerivationDescription = 'float64 to uint16 bit conversion'
 
             ds.Columns = data.shape[0]
             ds.Rows = data.shape[1]
 
-            # ds.ImagesInAcquisition = self.recon_size["z"]
+            ds.SeriesDescription = 'DBT slices'
+            ds.BodyPartExamined = 'BREAST'
+            ds.AcquisitionNumber = count
+            ds.InstanceNumber = count
+
+            ds.ImagesInAcquisition = self.recon_size["z"]
+
+            block = ds.private_block(
+                0x0099, 'VICTRE/Lesion Information', create=True)
+
+            for idx, lesion in enumerate(self.lesion_locations[modality]):
+                if lesion[-1] > 0:
+                    block.add_new(idx + 1, 'ST', ' '.join(str(item)
+                                                          for item in lesion))
 
             ds.PixelData = data.tobytes()
 
@@ -835,26 +923,39 @@ class Pipeline:
 
             # Set creation date/time
             dt = datetime.datetime.now()
+            ds.StudyDate = dt.strftime("%Y%m%d")
+
+            ds.StudyTime = dt.strftime("%H%M")
             ds.ContentDate = dt.strftime('%Y%m%d')
             # long format with micro seconds
             timeStr = dt.strftime('%H%M%S.%f')
             ds.ContentTime = timeStr
+
+            ds.fix_meta_info()
 
             # print("Writing test file",
             #       "./results/{:d}/DICOM/{:03d}.dcm".format(self.seed, count))
             # ds.save_as("./results/{:d}/DICOM/{:03d}.dcm".format(self.seed, count))
 
             pydicom.filewriter.dcmwrite(
-                "{:s}/{:d}/DICOM/{:03d}.dcm".format(self.results_folder, self.seed, count), ds)
+                "{:s}/{:d}/DICOM_{:s}/{:03d}.dcm".format(
+                    self.results_folder, self.seed, modality, count), ds,
+                write_like_original=False)
 
-        os.makedirs("{:s}/{:d}/DICOM/".format(self.results_folder,
-                                              self.seed), exist_ok=True)
+        os.makedirs("{:s}/{:d}/DICOM_{:s}/".format(self.results_folder,
+                                                   self.seed,
+                                                   modality), exist_ok=True)
 
-        pixel_array = np.fromfile("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed),
-                                  dtype="float64").reshape(self.recon_size["z"], self.recon_size["x"], self.recon_size["y"])
-
-        pixel_array = (2**16 * (pixel_array - pixel_array.min()) /
-                       (pixel_array.max() - pixel_array.min())).astype(np.uint16)
+        if modality == "dbt":
+            pixel_array = np.fromfile("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed),
+                                      dtype="float64").reshape(self.recon_size["z"], self.recon_size["x"], self.recon_size["y"])
+            pixel_array = np.clip(((2**16 - 1) * pixel_array),
+                                  0, 2**16 - 1).astype(np.uint16)
+        else:
+            pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
+                                      dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
+            pixel_array = ((2**16 - 1) * (pixel_array - pixel_array.min()) /
+                           (pixel_array.max() - pixel_array.min())).astype(np.uint16)
 
         for s in progressbar.progressbar(range(pixel_array.shape[0])):
             save_DICOM_one(np.squeeze(pixel_array[s, :, :]), s)
