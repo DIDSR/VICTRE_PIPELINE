@@ -2239,7 +2239,7 @@ int main(int argc, char *argv[])
     char febioOutFilename[256];
     sprintf(febioOutFilename, "%s/febio_%d_%d.xplt", workDir.c_str(), seed, meshCount);
     char febioCmd[512];
-    sprintf(febioCmd, "%s/bin/febio2 -i %s -p %s -nosplash > /dev/null", febioPath, febioFilename, febioOutFilename);
+    sprintf(febioCmd, "febio2 -i %s -p %s -nosplash > /dev/null", febioFilename, febioOutFilename);
 
     FEBioResult = system(febioCmd);
 
