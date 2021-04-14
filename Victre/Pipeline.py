@@ -299,6 +299,8 @@ class Pipeline:
                             "{:s}/{:d}".format(self.results_folder, self.seed))
 
         if locations is not None:
+            if type(locations[0]) is not list:
+                locations=[locations]
             self.insert_lesions(locations=locations,
                                 save_phantom=False)
 
@@ -790,8 +792,6 @@ class Pipeline:
         """
         def save_DICOM_one(data, count):
 
-            # data = np.fliplr(data)
-
             # Populate required values for file meta information
             file_meta = FileMetaDataset()
             file_meta.MediaStorageSOPClassUID = "1.2.840.10008.5.1.4.1.1.2"
@@ -824,6 +824,8 @@ class Pipeline:
             ds[0x00280106].VR = 'US'
             ds.LargestImagePixelValue = 65535
             ds[0x00280107].VR = 'US'
+
+            ds.ImageRotation = 90
 
             ds.Manufacturer = 'VICTRE'
             ds.OrganExposed = 'BREAST'
@@ -900,7 +902,7 @@ class Pipeline:
             ds.Columns = data.shape[0]
             ds.Rows = data.shape[1]
 
-            ds.SeriesDescription = 'DBT slices'
+            ds.SeriesDescription = modality.upper()
             ds.BodyPartExamined = 'BREAST'
             ds.AcquisitionNumber = count
             ds.InstanceNumber = count
@@ -1569,7 +1571,7 @@ class Pipeline:
                     completed = 0
                     break
 
-        if completed == 0:
+        if completed == 0 or not os.path.exists("{:s}/{:d}/pc_{:d}.mhd".format(self.results_folder, self.seed, self.seed)):
             cprint("\nError while compressing, check the output_compression.out file in the results folder",
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Generation error")
