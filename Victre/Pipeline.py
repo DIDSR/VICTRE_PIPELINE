@@ -300,7 +300,7 @@ class Pipeline:
 
         if locations is not None:
             if type(locations[0]) is not list:
-                locations=[locations]
+                locations = [locations]
             self.insert_lesions(locations=locations,
                                 save_phantom=False)
 
@@ -987,23 +987,24 @@ class Pipeline:
 
         hf = h5py.File(
             "{:s}/{:d}/ROIs.h5".format(self.results_folder, self.seed), 'w')
-        hfdbt = hf.create_group("dbt")
 
-        pixel_array = np.fromfile("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed),
-                                  dtype="float64").reshape(self.recon_size["z"], self.recon_size["y"], self.recon_size["x"])
+        if os.path.exists("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed)):
+            hfdbt = hf.create_group("dbt")
+            pixel_array = np.fromfile("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed),
+                                      dtype="float64").reshape(self.recon_size["z"], self.recon_size["y"], self.recon_size["x"])
 
-        for idx, lesion in enumerate(self.lesion_locations["dbt"]):
-            lesion_type = np.abs(lesion[3])
-            roi = pixel_array[1 + lesion[2] - int(np.ceil(self.roi_sizes[lesion_type][2] / 2)):1 + lesion[2] + int(np.floor(self.roi_sizes[lesion_type][2] / 2)),
-                              lesion[1] - int(np.ceil(self.roi_sizes[lesion_type][1] / 2)):lesion[1] + int(np.floor(self.roi_sizes[lesion_type][1] / 2)),
-                              lesion[0] - int(np.ceil(self.roi_sizes[lesion_type][0] / 2)):lesion[0] + int(np.floor(self.roi_sizes[lesion_type][0] / 2))]
-            # with open("./results/{:d}/ROIs/ROI_{:03d}_type{:d}.raw".format(self.seed, idx, lesion_type), 'wb') as f:
-            roi.astype(np.dtype('<f8')).tofile(
-                "{:s}/{:d}/ROIs/ROI_DBT_{:02d}_type{:d}.raw".format(self.results_folder, self.seed, idx, lesion[3]))
-            hfdbt.create_dataset("{:d}".format(idx),
-                                 data=roi.astype(np.float32), compression="gzip", compression_opts=9)
-        hfdbt.create_dataset("lesion_type",
-                             data=np.array(self.lesion_locations["dbt"])[:, 3])
+            for idx, lesion in enumerate(self.lesion_locations["dbt"]):
+                lesion_type = np.abs(lesion[3])
+                roi = pixel_array[1 + lesion[2] - int(np.ceil(self.roi_sizes[lesion_type][2] / 2)):1 + lesion[2] + int(np.floor(self.roi_sizes[lesion_type][2] / 2)),
+                                  lesion[1] - int(np.ceil(self.roi_sizes[lesion_type][1] / 2)):lesion[1] + int(np.floor(self.roi_sizes[lesion_type][1] / 2)),
+                                  lesion[0] - int(np.ceil(self.roi_sizes[lesion_type][0] / 2)):lesion[0] + int(np.floor(self.roi_sizes[lesion_type][0] / 2))]
+                # with open("./results/{:d}/ROIs/ROI_{:03d}_type{:d}.raw".format(self.seed, idx, lesion_type), 'wb') as f:
+                roi.astype(np.dtype('<f8')).tofile(
+                    "{:s}/{:d}/ROIs/ROI_DBT_{:02d}_type{:d}.raw".format(self.results_folder, self.seed, idx, lesion[3]))
+                hfdbt.create_dataset("{:d}".format(idx),
+                                     data=roi.astype(np.float32), compression="gzip", compression_opts=9)
+            hfdbt.create_dataset("lesion_type",
+                                 data=np.array(self.lesion_locations["dbt"])[:, 3])
 
         # SAVE DM ROIs
         pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
