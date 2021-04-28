@@ -50,10 +50,10 @@ Installation
 Before proceeding, make sure you have all the requirements listed above.
 You can also install the required libraries using this:
 
-    sudo apt-get install cmake vtk7 libvtk7-dev libblas-dev liblapack-dev 
-                           libopenmpi-dev libboost-dev 
-                           libboost-program-options-dev libproj-dev 
-                           zlib1g-dev gzip
+> sudo apt-get install cmake vtk7 libvtk7-dev libblas-dev liblapack-dev 
+                       libopenmpi-dev libboost-dev 
+                       libboost-program-options-dev libproj-dev 
+                       zlib1g-dev gzip
 
 Clone the repository
 
