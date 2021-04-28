@@ -4,5 +4,5 @@ Python Documentation
 Victre Pipeline
 ---------------
 
-.. automodule:: Pipeline
+.. automodule:: Victre.Pipeline
     :members:
