@@ -11,4 +11,4 @@ DimSize = 374 448 449
 AnatomicalOrientation = ???
 ElementType = MET_UCHAR
 ObjectType = Image
-ElementDataFile = p_1.raw
+ElementDataFile = p_1.raw.gz

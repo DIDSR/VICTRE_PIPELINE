@@ -24,7 +24,9 @@ Requirements
   * boost library
 * For MCGPU projection
   * CUDA 10.4+
-  * GPU-enabled computer (8GB+ recommended)
+  * NVIDIA GPU (8GB+ recommended)
+  * gzip
+  * (Optional) openMPI 
 * For reconstruction
   * gcc/g++
 * For the unified pipeline script
@@ -36,9 +38,9 @@ Installation
 Before proceeding, make sure you have all the requirements listed above. You can also install the required libraries using this:
 
 ` sudo apt-get install cmake vtk7 libvtk7-dev 
-      libblas-dev liblapack-dev 
+      libblas-dev liblapack-dev libopenmpi-dev
       libboost-dev libboost-program-options-dev 
-      libproj-dev zlib1g-dev
+      libproj-dev zlib1g-dev gzip
 `
 
 Clone the repository 
