@@ -13,10 +13,11 @@ endif()
 
 include_directories("$(PROJECT_SOURCE_DIR)")
 
+#SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_BUILD_TYPE "Release")
-SET(CMAKE_CXX_FLAGS  "-std=c++0x ${CMAKE_CXX_FLAGS}")
+#SET(CMAKE_CXX_FLAGS  "-std=c++0x ${CMAKE_CXX_FLAGS}")
+SET(CMAKE_CXX_FLAGS  "-std=gnu++11 ${CMAKE_CXX_FLAGS}")
 
 add_executable(breastCompressMain breastCompress.cxx)
-LINK_DIRECTORIES("$(LAPACK_LIB)")
-LINK_DIRECTORIES("$(BOOST_OPTIONS_LIB)")
+
 target_link_libraries(breastCompressMain z tet lapack blas boost_program_options ${VTK_LIBRARIES})

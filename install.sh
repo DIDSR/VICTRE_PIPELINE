@@ -1,14 +1,12 @@
+##########################################################################
+# UNCOMMENT THESE VARIABLES TO INDICATE CUSTOM PATHS FOR THESE LIBRARIES #
+##########################################################################
 
-
-
-
-CUDA_INC=/usr/local/cuda/include 
-CUDA_SAMPLES=/usr/local/cuda/samples/common/inc
-MPI_INCLUDE=/usr/include/openmpi
-LAPACK_LIB=/usr/lib64/
-BOOST_OPTIONS_LIB=/usr/lib64/ # route to libboost_program_options
-VTK_DIR=/usr/local/VTK-build
-BOOST_INCLUDE=/usr/local/boost/ # route to boost source code
+# CUDA_INC=/usr/local/cuda/include 
+# CUDA_SAMPLES=/usr/local/cuda/samples/common/inc
+# MPI_INCLUDE=/usr/include/openmpi
+# BOOST_OPTIONS_LIB=/usr/lib64 # route to libboost_program_options
+# VTK_DIR=/usr/local/VTK-build
 
 
 # ------------------ DO NOT MODIFY --------------------------
@@ -93,8 +91,8 @@ else
     printf "\t*** You won't be able to run the pipeline in this computer.\n"
 fi
 
-printf "Checking febio2.lnx64: \t\t"
-check_command febio2.lnx64
+printf "Checking febio2: \t\t"
+check_command febio2
 FEBIO=$exists
 if [ $exists = 1 ]
 then
