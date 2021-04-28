@@ -1,4 +1,4 @@
-"""!
+"""
 ==================================================
         __   __ ___  ___  _____  ___  ___       
         \ \ / /|_ _|/ __||_   _|| _ \| __|      
@@ -78,22 +78,22 @@ class Pipeline:
     """
         Object constructor for the Victre pipeline class
 
-        @param ips: Dictionary with two IP addresses to run the pipeline: "gpu" for the projection process. "cpu" for the reconstruction.
-        @param seed: Random seed used to generate or read the phantom
-        @param results_folder: Path to folder to be used when saving the results
-        @param phantom_file: Path to file containing the phantom to be loaded
-        @param spectrum_file: Path to file containing the spectrum used to project in MCGPU
-        @param lesion_file: Path to file containing the lesion to be inserted (in HDF5 format)
-        @param materials: Dictionary including the materials to be used during projection
-        @param roi_sizes: Dictionary with the ROI sizes for the extraction
-        @param arguments_generation: Arguments to be overriden for the breast phantom generation
-        @param arguments_mcgpu: Arguments to be overridden for the projection in MCGPU
-        @param arguments_recon: Arguments to be overridden for the reconstruction algorithm
-        @param flatfield_DBT: Path to the flatfield file for the DBT reconstruction
-        @param flatfield_DM: Path to the flatfield file for the digital mammography
-        @param density: [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
-        @param verbosity: True will output the progress of each process and steps
-        @return: None
+        :param ips: Dictionary with two IP addresses to run the pipeline: "gpu" for the projection process. "cpu" for the reconstruction.
+        :param seed: Random seed used to generate or read the phantom
+        :param results_folder: Path to folder to be used when saving the results
+        :param phantom_file: Path to file containing the phantom to be loaded
+        :param spectrum_file: Path to file containing the spectrum used to project in MCGPU
+        :param lesion_file: Path to file containing the lesion to be inserted (in HDF5 format)
+        :param materials: Dictionary including the materials to be used during projection
+        :param roi_sizes: Dictionary with the ROI sizes for the extraction
+        :param arguments_generation: Arguments to be overriden for the breast phantom generation
+        :param arguments_mcgpu: Arguments to be overridden for the projection in MCGPU
+        :param arguments_recon: Arguments to be overridden for the reconstruction algorithm
+        :param flatfield_DBT: Path to the flatfield file for the DBT reconstruction
+        :param flatfield_DM: Path to the flatfield file for the digital mammography
+        :param density: [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
+        :param verbosity: True will output the progress of each process and steps
+        :returns: None
     """
 
     def __init__(self,
@@ -359,8 +359,8 @@ class Pipeline:
 
             @flatfield_correction: If True, the projections will be corrected using a given flatfield. 
                                    It will be generated if not found and not given.
-            @param clean: If True, it will delete the contents of the output folder before projecting.
-            @param do_flatfield: If > 0, it will generate an empty flat field projection.
+            :param clean: If True, it will delete the contents of the output folder before projecting.
+            :param do_flatfield: If > 0, it will generate an empty flat field projection.
         """
 
         def get_gpu_memory():
@@ -760,8 +760,8 @@ class Pipeline:
         """
             Method to get the corresponding coordinates in the DBT volume from the voxelized coordinates
 
-            @param vx_location: Coordinates in the voxel/phantom space
-            @return: Coordinates in the DBT space
+            :param vx_location: Coordinates in the voxel/phantom space
+            :returns: Coordinates in the DBT space
         """
         location = vx_location.copy()
 
@@ -787,8 +787,8 @@ class Pipeline:
         """
             Method to get the corresponding coordinates in the DM volume from the voxelized coordinates
 
-            @param vx_location: Coordinates in the voxel/phantom space
-            @return: Coordinates in the DM space
+            :param vx_location: Coordinates in the voxel/phantom space
+            :returns: Coordinates in the DM space
         """
         location = vx_location.copy()
 
@@ -841,7 +841,7 @@ class Pipeline:
         """
             Saves the DM or DBT images in DICOM format. If present, lesion location will be 
             stored in a custom tag 0x009900XX where XX is the lesion number.
-            @param modality: Modality to save: dbt or dm
+            :param modality: Modality to save: dbt or dm
         """
         def save_DICOM_one(data, count):
 
@@ -1019,8 +1019,8 @@ class Pipeline:
         """
             Saves the generated ROIs (absent and present) in RAW and HDF5 formats
 
-            @param roi_sizes: Size of the ROIs for the defined lesion types
-            @param clean: If True, the existing ROI folder will be deleted
+            :param roi_sizes: Size of the ROIs for the defined lesion types
+            :param clean: If True, the existing ROI folder will be deleted
         """
 
         if len(self.lesion_locations["dbt"]) == 0:
@@ -1092,9 +1092,9 @@ class Pipeline:
         """
             Generates a spiculated mass using the breastMass software
 
-            @param seed: Seed to be used when generating the mass
-            @param size: Size of the mass to be used in the breastMass config file
-            @return: None. The result is saved in the `lesions` subfolder
+            :param seed: Seed to be used when generating the mass
+            :param size: Size of the mass to be used in the breastMass config file
+            :returns: None. The result is saved in the `lesions` subfolder
         """
 
         if seed is not None:
@@ -1161,14 +1161,14 @@ class Pipeline:
         """
             Inserts the specified number of lesions in the phantom.
 
-            @param lesion_type: Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
-            @param n: Number of lesions to be added
-            @param lesion_file: Path to file including the lesion to be inserted (in HDF5 format). If specified, it will overrite the lesion file specified in the constructor.
-            @param lesion_size: If lesion_file is a raw file, lesion_size indicates the size of this file
-            @param locations: List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
-            @param roi_sizes: Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
+            :param lesion_type: Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
+            :param n: Number of lesions to be added
+            :param lesion_file: Path to file including the lesion to be inserted (in HDF5 format). If specified, it will overrite the lesion file specified in the constructor.
+            :param lesion_size: If lesion_file is a raw file, lesion_size indicates the size of this file
+            :param locations: List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
+            :param roi_sizes: Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
 
-            @return: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: `pcl_SEED.raw.gz` with the raw data, `pcl_SEED.mhd` with the information about the raw data, and `pcl_SEED.loc` with the voxel coordinates of the lesion centers.
+            :returns: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: `pcl_SEED.raw.gz` with the raw data, `pcl_SEED.mhd` with the information about the raw data, and `pcl_SEED.loc` with the voxel coordinates of the lesion centers.
 
         """
         if self.lesion_file is None and lesion_file is None and save_phantom is True:
@@ -1406,11 +1406,11 @@ class Pipeline:
         """
             Adds the specified number of lesion-absent regions of interest.
 
-            @param lesion_type: Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
-            @param n: Number of lesions to be added
-            @param locations: List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
-            @param roi_sizes: Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
-            @return: None. A location file will be saved inside the `phantom` folder with the corresponding seed. Negative lesion type means absent ROI.
+            :param lesion_type: Constant with the desired lesion type. Check available lesion types and materials in the Constants file.
+            :param n: Number of lesions to be added
+            :param locations: List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
+            :param roi_sizes: Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
+            :returns: None. A location file will be saved inside the `phantom` folder with the corresponding seed. Negative lesion type means absent ROI.
         """
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
             phantom = f.read()
@@ -1493,7 +1493,7 @@ class Pipeline:
         """
             Runs breast phantom generation.
 
-            @return: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `p_SEED.raw.gz` with the raw data, and `p_SEED.mhd` with the information about the raw data.
+            :returns: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `p_SEED.raw.gz` with the raw data, and `p_SEED.mhd` with the information about the raw data.
         """
         generation_config = "{:s}/{:d}/input_generation.in".format(
             self.results_folder, self.seed)
@@ -1581,8 +1581,8 @@ class Pipeline:
         """
             Runs the FEBio compression.
 
-            @param thickness: Specifies the objective thickness for the phantom to be compressed (in cm)
-            @return: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED.raw.gz` with the raw data, and `pc_SEED.mhd` with the information about the raw data.
+            :param thickness: Specifies the objective thickness for the phantom to be compressed (in cm)
+            :returns: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED.raw.gz` with the raw data, and `pc_SEED.mhd` with the information about the raw data.
         """
         if thickness is None:
             thickness = int(self.arguments_generation["compressionThickness"])
@@ -1650,7 +1650,7 @@ class Pipeline:
         """
             Runs breast phantom cropping.
 
-            @return: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED_crop.raw.gz` with the raw data, and `pc_SEED_crop.mhd` with the information about the raw data.
+            :returns: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED_crop.raw.gz` with the raw data, and `pc_SEED_crop.mhd` with the information about the raw data.
         """
 
         cprint("Cropping phantom...", 'cyan') if self.verbosity else None
@@ -1744,8 +1744,8 @@ class Pipeline:
         """
             Gets a list of files in the given folder
 
-            @param folder: Path to the folder to be processed
-            @return: List with files inside the given folder
+            :param folder: Path to the folder to be processed
+            :returns: List with files inside the given folder
         """
         dir_folder = pathlib.Path(folder)
         files = []
