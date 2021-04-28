@@ -1,5 +1,49 @@
 """!
-Documentation for the Victre pipeline class.
+==================================================
+        __   __ ___  ___  _____  ___  ___       
+        \ \ / /|_ _|/ __||_   _|| _ \| __|      
+         \ V /  | || (__   | |  |   /| _|       
+          \_/  |___|\___|  |_|  |_|_\|___|      
+     ___  ___  ___  ___  _     ___  _  _  ___ 
+    | _ \|_ _|| _ \| __|| |   |_ _|| \| || __|
+    |  _/ | | |  _/| _| | |__  | | | .` || _| 
+    |_|  |___||_|  |___||____||___||_|\_||___|
+    
+==================================================
+
+ Author: Miguel A. Lago
+		 miguel.lago@fda.hhs.gov
+
+
+				    DISCLAIMER
+
+ This software and documentation (the "Software") were 
+ developed at the Food and Drug Administration (FDA) by 
+ employees of the Federal Government in the course of 
+ their official duties. Pursuant to Title 17, Section 
+ 105 of the United States Code, this work is not subject
+ to copyright protection and is in the public domain. 
+ Permission is hereby granted, free of charge, to any 
+ person obtaining a copy of the Software, to deal in the 
+ Software without restriction, including without 
+ limitation the rights to use, copy, modify, merge, 
+ publish, distribute, sublicense, or sell copies of the 
+ Software or derivatives, and to permit persons to whom 
+ the Software is furnished to do so. FDA assumes no 
+ responsibility whatsoever for use by other parties of 
+ the Software, its source code, documentation or compiled 
+ executables, and makes no guarantees, expressed or 
+ implied, about its quality, reliability, or any other 
+ characteristic. Further, use of this code in no way 
+ implies endorsement by the FDA or confers any advantage 
+ in regulatory decisions. Although this software can be 
+ redistributed and/or modified freely, we ask that any 
+ derivative works bear some notice that they are derived 
+ from it, and any modified versions bear some notice that 
+ they have been modified. 
+
+ More information: https://github.com/DIDSR/VICTRE_PIPELINE
+
 """
 
 
@@ -309,12 +353,14 @@ class Pipeline:
 
         # self.arguments_mcgpu["number_voxels"]
 
-    def project(self, clean=True, do_flatfield=0):
+    def project(self, flatfield_correction=True, clean=True, do_flatfield=0):
         """
             Method that runs MCGPU to project the phantom.
 
+            @flatfield_correction: If True, the projections will be corrected using a given flatfield. 
+                                   It will be generated if not found and not given.
             @param clean: If True, it will delete the contents of the output folder before projecting.
-            @param do_flatfield: If > 0, it will generate an empty flat field projection
+            @param do_flatfield: If > 0, it will generate an empty flat field projection.
         """
 
         def get_gpu_memory():
@@ -459,27 +505,28 @@ class Pipeline:
                 f.write(output.encode('utf-8'))
                 f.flush()
 
-        if completed != self.arguments_mcgpu["number_projections"]:
+        if self.arguments_mcgpu["number_projections"] > 1 and completed != self.arguments_mcgpu["number_projections"]:
             cprint("\nError while projecting, check the output_{:s}.out file in the results folder (seed = {:d})".format(filename, self.seed),
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Projection error")
 
-        bar.finish() if self.verbosity else None
+        bar.finish() if bar is not None and self.verbosity else None
         cprint("Projection finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
 
-        command = "cd {:s} && ./Victre/reconstruction/extract_projections_RAW.x {:s} {:d} 0001 {:s}/{:d}/{:s}".format(
-            os.getcwd(),
-            ' '.join(map(str, self.arguments_mcgpu["image_pixels"])),
-            self.arguments_mcgpu["number_projections"],
-            self.results_folder,
-            self.seed,
-            filename)
+        if self.arguments_mcgpu["number_projections"] > 1:
+            command = "cd {:s} && ./Victre/reconstruction/extract_projections_RAW.x {:s} {:d} 0001 {:s}/{:d}/{:s}".format(
+                os.getcwd(),
+                ' '.join(map(str, self.arguments_mcgpu["image_pixels"])),
+                self.arguments_mcgpu["number_projections"],
+                self.results_folder,
+                self.seed,
+                filename)
 
-        stream = os.popen(command)
+            stream = os.popen(command)
 
-        with open("{:s}/{:d}/output_{:s}.out".format(self.results_folder, self.seed, filename), "ab+") as f:
-            f.write(stream.read().encode('utf-8'))
+            with open("{:s}/{:d}/output_{:s}.out".format(self.results_folder, self.seed, filename), "ab+") as f:
+                f.write(stream.read().encode('utf-8'))
 
         with contextlib.suppress(FileNotFoundError):
             os.remove(
@@ -487,8 +534,12 @@ class Pipeline:
             os.remove(
                 "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed))
 
-        os.rename("{:s}/{:d}/{:s}_0000.raw".format(self.results_folder, self.seed, filename),
-                  "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed))
+        if self.arguments_mcgpu["number_projections"] > 1:
+            os.rename("{:s}/{:d}/{:s}_0000.raw".format(self.results_folder, self.seed, filename),
+                      "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed))
+        else:
+            os.rename("{:s}/{:d}/{:s}.raw".format(self.results_folder, self.seed, filename),
+                      "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed))
 
         with open("{:s}/{:d}/{:s}_DM{:d}.mhd".format(self.results_folder, self.seed, filename, self.seed), "w") as f:
             src = Template(Constants.MHD_FILE)
@@ -532,7 +583,7 @@ class Pipeline:
                 prev_flatfield_DM.tofile(
                     "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
 
-            if prev_flatfield_DBT is not None:
+            if prev_flatfield_DBT is not None and self.arguments_mcgpu["number_projections"] > 1:
                 curr_flatfield_DBT = np.fromfile("{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
                     self.results_folder,
                     self.seed,
@@ -551,7 +602,7 @@ class Pipeline:
                     'x'.join(map(str, self.arguments_mcgpu["image_pixels"])),
                     self.arguments_mcgpu["number_projections"]))
 
-        elif self.arguments_recon["flatfield_file"] is None:
+        elif flatfield_correction and (self.arguments_recon["flatfield_file"] is None or self.flatfield_DM is None):
             with contextlib.suppress(FileNotFoundError):
                 os.remove(
                     "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed, self.seed).format(
@@ -560,25 +611,27 @@ class Pipeline:
                         'x'.join(
                             map(str, self.arguments_mcgpu["image_pixels"])),
                         self.arguments_mcgpu["number_projections"]))
-                os.remove(
-                    "{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
-                        self.results_folder,
-                        self.seed,
-                        'x'.join(
-                            map(str, self.arguments_mcgpu["image_pixels"])),
-                        self.arguments_mcgpu["number_projections"]))
+                if self.arguments_mcgpu["number_projections"] > 1:
+                    os.remove(
+                        "{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
+                            self.results_folder,
+                            self.seed,
+                            'x'.join(
+                                map(str, self.arguments_mcgpu["image_pixels"])),
+                            self.arguments_mcgpu["number_projections"]))
 
             # number of iterations to average the flatfield
             for n in range(Constants.FLATFIELD_REPETITIONS):
-                cprint("Flatfield file not specified, projecting {:d}/{:d}...".format(
+                cprint("Flatfield files not specified, projecting {:d}/{:d}...".format(
                     n + 1, Constants.FLATFIELD_REPETITIONS), 'cyan') if self.verbosity else None
                 self.project(do_flatfield=Constants.FLATFIELD_REPETITIONS)
 
-            self.arguments_recon["flatfield_file"] = "{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
-                self.results_folder,
-                self.seed,
-                'x'.join(map(str, self.arguments_mcgpu["image_pixels"])),
-                self.arguments_mcgpu["number_projections"])
+            if self.arguments_mcgpu["number_projections"] > 1:
+                self.arguments_recon["flatfield_file"] = "{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
+                    self.results_folder,
+                    self.seed,
+                    'x'.join(map(str, self.arguments_mcgpu["image_pixels"])),
+                    self.arguments_mcgpu["number_projections"])
 
             self.flatfield_DM = "{:s}/{:d}/flatfield_DM{:d}.raw".format(
                 self.results_folder, self.seed, self.seed)
@@ -589,7 +642,7 @@ class Pipeline:
                                         dtype="float32").reshape(2,
                                                                  self.arguments_recon["detector_elements_perpendicular"],
                                                                  self.arguments_recon["detector_elements"])
-            if self.flatfield_DM is not None:
+            if flatfield_correction and self.flatfield_DM is not None:
                 curr_flatfield_DM = np.fromfile(self.flatfield_DM,
                                                 dtype="float32").reshape(2,
                                                                          self.arguments_recon["detector_elements_perpendicular"],
