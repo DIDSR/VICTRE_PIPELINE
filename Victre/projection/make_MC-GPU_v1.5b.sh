@@ -42,7 +42,6 @@ echo "nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI
 set -x
 module avail
 module add mpi/openmpi-x86_64
-source /projects01/sysadmin/stuartb/cuda/setup-cuda-10.2.sh
 
 ## echo building MPI version
 ## nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I/projects01/sysadmin/stuartb/cuda/cuda-10.2/cuda-samples/common/inc/ -I $MPI_INCLUDE -L $MPI_LIB -lmpi -lz --ptxas-options=-v -gencode=arch=compute_50,code=sm_50 -gencode=arch=compute_61,code=sm_61
