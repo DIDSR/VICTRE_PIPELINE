@@ -22,8 +22,8 @@ This software and documentation (the "Software") were developed at the Food and 
    :maxdepth: 3
    :caption: Contents:
 
-   pipeline.md
-   started.md
+   pipeline
+   started
    victreclass
    
    
