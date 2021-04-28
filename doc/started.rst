@@ -5,33 +5,44 @@ Requirements
 ------------
 
 -  For phantom generation
--  cmake 3+
--  gcc/g++
--  VTK library
--  Lapack library
--  boost library
+
+  -  cmake 3+
+  -  gcc/g++
+  -  VTK library
+  -  Lapack library
+  -  boost library
+
 -  For phantom compression
--  FEBio
--  gcc/g++
--  cmake 3+
--  VTK library
--  Lapack library
--  boost library
+
+  -  FEBio
+  -  gcc/g++
+  -  cmake 3+
+  -  VTK library
+  -  Lapack library
+  -  boost library
+
 -  For mass generation
--  gcc/g++
--  cmake 3+
--  VTK library
--  Lapack library
--  boost library
+
+  -  gcc/g++
+  -  cmake 3+
+  -  VTK library
+  -  Lapack library
+  -  boost library
+
 -  For MCGPU projection
--  CUDA 10.4+
--  NVIDIA GPU (8GB+ recommended)
--  gzip
--  (Optional) openMPI
+
+  -  CUDA 10.4+
+  -  NVIDIA GPU (8GB+ recommended)
+  -  gzip
+  -  (Optional) openMPI
+
 -  For reconstruction
--  gcc/g++
+
+  -  gcc/g++
+
 -  For the unified pipeline script
--  Python 3.6+
+
+  -  Python 3.6+
 
 Installation
 ------------
