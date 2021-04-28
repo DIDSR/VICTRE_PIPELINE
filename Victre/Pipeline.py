@@ -1,14 +1,6 @@
 """
 ==================================================
-        __   __ ___  ___  _____  ___  ___       
-        \ \ / /|_ _|/ __||_   _|| _ \| __|      
-         \ V /  | || (__   | |  |   /| _|       
-          \_/  |___|\___|  |_|  |_|_\|___|      
-     ___  ___  ___  ___  _     ___  _  _  ___ 
-    | _ \|_ _|| _ \| __|| |   |_ _|| \| || __|
-    |  _/ | | |  _/| _| | |__  | | | .` || _| 
-    |_|  |___||_|  |___||____||___||_|\_||___|
-    
+                VICTRE PIPELINE
 ==================================================
 
  Author: Miguel A. Lago
@@ -357,7 +349,7 @@ class Pipeline:
         """
             Method that runs MCGPU to project the phantom.
 
-            @flatfield_correction: If True, the projections will be corrected using a given flatfield. 
+            :param flatfield_correction: If True, the projections will be corrected using a given flatfield. 
                                    It will be generated if not found and not given.
             :param clean: If True, it will delete the contents of the output folder before projecting.
             :param do_flatfield: If > 0, it will generate an empty flat field projection.
@@ -841,6 +833,7 @@ class Pipeline:
         """
             Saves the DM or DBT images in DICOM format. If present, lesion location will be 
             stored in a custom tag 0x009900XX where XX is the lesion number.
+
             :param modality: Modality to save: dbt or dm
         """
         def save_DICOM_one(data, count):

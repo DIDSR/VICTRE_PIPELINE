@@ -50,18 +50,15 @@ Installation
 Before proceeding, make sure you have all the requirements listed above.
 You can also install the required libraries using this:
 
-> sudo apt-get install cmake vtk7 libvtk7-dev libblas-dev liblapack-dev 
-                       libopenmpi-dev libboost-dev 
-                       libboost-program-options-dev libproj-dev 
-                       zlib1g-dev gzip
+    ``sudo apt-get install cmake vtk7 libvtk7-dev libblas-dev liblapack-dev libopenmpi-dev libboost-dev libboost-program-options-dev libproj-dev zlib1g-dev gzip``
 
 Clone the repository
 
-    git clone https://github.com/DIDSR/VICTRE_PIPELINE
+    ``git clone https://github.com/DIDSR/VICTRE_PIPELINE``
 
 Execute the installation script:
 
-    source install.sh
+    ``source install.sh``
 
 Follow the instructions and compile the 5 parts. You might need to edit
 the ``install.sh`` file to change the route of some libraries at the
@@ -69,18 +66,18 @@ beginning.
 
 Install the required python libraries:
 
-    pip install numpy scipy termcolor progressbar2 h5py pydicom
+    ``pip install numpy scipy termcolor progressbar2 h5py pydicom``
 
     .. note:: You might need to use ``pip3`` instead of ``pip``.
 
 Add the ``FEBio`` executable to the path (replace ``{{{routetofebio}}}``
 with the path to your FEBio installation):
 
-    export PATH="$PATH:/{{{routetofebio}}}/FEBio-2.9.1/bin"``
+    ``export PATH="$PATH:/{{{routetofebio}}}/FEBio-2.9.1/bin"``
 
-.. note:: You can also add that line to your ``.bashrc`` file to make it
-    permanent. Note the version number for FEBio on the path, it might 
-    be different.
+    .. note:: You can also add that line to your ``.bashrc`` file to make it
+        permanent. Note the version number for FEBio on the path, it might 
+        be different.
 
 Usage
 -----
@@ -88,9 +85,9 @@ Usage
 Copy the examples files to the parent folder and run them in a
 GPU-enabled machine with CUDA:
 
-    python example1.py
+    ``python example1.py``
 
-.. note:: You might need to use ``python3`` instead of ``python``.
+    .. note:: You might need to use ``python3`` instead of ``python``.
 
 Each example file starts the pipeline from a different step, use
 ``example1.py`` to start from the phantom generation (it will need hours
