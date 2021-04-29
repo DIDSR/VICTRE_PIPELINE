@@ -96,26 +96,18 @@ will finish in about ~10 minutes depending on your computer). When
 finished, you will find the results in the ``results`` folder under the
 ``1`` subfolder.
 
--  ``p_1.raw.gz``: original phantom
--  ``pc_1.raw.gz``: compressed phantom
--  ``pc_1_crop.raw.gz``: cropped compressed phantom
--  ``pcl_1.raw.gz``: compressed original phantom with the inserted
-   lesions
--  ``pcl_1.loc``: file containing the coordinates of the inserted
-   lesions in the phantom
--  Last number is the lesion type: ``1`` for calcification clusters,
-   ``2`` for masses
--  ``projection_DM1.raw``: contains the DM projection with a size of
-   3000 x 1000 pixels in raw format
--  ``reconstruction1.raw``: contains the DBT reconstruction with a size
-   of 3000 x 1000 x 25 voxels in raw format
--  ``ROIs.h5``: contains the lesion-present and lesion-absent regions of
-   interest.
--  ``ROIs``: subfolder will also contain the ROIs in raw format (size is
-   specified in the code, ``109 x 109 x 9`` in the examples)
--  ``ROI_DM_XX_typeT``: DM cropped image for lesion number ``XX`` of
-   lesion type ``T`` (absent regions will have ``T < 0``)
--  ``ROI_DBT_XX_typeT``: DBT cropped volume for lesion number ``XX`` of
-   lesion type ``T`` (absent regions will have ``T < 0``)
--  ``T = 1`` for calcification clusters, ``T = 2`` for masses
+-  ``p_1.raw.gz``: original phantom model
+-  ``pc_1.raw.gz``: compressed phantom model
+-  ``pc_1_crop.raw.gz``: cropped compressed phantom model
+-  ``pcl_1.raw.gz``: compressed original phantom model with the inserted lesions
+-  ``pcl_1.loc``: file containing the coordinates of the inserted lesions in the phantom model
+    -  Last number is the lesion type: ``1`` for calcification clusters, ``2`` for masses
+-  ``projection_DM1.raw``: contains the DM projection in raw format
+-  ``reconstruction1.raw``: contains the DBT reconstruction in raw format
+-  ``ROIs.h5``: contains the lesion-present and lesion-absent regions of interest.
+-  ``ROIs``: subfolder will also contain the ROIs in raw format (size is specified in the code, ``109 x 109 x 9`` in the examples)
+    -  ``ROI_DM_XX_typeT``: DM cropped image for lesion number ``XX`` of lesion type ``T`` (absent regions will have ``T < 0``)
+    -  ``ROI_DBT_XX_typeT``: DBT cropped volume for lesion number ``XX`` of lesion type ``T`` (absent regions will have ``T < 0``)
+    -  ``T = 1`` for calcification clusters, ``T = 2`` for masses
 
+    .. note:: All ``raw`` files are acompanied by an ``.mhd`` file that contains the size information. The ``.mhd`` file can be opened in software like `ImageJ <https://imagej.nih.gov/ij/>`__.

@@ -112,15 +112,15 @@ Each example file starts the pipeline from a different step, use `example1.py` t
 * `pcl_1.raw.gz`: compressed original phantom with the inserted lesions
 * `pcl_1.loc`: file containing the coordinates of the inserted lesions in the phantom
   * Last number is the lesion type: `1` for calcification clusters, `2` for masses
-* `projection_DM1.raw`: contains the DM projection with a size of 3000 x 1000 pixels in raw format
-* `reconstruction1.raw`: contains the DBT reconstruction with a size of 3000 x 1000 x 25 voxels in raw format
+* `projection_DM1.raw`: contains the DM projection  in raw format
+* `reconstruction1.raw`: contains the DBT reconstruction in raw format
 * `ROIs.h5`: contains the lesion-present and lesion-absent regions of interest.
 * `ROIs`: subfolder will also contain the ROIs in raw format (size is specified in the code, `109 x 109 x 9` in the examples)
   * `ROI_DM_XX_typeT`: DM cropped image for lesion number `XX` of lesion type `T` (absent regions will have `T < 0`)
   * `ROI_DBT_XX_typeT`: DBT cropped volume for lesion number `XX` of lesion type `T` (absent regions will have `T < 0`)
   * `T = 1` for calcification clusters, `T = 2` for masses
 
-
+> All ``raw`` files are acompanied by an ``.mhd`` file that contains the size information. The ``.mhd`` file can be opened in software like [ImageJ](https://imagej.nih.gov/ij/)
 
 
 *This code is currently in development, use with caution.*
