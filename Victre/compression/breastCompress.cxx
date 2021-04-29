@@ -84,12 +84,12 @@ int main(int argc, char *argv[])
   }
   else
   {
-    // check environment variable
+    //check environment variable
     const char *svar = getenv("FEBIO_PATH");
     if (svar == NULL)
     {
-      cout << "Error: FeBiO path not specified\n";
-      return (EXIT_FAILURE);
+      //try default path
+      strcpy(febioPath,"febio2");
     }
     else
     {
@@ -2239,7 +2239,7 @@ int main(int argc, char *argv[])
     char febioOutFilename[256];
     sprintf(febioOutFilename, "%s/febio_%d_%d.xplt", workDir.c_str(), seed, meshCount);
     char febioCmd[512];
-    sprintf(febioCmd, "febio2 -i %s -p %s -nosplash > /dev/null", febioFilename, febioOutFilename);
+    sprintf(febioCmd, "%s -i %s -p %s -nosplash > /dev/null", febioPath, febioFilename, febioOutFilename);
 
     FEBioResult = system(febioCmd);
 
