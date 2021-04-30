@@ -23,14 +23,14 @@ pline = Pipeline(seed=seed,
 pline.crop()
 
 pline.insert_lesions(lesion_type=Constants.VICTRE_SPICULATED,
-                     n=4)
+                     n=3)
 
 pline.project()
 
 pline.reconstruct()
 
 pline.add_absent_ROIs(lesion_type=Constants.VICTRE_SPICULATED,
-                      n=4)
+                      n=3)
 
 pline.save_ROIs()
 
