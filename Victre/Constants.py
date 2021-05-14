@@ -182,7 +182,6 @@ VICTRE_DEFAULT_MCGPU = {
 
 VICTRE_DENSE = {
     "compressionThickness": 35,  # mm
-    "outputDir": ".",
     # phantom voxel size (mm)
     "imgRes": 0.05,
     # thickness of breast skin (mm)
@@ -617,7 +616,6 @@ VICTRE_DENSE = {
 
 VICTRE_HETERO = {
     "compressionThickness": 45,  # mm
-    "outputDir": ".",
     # phantom voxel size (mm)
     "imgRes": 0.05,
     # thickness of breast skin (mm)
@@ -1052,7 +1050,6 @@ VICTRE_HETERO = {
 
 VICTRE_SCATTERED = {
     "compressionThickness": 55,  # mm
-    "outputDir": ".",
     # phantom voxel size (mm)
     "imgRes": 0.05,
     # thickness of breast skin (mm)
@@ -1487,7 +1484,6 @@ VICTRE_SCATTERED = {
 
 VICTRE_FATTY = {
     "compressionThickness": 65,  # mm
-    "outputDir": ".",
     # phantom voxel size (mm)
     "imgRes": 0.05,
     # thickness of breast skin (mm)
