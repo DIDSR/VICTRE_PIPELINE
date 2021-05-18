@@ -201,417 +201,417 @@ VICTRE_DENSE = {
     # breast surface shape
     #####################
     # u resolution of base shape
-    "ures": 0.005,
+    "surface_ures": 0.005,
     # v resolution of base shape
-    "vres": 0.005,
+    "surface_vres": 0.005,
     # minimum point separation (mm)
-    "pointSep": 0.005,
+    "surface_pointSep": 0.005,
     # back ring thickness (mm)
-    "ringWidth": 10.0,
+    "surface_ringWidth": 10.0,
     # back ring step size (mm)
-    "ringSep": 0.5,
+    "surface_ringSep": 0.5,
     # angle to preserve while smoothing (degrees)
-    "featureAngle": 20.0,
+    "surface_featureAngle": 20.0,
     # fraction of triangles to decimate
-    "targetReduction": 0.05,
+    "surface_targetReduction": 0.05,
     # bottom scale was 1.3,
-    "a1b": 1.0,
+    "surface_a1b": 1.0,
     # top scale was 1.3,
-    "a1t": 1.0,
+    "surface_a1t": 1.0,
     # left scale
-    "a2l": 1.0,
+    "surface_a2l": 1.0,
     # right scale
-    "a2r": 1.0,
+    "surface_a2r": 1.0,
     # outward scale was 1.75,
-    "a3": 1.0,
+    "surface_a3": 1.0,
     # u quadric exponent
-    "eps1": 1.2,
+    "surface_eps1": 1.2,
     # v quadric exponent
-    "eps2": 1.0,
+    "surface_eps2": 1.0,
     # do ptosis deformation (boolean)
-    "doPtosis": "true",
-    "ptosisB0": 0.2,
-    "ptosisB1": 0.05,
+    "surface_doPtosis": "true",
+    "surface_ptosisB0": 0.2,
+    "surface_ptosisB1": 0.05,
     # do turn deformation (boolean)
-    "doTurn": "false",
-    "turnC0": -0.498,
-    "turnC1": 0.213,
+    "surface_doTurn": "false",
+    "surface_turnC0": -0.498,
+    "surface_turnC1": 0.213,
     # do top shape deformation (boolean)
-    "doTopShape": "true",
-    "topShapeS0": 0.0,
-    "topShapeS1": 0.0,
-    "topShapeT0": -12.0,
-    "topShapeT1": -5.0,
+    "surface_doTopShape": "true",
+    "surface_topShapeS0": 0.0,
+    "surface_topShapeS1": 0.0,
+    "surface_topShapeT0": -12.0,
+    "surface_topShapeT1": -5.0,
     # do flatten size deformation (boolean)
-    "doFlattenSide": "true",
-    "flattenSideG0": 1.5,
-    "flattenSideG1": -0.5,
+    "surface_doFlattenSide": "true",
+    "surface_flattenSideG0": 1.5,
+    "surface_flattenSideG1": -0.5,
     # do turn top deformation (boolean)
-    "doTurnTop": "true",
-    "turnTopH0": 0.166,
-    "turnTopH1": -0.372,
+    "surface_doTurnTop": "true",
+    "surface_turnTopH0": 0.166,
+    "surface_turnTopH1": -0.372,
 
     #####################
     # breast compartment
     #####################
     # number of breast compartments
-    "num": 10,
+    "compartment_num": 10,
     # distance along nipple line of compartment seed base (mm)
-    "seedBaseDist": 16,
+    "compartment_seedBaseDist": 16,
     # fraction of phantom in nipple direction forced to be fat
-    "backFatBufferFrac": 0.008,
+    "compartment_backFatBufferFrac": 0.008,
     # number of backplane seed points
-    "numBackSeeds": 150,
+    "compartment_numBackSeeds": 150,
     # maximum seed jitter (fraction of subtended angle)
-    "angularJitter": 0.125,
+    "compartment_angularJitter": 0.125,
     # maximum seed jitter in nipple direction (mm)
-    "zJitter": 5.0,
+    "compartment_zJitter": 5.0,
     # maximum radial distance from base seed as a fraction of distance to breast surface
-    "maxFracRadialDist": 0.5,
+    "compartment_maxFracRadialDist": 0.5,
     # minimum radial distance from base seed as a fraction of distance to breast surface
-    "minFracRadialDist": 0.25,
+    "compartment_minFracRadialDist": 0.25,
     # minimum scale in nipple direction
-    "minScaleNippleDir": 0.01,
+    "compartment_minScaleNippleDir": 0.01,
     # maximum scale in nipple direction
-    "maxScaleNippleDir": 0.01,
+    "compartment_maxScaleNippleDir": 0.01,
     # minimum scale in non-nipple direction
-    "minScale": 30.0,
+    "compartment_minScale": 30.0,
     # maximum scale in non-nipple direction
-    "maxScale": 40.0,
+    "compartment_maxScale": 40.0,
     # minimum gland strength
-    "minGlandStrength": 30.0,
+    "compartment_minGlandStrength": 30.0,
     # maximum gland strength
-    "maxGlandStrength": 30.0,
+    "compartment_maxGlandStrength": 30.0,
     # maximum compartment deflection angle from pointing towards nipple (fraction of pi)
-    "maxDeflect": 0.01,
+    "compartment_maxDeflect": 0.01,
     # minimum scale skin seeds in nipple direction
-    "minSkinScaleNippleDir": 10.0,
+    "compartment_minSkinScaleNippleDir": 10.0,
     # maximum scale skin seeds in nipple direction
-    "maxSkinScaleNippleDir": 20.0,
+    "compartment_maxSkinScaleNippleDir": 20.0,
     # minimum scale skin in non-nipple direction
-    "minSkinScale": 200.0,
+    "compartment_minSkinScale": 200.0,
     # maximum scale skin in non-nipple direction
-    "maxSkinScale": 400.0,
+    "compartment_maxSkinScale": 400.0,
     # skin strength
-    "skinStrength": 0.5,
+    "compartment_skinStrength": 0.5,
     # back scale
-    "backScale": 60.0,
+    "compartment_backScale": 60.0,
     # back strength
-    "backStrength": 1.0,
+    "compartment_backStrength": 1.0,
     # nipple scale
-    "nippleScale": 5.0,
+    "compartment_nippleScale": 5.0,
     # nipple strength
-    "nippleStrength": 10.0,
+    "compartment_nippleStrength": 10.0,
     # check seeds within radius (mm)
-    "voronSeedRadius": 100.0,
+    "compartment_voronSeedRadius": 100.0,
 
     #####################
     # TDLU variables
     #####################
     # maximum TDLU length
-    "maxLength": 2.0,
+    "tdlu_maxLength": 2.0,
     # minimum TDLU length
-    "minLength": 1.0,
+    "tdlu_minLength": 1.0,
     # maximum TDLU width
-    "maxWidth": 1.0,
+    "tdlu_maxWidth": 1.0,
     # minimum TDLU width
-    "minWidth": 0.5,
+    "tdlu_minWidth": 0.5,
 
     #####################
     # Perlin noise variables
     #####################
     # maximum fraction of radius deviation
-    "maxDeviation": 0.1,
+    "perlin_noise_maxDeviation": 0.1,
     # starting frequency
-    "frequency": 0.1,
+    "perlin_noise_frequency": 0.1,
     # octave frequency multiplier
-    "lacunarity": 2.0,
+    "perlin_noise_lacunarity": 2.0,
     # octave signal decay
-    "persistence": 0.5,
+    "perlin_noise_persistence": 0.5,
     # number of frequency octaves
-    "numOctaves": 6,
+    "perlin_noise_numOctaves": 6,
     # x direction noise generation seed
-    "xNoiseGen": 683,
+    "perlin_noise_xNoiseGen": 683,
     # y direction noise generation seed
-    "yNoiseGen": 4933,
+    "perlin_noise_yNoiseGen": 4933,
     # z direction noise generation seed
-    "zNoiseGen": 23,
+    "perlin_noise_zNoiseGen": 23,
     # seed noise generation
-    "seedNoiseGen": 3095,
+    "perlin_noise_seedNoiseGen": 3095,
     # shift noise generation seed
-    "shiftNoiseGen": 11,
+    "perlin_noise_shiftNoiseGen": 11,
 
     #####################
     # Compartment boundary noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.1,
+    "compartment_boundary_maxDeviation": 0.1,
     # starting frequency
-    "frequency": 0.15,
+    "compartment_boundary_frequency": 0.15,
     # octave frequency multiplier
-    "lacunarity": 1.5,
+    "compartment_boundary_lacunarity": 1.5,
     # octave signal decay
-    "persistence": 0.5,
+    "compartment_boundary_persistence": 0.5,
 
     #####################
     # Lobule boundary perturbation noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.25,
+    "lobule_boundary_maxDeviation": 0.25,
     # starting frequency
-    "frequency": 0.09,
+    "lobule_boundary_frequency": 0.09,
     # octave frequency multiplier
-    "lacunarity": 2.0,
+    "lobule_boundary_lacunarity": 2.0,
     # octave signal decay
-    "persistence": 0.4,
+    "lobule_boundary_persistence": 0.4,
 
     #####################
     # Lobule glandular buffer noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.15,
+    "lobule_glandular_maxDeviation": 0.15,
     # starting frequency
-    "frequency": 0.05,
+    "lobule_glandular_frequency": 0.05,
     # octave frequency multiplier
-    "lacunarity": 1.5,
+    "lobule_glandular_lacunarity": 1.5,
     # octave signal decay
-    "persistence": 0.5,
+    "lobule_glandular_persistence": 0.5,
 
     #####################
     # Voronoi segmentation variables
     #####################
     # fat voronoi seed density (mm^-3,)
-    "fatInFatSeedDensity": 0.001,
+    "voronoi_fatInFatSeedDensity": 0.001,
     # fat voronoi seed in glandular tissue density (mm^-3,)
-    "fatInGlandSeedDensity": 0.001,
+    "voronoi_fatInGlandSeedDensity": 0.001,
     # glandular voronoi seed density (mm^-3,)
-    "glandInGlandSeedDensity": 0.0005,
+    "voronoi_glandInGlandSeedDensity": 0.0005,
     # maximum deflection (fraction of pi)
-    "TDLUDeflectMax": 0.15,
+    "voronoi_TDLUDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenTDLU": 0.1,
+    "voronoi_minScaleLenTDLU": 0.1,
     # maximum length scale
-    "maxScaleLenTDLU": 0.2,
+    "voronoi_maxScaleLenTDLU": 0.2,
     # minimum width scale
-    "minScaleWidTDLU": 40.0,
+    "voronoi_minScaleWidTDLU": 40.0,
     # maximum width scale
-    "maxScaleWidTDLU": 45.0,
+    "voronoi_maxScaleWidTDLU": 45.0,
     # minimum strength
-    "minStrTDLU": 20.0,
+    "voronoi_minStrTDLU": 20.0,
     # maximum strength
-    "maxStrTDLU": 22.0,
+    "voronoi_maxStrTDLU": 22.0,
     # maximum deflection (fraction of pi)
-    "fatInFatDeflectMax": 0.15,
+    "voronoi_fatInFatDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenFatInFat": 5.0,
+    "voronoi_minScaleLenFatInFat": 5.0,
     # maximum length scale
-    "maxScaleLenFatInFat": 10.0,
+    "voronoi_maxScaleLenFatInFat": 10.0,
     # minimum width scale
-    "minScaleWidFatInFat": 50.0,
+    "voronoi_minScaleWidFatInFat": 50.0,
     # maximum width scale
-    "maxScaleWidFatInFat": 60.0,
+    "voronoi_maxScaleWidFatInFat": 60.0,
     # minimum strength
-    "minStrFatInFat": 40.0,
+    "voronoi_minStrFatInFat": 40.0,
     # maximum strength
-    "maxStrFatInFat": 50.0,
+    "voronoi_maxStrFatInFat": 50.0,
     # maximum deflection (fraction of pi)
-    "fatInGlandDeflectMax": 0.15,
+    "voronoi_fatInGlandDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenFatInGland": 1.0,
+    "voronoi_minScaleLenFatInGland": 1.0,
     # maximum length scale
-    "maxScaleLenFatInGland": 2.0,
+    "voronoi_maxScaleLenFatInGland": 2.0,
     # minimum width scale
-    "minScaleWidFatInGland": 30.0,
+    "voronoi_minScaleWidFatInGland": 30.0,
     # maximum width scale
-    "maxScaleWidFatInGland": 40.0,
+    "voronoi_maxScaleWidFatInGland": 40.0,
     # minimum strength
-    "minStrFatInGland": 20.0,
+    "voronoi_minStrFatInGland": 20.0,
     # maximum strength
-    "maxStrFatInGland": 22.0,
+    "voronoi_maxStrFatInGland": 22.0,
     # maximum deflection (fraction of pi)
-    "glandInGlandDeflectMax": 0.15,
+    "voronoi_glandInGlandDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenGlandInGland": 1.0,
+    "voronoi_minScaleLenGlandInGland": 1.0,
     # maximum length scale
-    "maxScaleLenGlandInGland": 2.0,
+    "voronoi_maxScaleLenGlandInGland": 2.0,
     # minimum width scale
-    "minScaleWidGlandInGland": 30.0,
+    "voronoi_minScaleWidGlandInGland": 30.0,
     # maximum width scale
-    "maxScaleWidGlandInGland": 40.0,
+    "voronoi_maxScaleWidGlandInGland": 40.0,
     # minimum strength
-    "minStrGlandInGland": 20.0,
+    "voronoi_minStrGlandInGland": 20.0,
     # maximum strength
-    "maxStrGlandInGland": 22.0,
+    "voronoi_maxStrGlandInGland": 22.0,
     # check seeds in radius (mm)
-    "seedRadius": 40.0,
+    "voronoi_seedRadius": 40.0,
 
     #####################
     # fat variables
     #####################
     # min lobule axis length (mm)
     # was 20,
-    "minLobuleAxis": 20.0,
+    "fat_minLobuleAxis": 20.0,
     # max lobule axis length (mm)
     # was 35,
-    "maxLobuleAxis": 30.0,
+    "fat_maxLobuleAxis": 30.0,
     # axial ratio min
-    "minAxialRatio": 0.13,
+    "fat_minAxialRatio": 0.13,
     # axial ratio max
-    "maxAxialRatio": 0.75,
+    "fat_maxAxialRatio": 0.75,
     # minimum ligament separation between lobules
-    "minLobuleGap": 0.15,
+    "fat_minLobuleGap": 0.15,
     # maximum of absolute value of Fourier coefficient as fraction of main radius
-    "maxCoeffStr": 0.1,
+    "fat_maxCoeffStr": 0.1,
     # minimum of absolute value of Fourier coefficient as fraction of main radius
-    "minCoeffStr": 0.05,
+    "fat_minCoeffStr": 0.05,
     # maximum number of trial lobules
     # was 401,
-    "maxLobuleTry": 401,
+    "fat_maxLobuleTry": 401,
 
 
     #####################
     # ligament variables
     #####################
-    "thickness": 0.1,
-    "targetFrac": 0.85,
-    "maxTry": 15000,
-    "minAxis": 20.0,
-    "maxAxis": 25.0,
-    "minAxialRatio": 0.2,
-    "maxAxialRatio": 0.3,
-    "maxPerturb": 0.05,
-    "maxDeflect": 0.12,
-    "scale": 0.007,
-    "lacunarity": 1.5,
-    "persistence": 0.3,
-    "numOctaves": 6,
+    "ligament_thickness": 0.1,
+    "ligament_targetFrac": 0.85,
+    "ligament_maxTry": 15000,
+    "ligament_minAxis": 20.0,
+    "ligament_maxAxis": 25.0,
+    "ligament_minAxialRatio": 0.2,
+    "ligament_maxAxialRatio": 0.3,
+    "ligament_maxPerturb": 0.05,
+    "ligament_maxDeflect": 0.12,
+    "ligament_scale": 0.007,
+    "ligament_lacunarity": 1.5,
+    "ligament_persistence": 0.3,
+    "ligament_numOctaves": 6,
 
     #####################
     # duct tree variables
     #####################
     # target number of branches (uint)
-    "maxBranch": 400,
+    "duct_tree_maxBranch": 400,
     # maximum generation (uint)
-    "maxGen": 7,
+    "duct_tree_maxGen": 7,
     # initial radius of tree (mm)
-    "initRad": 0.5,
+    "duct_tree_initRad": 0.5,
     # base Length of root duct at nipple (mm)
-    "baseLength": 7.6,
+    "duct_tree_baseLength": 7.6,
     # number of voxels for tree density tracking (uint)
-    "nFillX": 50,
-    "nFillY": 50,
-    "nFillZ": 50,
+    "duct_tree_nFillX": 50,
+    "duct_tree_nFillY": 50,
+    "duct_tree_nFillZ": 50,
 
     #####################
     # duct branch variables
     #####################
     # minimum branch radius to have children (mm)
-    "childMinRad": 0.1,
+    "duct_branch_childMinRad": 0.1,
     # minimum starting radius as a fraction of parent end radius
-    "minRadFrac": 0.65,
+    "duct_branch_minRadFrac": 0.65,
     # maximum starting radius as a fraction of parent end radius
-    "maxRadFrac": 0.99,
+    "duct_branch_maxRadFrac": 0.99,
     # length reduction as fraction of parent length
-    "lenShrink": 0.5,
+    "duct_branch_lenShrink": 0.5,
     # maximum jitter in branch length (fraction)
-    "lenRange": 0.1,
+    "duct_branch_lenRange": 0.1,
     # aximuthal angle noise (radians)
-    "rotateJitter": 0.1,
+    "duct_branch_rotateJitter": 0.1,
 
     #####################
     # duct segment variables
     #####################
     # radius distribution shape parameters
-    "radiusBetaA": 6.0,
-    "radiusBetaB": 10.0,
+    "duct_segment_radiusBetaA": 6.0,
+    "duct_segment_radiusBetaB": 10.0,
     # fraction of branch length per segment
-    "segFrac": 0.25,
+    "duct_segment_segFrac": 0.25,
     # maximum radius of curvature (mm)
-    "maxCurvRad": 10.0,
+    "duct_segment_maxCurvRad": 10.0,
     # maximum length of segment based on
     # curvature (fraction of pi radians)
-    "maxCurvFrac": 0.5,
+    "duct_segment_maxCurvFrac": 0.5,
     # min and max end radius as fraction of start radius
-    "minEndRad": 0.95,
-    "maxEndRad": 1.0,
+    "duct_segment_minEndRad": 0.95,
+    "duct_segment_maxEndRad": 1.0,
     # cost function preferential angle weighting
-    "angleWt": 1.0,
+    "duct_segment_angleWt": 1.0,
     # cost function density weighting
-    "densityWt": 20.0,
+    "duct_segment_densityWt": 20.0,
     # number of trial segments to generate (uint)
-    "numTry": 50,
+    "duct_segment_numTry": 50,
     # maximum number of segments to generate before
     # giving up and reducing length (uint)
-    "maxTry": 100,
+    "duct_segment_maxTry": 100,
     # total number of segment tries before completely giving up
-    "absMaxTry": 10000,
+    "duct_segment_absMaxTry": 10000,
     # step size for checking segment is valid (mm)
-    "roiStep": 0.1,
+    "duct_segment_roiStep": 0.1,
 
 
     #####################
     # vessel tree variables
     #####################
     # target number of branches (uint)
-    "maxBranch": 750,
+    "vessel_tree_maxBranch": 750,
     # maximum generation (uint)
-    "maxGen": 6,
+    "vessel_tree_maxGen": 6,
     # initial radius of tree (mm)
-    "initRad": 0.75,
+    "vessel_tree_initRad": 0.75,
     # base length of root vessel (mm)
-    "baseLength": 15.0,
+    "vessel_tree_baseLength": 15.0,
     # number of voxels for tree density tracking (uint)
-    "nFillX": 30,
-    "nFillY": 69,
-    "nFillZ": 69,
+    "vessel_tree_nFillX": 30,
+    "vessel_tree_nFillY": 69,
+    "vessel_tree_nFillZ": 69,
 
     #####################
     # vessel branch variables
     #####################
     # minimum branch radius to have children (mm)
-    "childMinRad": 0.1,
+    "vessel_branch_childMinRad": 0.1,
     # minimum starting radius as a fraction of parent end radius
-    "minRadFrac": 0.65,
+    "vessel_branch_minRadFrac": 0.65,
     # maximum starting radius as a fraction of parent end radius
-    "maxRadFrac": 0.99,
+    "vessel_branch_maxRadFrac": 0.99,
     # length reduction as fraction of parent length
-    "lenShrink": 0.8,
+    "vessel_branch_lenShrink": 0.8,
     # maximum jitter in branch length (fraction)
-    "lenRange": 0.1,
+    "vessel_branch_lenRange": 0.1,
     # aximuthal angle noise (radians)
-    "rotateJitter": 0.1,
+    "vessel_branch_rotateJitter": 0.1,
 
     #####################
     # vessel segment variables
     #####################
     # radius distribution shape parameters
-    "radiusBetaA": 6.0,
-    "radiusBetaB": 10.0,
+    "vessel_segment_radiusBetaA": 6.0,
+    "vessel_segment_radiusBetaB": 10.0,
     # fraction of branch length to segment
-    "segFrac": 0.25,
+    "vessel_segment_segFrac": 0.25,
     # maximum radius of curvature (mm)
-    "maxCurvRad": 200.0,
+    "vessel_segment_maxCurvRad": 200.0,
     # maximum length of segment based on
     # curvature (fraction of pi radians)
-    "maxCurvFrac": 0.5,
+    "vessel_segment_maxCurvFrac": 0.5,
     # min and max end radius as fraction of start radius
-    "minEndRad": 0.95,
-    "maxEndRad": 1.0,
+    "vessel_segment_minEndRad": 0.95,
+    "vessel_segment_maxEndRad": 1.0,
     # cost function preferential angle weighting
-    "angleWt": 100.0,
+    "vessel_segment_angleWt": 100.0,
     # cost function density weighting
-    "densityWt": 1.0,
+    "vessel_segment_densityWt": 1.0,
     # cost function direction weighting
-    "dirWt": 100.0,
+    "vessel_segment_dirWt": 100.0,
     # number of trial segments to generate (uint)
-    "numTry": 100,
+    "vessel_segment_numTry": 100,
     # maximum number of segments to generate before
     # giving up and reducing length (uint)
-    "maxTry": 300,
+    "vessel_segment_maxTry": 300,
     # total number of segment tries before completely giving up
-    "absMaxTry": 100000,
+    "vessel_segment_absMaxTry": 100000,
     # step size for checking segment is valid (mm)
-    "roiStep": 0.1,
+    "vessel_segment_roiStep": 0.1,
 }
 
 VICTRE_HETERO = {
@@ -635,417 +635,417 @@ VICTRE_HETERO = {
     # breast surface shape
     #####################
     # u resolution of base shape
-    "ures": 0.005,
+    "surface_ures": 0.005,
     # v resolution of base shape
-    "vres": 0.005,
+    "surface_vres": 0.005,
     # minimum point separation (mm)
-    "pointSep": 0.005,
+    "surface_pointSep": 0.005,
     # back ring thickness (mm)
-    "ringWidth": 10.0,
+    "surface_ringWidth": 10.0,
     # back ring step size (mm)
-    "ringSep": 0.5,
+    "surface_ringSep": 0.5,
     # angle to preserve while smoothing (degrees)
-    "featureAngle": 20.0,
+    "surface_featureAngle": 20.0,
     # fraction of triangles to decimate
-    "targetReduction": 0.05,
+    "surface_targetReduction": 0.05,
     # bottom scale was 1.3,
-    "a1b": 1.2,
+    "surface_a1b": 1.2,
     # top scale was 1.3,
-    "a1t": 1.2,
+    "surface_a1t": 1.2,
     # left scale
-    "a2l": 1.0,
+    "surface_a2l": 1.0,
     # right scale
-    "a2r": 1.0,
+    "surface_a2r": 1.0,
     # outward scale was 1.75,
-    "a3": 1.55,
+    "surface_a3": 1.55,
     # u quadric exponent
-    "eps1": 1.2,
+    "surface_eps1": 1.2,
     # v quadric exponent
-    "eps2": 1.0,
+    "surface_eps2": 1.0,
     # do ptosis deformation (boolean)
-    "doPtosis": "true",
-    "ptosisB0": 0.2,
-    "ptosisB1": 0.05,
+    "surface_doPtosis": "true",
+    "surface_ptosisB0": 0.2,
+    "surface_ptosisB1": 0.05,
     # do turn deformation (boolean)
-    "doTurn": "false",
-    "turnC0": -0.498,
-    "turnC1": 0.213,
+    "surface_doTurn": "false",
+    "surface_turnC0": -0.498,
+    "surface_turnC1": 0.213,
     # do top shape deformation (boolean)
-    "doTopShape": "true",
-    "topShapeS0": 0.0,
-    "topShapeS1": 0.0,
-    "topShapeT0": -12.0,
-    "topShapeT1": -5.0,
+    "surface_doTopShape": "true",
+    "surface_topShapeS0": 0.0,
+    "surface_topShapeS1": 0.0,
+    "surface_topShapeT0": -12.0,
+    "surface_topShapeT1": -5.0,
     # do flatten size deformation (boolean)
-    "doFlattenSide": "true",
-    "flattenSideG0": 1.5,
-    "flattenSideG1": -0.5,
+    "surface_doFlattenSide": "true",
+    "surface_flattenSideG0": 1.5,
+    "surface_flattenSideG1": -0.5,
     # do turn top deformation (boolean)
-    "doTurnTop": "true",
-    "turnTopH0": 0.166,
-    "turnTopH1": -0.372,
+    "surface_doTurnTop": "true",
+    "surface_turnTopH0": 0.166,
+    "surface_turnTopH1": -0.372,
 
     #####################
     # breast compartment
     #####################
     # number of breast compartments
-    "num": 10,
+    "compartment_num": 10,
     # distance along nipple line of compartment seed base (mm)
-    "seedBaseDist": 16,
+    "compartment_seedBaseDist": 16,
     # fraction of phantom in nipple direction forced to be fat
-    "backFatBufferFrac": 0.01,
+    "compartment_backFatBufferFrac": 0.01,
     # number of backplane seed points
-    "numBackSeeds": 250,
+    "compartment_numBackSeeds": 250,
     # maximum seed jitter (fraction of subtended angle)
-    "angularJitter": 0.125,
+    "compartment_angularJitter": 0.125,
     # maximum seed jitter in nipple direction (mm)
-    "zJitter": 5.0,
+    "compartment_zJitter": 5.0,
     # maximum radial distance from base seed as a fraction of distance to breast surface
-    "maxFracRadialDist": 0.5,
+    "compartment_maxFracRadialDist": 0.5,
     # minimum radial distance from base seed as a fraction of distance to breast surface
-    "minFracRadialDist": 0.25,
+    "compartment_minFracRadialDist": 0.25,
     # minimum scale in nipple direction
-    "minScaleNippleDir": 0.01,
+    "compartment_minScaleNippleDir": 0.01,
     # maximum scale in nipple direction
-    "maxScaleNippleDir": 0.01,
+    "compartment_maxScaleNippleDir": 0.01,
     # minimum scale in non-nipple direction
-    "minScale": 30.0,
+    "compartment_minScale": 30.0,
     # maximum scale in non-nipple direction
-    "maxScale": 40.0,
+    "compartment_maxScale": 40.0,
     # minimum gland strength
-    "minGlandStrength": 30.0,
+    "compartment_minGlandStrength": 30.0,
     # maximum gland strength
-    "maxGlandStrength": 30.0,
+    "compartment_maxGlandStrength": 30.0,
     # maximum compartment deflection angle from pointing towards nipple (fraction of pi)
-    "maxDeflect": 0.01,
+    "compartment_maxDeflect": 0.01,
     # minimum scale skin seeds in nipple direction
-    "minSkinScaleNippleDir": 10.0,
+    "compartment_minSkinScaleNippleDir": 10.0,
     # maximum scale skin seeds in nipple direction
-    "maxSkinScaleNippleDir": 20.0,
+    "compartment_maxSkinScaleNippleDir": 20.0,
     # minimum scale skin in non-nipple direction
-    "minSkinScale": 200.0,
+    "compartment_minSkinScale": 200.0,
     # maximum scale skin in non-nipple direction
-    "maxSkinScale": 200.0,
+    "compartment_maxSkinScale": 200.0,
     # skin strength
-    "skinStrength": 1.0,
+    "compartment_skinStrength": 1.0,
     # back scale
-    "backScale": 60.0,
+    "compartment_backScale": 60.0,
     # back strength
-    "backStrength": 2.0,
+    "compartment_backStrength": 2.0,
     # nipple scale
-    "nippleScale": 5.0,
+    "compartment_nippleScale": 5.0,
     # nipple strength
-    "nippleStrength": 10.0,
+    "compartment_nippleStrength": 10.0,
     # check seeds within radius (mm)
-    "voronSeedRadius": 100.0,
+    "compartment_voronSeedRadius": 100.0,
 
     #####################
     # TDLU variables
     #####################
     # maximum TDLU length
-    "maxLength": 2.0,
+    "tdlu_maxLength": 2.0,
     # minimum TDLU length
-    "minLength": 1.0,
+    "tdlu_minLength": 1.0,
     # maximum TDLU width
-    "maxWidth": 1.0,
+    "tdlu_maxWidth": 1.0,
     # minimum TDLU width
-    "minWidth": 0.5,
+    "tdlu_minWidth": 0.5,
 
     #####################
     # Perlin noise variables
     #####################
     # maximum fraction of radius deviation
-    "maxDeviation": 0.1,
+    "perlin_noise_maxDeviation_perlin": 0.1,
     # starting frequency
-    "frequency": 0.1,
+    "perlin_noise_frequency_perlin": 0.1,
     # octave frequency multiplier
-    "lacunarity": 2.0,
+    "perlin_noise_lacunarity_perlin": 2.0,
     # octave signal decay
-    "persistence": 0.5,
+    "perlin_noise_persistence_perlin": 0.5,
     # number of frequency octaves
-    "numOctaves": 6,
+    "perlin_noise_numOctaves": 6,
     # x direction noise generation seed
-    "xNoiseGen": 683,
+    "perlin_noise_xNoiseGen": 683,
     # y direction noise generation seed
-    "yNoiseGen": 4933,
+    "perlin_noise_yNoiseGen": 4933,
     # z direction noise generation seed
-    "zNoiseGen": 23,
+    "perlin_noise_zNoiseGen": 23,
     # seed noise generation
-    "seedNoiseGen": 3095,
+    "perlin_noise_seedNoiseGen": 3095,
     # shift noise generation seed
-    "shiftNoiseGen": 11,
+    "perlin_noise_shiftNoiseGen": 11,
 
     #####################
     # Compartment boundary noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.1,
+    "compartment_boundary_maxDeviation": 0.1,
     # starting frequency
-    "frequency": 0.15,
+    "compartment_boundary_frequency": 0.15,
     # octave frequency multiplier
-    "lacunarity": 1.5,
+    "compartment_boundary_lacunarity": 1.5,
     # octave signal decay
-    "persistence": 0.5,
+    "compartment_boundary_persistence": 0.5,
 
     #####################
     # Lobule boundary perturbation noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.25,
+    "lobule_boundary_maxDeviation": 0.25,
     # starting frequency
-    "frequency": 0.09,
+    "lobule_boundary_frequency": 0.09,
     # octave frequency multiplier
-    "lacunarity": 2.0,
+    "lobule_boundary_lacunarity": 2.0,
     # octave signal decay
-    "persistence": 0.4,
+    "lobule_boundary_persistence": 0.4,
 
     #####################
     # Lobule glandular buffer noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.15,
+    "lobule_glandular_maxDeviation": 0.15,
     # starting frequency
-    "frequency": 0.05,
+    "lobule_glandular_frequency": 0.05,
     # octave frequency multiplier
-    "lacunarity": 1.5,
+    "lobule_glandular_lacunarity": 1.5,
     # octave signal decay
-    "persistence": 0.5,
+    "lobule_glandular_persistence": 0.5,
 
     #####################
     # Voronoi segmentation variables
     #####################
     # fat voronoi seed density (mm^-3,)
-    "fatInFatSeedDensity": 0.001,
+    "voronoi_fatInFatSeedDensity": 0.001,
     # fat voronoi seed in glandular tissue density (mm^-3,)
-    "fatInGlandSeedDensity": 0.001,
+    "voronoi_fatInGlandSeedDensity": 0.001,
     # glandular voronoi seed density (mm^-3,)
-    "glandInGlandSeedDensity": 0.0005,
+    "voronoi_glandInGlandSeedDensity": 0.0005,
     # maximum deflection (fraction of pi)
-    "TDLUDeflectMax": 0.15,
+    "voronoi_TDLUDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenTDLU": 0.1,
+    "voronoi_minScaleLenTDLU": 0.1,
     # maximum length scale
-    "maxScaleLenTDLU": 0.2,
+    "voronoi_maxScaleLenTDLU": 0.2,
     # minimum width scale
-    "minScaleWidTDLU": 40.0,
+    "voronoi_minScaleWidTDLU": 40.0,
     # maximum width scale
-    "maxScaleWidTDLU": 45.0,
+    "voronoi_maxScaleWidTDLU": 45.0,
     # minimum strength
-    "minStrTDLU": 20.0,
+    "voronoi_minStrTDLU": 20.0,
     # maximum strength
-    "maxStrTDLU": 22.0,
+    "voronoi_maxStrTDLU": 22.0,
     # maximum deflection (fraction of pi)
-    "fatInFatDeflectMax": 0.15,
+    "voronoi_fatInFatDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenFatInFat": 5.0,
+    "voronoi_minScaleLenFatInFat": 5.0,
     # maximum length scale
-    "maxScaleLenFatInFat": 10.0,
+    "voronoi_maxScaleLenFatInFat": 10.0,
     # minimum width scale
-    "minScaleWidFatInFat": 50.0,
+    "voronoi_minScaleWidFatInFat": 50.0,
     # maximum width scale
-    "maxScaleWidFatInFat": 60.0,
+    "voronoi_maxScaleWidFatInFat": 60.0,
     # minimum strength
-    "minStrFatInFat": 40.0,
+    "voronoi_minStrFatInFat": 40.0,
     # maximum strength
-    "maxStrFatInFat": 50.0,
+    "voronoi_maxStrFatInFat": 50.0,
     # maximum deflection (fraction of pi)
-    "fatInGlandDeflectMax": 0.15,
+    "voronoi_fatInGlandDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenFatInGland": 1.0,
+    "voronoi_minScaleLenFatInGland": 1.0,
     # maximum length scale
-    "maxScaleLenFatInGland": 2.0,
+    "voronoi_maxScaleLenFatInGland": 2.0,
     # minimum width scale
-    "minScaleWidFatInGland": 30.0,
+    "voronoi_minScaleWidFatInGland": 30.0,
     # maximum width scale
-    "maxScaleWidFatInGland": 40.0,
+    "voronoi_maxScaleWidFatInGland": 40.0,
     # minimum strength
-    "minStrFatInGland": 20.0,
+    "voronoi_minStrFatInGland": 20.0,
     # maximum strength
-    "maxStrFatInGland": 22.0,
+    "voronoi_maxStrFatInGland": 22.0,
     # maximum deflection (fraction of pi)
-    "glandInGlandDeflectMax": 0.15,
+    "voronoi_glandInGlandDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenGlandInGland": 1.0,
+    "voronoi_minScaleLenGlandInGland": 1.0,
     # maximum length scale
-    "maxScaleLenGlandInGland": 2.0,
+    "voronoi_maxScaleLenGlandInGland": 2.0,
     # minimum width scale
-    "minScaleWidGlandInGland": 30.0,
+    "voronoi_minScaleWidGlandInGland": 30.0,
     # maximum width scale
-    "maxScaleWidGlandInGland": 40.0,
+    "voronoi_maxScaleWidGlandInGland": 40.0,
     # minimum strength
-    "minStrGlandInGland": 20.0,
+    "voronoi_minStrGlandInGland": 20.0,
     # maximum strength
-    "maxStrGlandInGland": 22.0,
+    "voronoi_maxStrGlandInGland": 22.0,
     # check seeds in radius (mm)
-    "seedRadius": 40.0,
+    "voronoi_seedRadius": 40.0,
 
     #####################
     # fat variables
     #####################
     # min lobule axis length (mm)
     # was 20,
-    "minLobuleAxis": 20.0,
+    "fat_minLobuleAxis": 20.0,
     # max lobule axis length (mm)
     # was 35,
-    "maxLobuleAxis": 30.0,
+    "fat_maxLobuleAxis": 30.0,
     # axial ratio min
-    "minAxialRatio": 0.13,
+    "fat_minAxialRatio": 0.13,
     # axial ratio max
-    "maxAxialRatio": 0.75,
+    "fat_maxAxialRatio": 0.75,
     # minimum ligament separation between lobules
-    "minLobuleGap": 0.15,
+    "fat_minLobuleGap": 0.15,
     # maximum of absolute value of Fourier coefficient as fraction of main radius
-    "maxCoeffStr": 0.1,
+    "fat_maxCoeffStr": 0.1,
     # minimum of absolute value of Fourier coefficient as fraction of main radius
-    "minCoeffStr": 0.05,
+    "fat_minCoeffStr": 0.05,
     # maximum number of trial lobules
     # was 401,
-    "maxLobuleTry": 401,
+    "fat_maxLobuleTry": 401,
 
 
     #####################
     # ligament variables
     #####################
-    "thickness": 0.1,
-    "targetFrac": 0.85,
-    "maxTry": 15000,
-    "minAxis": 20.0,
-    "maxAxis": 25.0,
-    "minAxialRatio": 0.2,
-    "maxAxialRatio": 0.3,
-    "maxPerturb": 0.05,
-    "maxDeflect": 0.12,
-    "scale": 0.007,
-    "lacunarity": 1.5,
-    "persistence": 0.3,
-    "numOctaves": 6,
+    "ligament_thickness": 0.1,
+    "ligament_targetFrac": 0.85,
+    "ligament_maxTry": 15000,
+    "ligament_minAxis": 20.0,
+    "ligament_maxAxis": 25.0,
+    "ligament_minAxialRatio": 0.2,
+    "ligament_maxAxialRatio": 0.3,
+    "ligament_maxPerturb": 0.05,
+    "ligament_maxDeflect": 0.12,
+    "ligament_scale": 0.007,
+    "ligament_lacunarity": 1.5,
+    "ligament_persistence": 0.3,
+    "ligament_numOctaves": 6,
 
     #####################
     # duct tree variables
     #####################
     # target number of branches (uint)
-    "maxBranch": 400,
+    "duct_tree_maxBranch": 400,
     # maximum generation (uint)
-    "maxGen": 7,
+    "duct_tree_maxGen": 7,
     # initial radius of tree (mm)
-    "initRad": 0.5,
+    "duct_tree_initRad": 0.5,
     # base Length of root duct at nipple (mm)
-    "baseLength": 19.0,
+    "duct_tree_baseLength": 7.6,
     # number of voxels for tree density tracking (uint)
-    "nFillX": 50,
-    "nFillY": 50,
-    "nFillZ": 50,
+    "duct_tree_nFillX": 50,
+    "duct_tree_nFillY": 50,
+    "duct_tree_nFillZ": 50,
 
     #####################
     # duct branch variables
     #####################
     # minimum branch radius to have children (mm)
-    "childMinRad": 0.1,
+    "duct_branch_childMinRad": 0.1,
     # minimum starting radius as a fraction of parent end radius
-    "minRadFrac": 0.65,
+    "duct_branch_minRadFrac": 0.65,
     # maximum starting radius as a fraction of parent end radius
-    "maxRadFrac": 0.99,
+    "duct_branch_maxRadFrac": 0.99,
     # length reduction as fraction of parent length
-    "lenShrink": 0.5,
+    "duct_branch_lenShrink": 0.5,
     # maximum jitter in branch length (fraction)
-    "lenRange": 0.1,
+    "duct_branch_lenRange": 0.1,
     # aximuthal angle noise (radians)
-    "rotateJitter": 0.1,
+    "duct_branch_rotateJitter": 0.1,
 
     #####################
     # duct segment variables
     #####################
     # radius distribution shape parameters
-    "radiusBetaA": 6.0,
-    "radiusBetaB": 10.0,
+    "duct_segment_radiusBetaA": 6.0,
+    "duct_segment_radiusBetaB": 10.0,
     # fraction of branch length per segment
-    "segFrac": 0.25,
+    "duct_segment_segFrac": 0.25,
     # maximum radius of curvature (mm)
-    "maxCurvRad": 10.0,
+    "duct_segment_maxCurvRad": 10.0,
     # maximum length of segment based on
     # curvature (fraction of pi radians)
-    "maxCurvFrac": 0.5,
+    "duct_segment_maxCurvFrac": 0.5,
     # min and max end radius as fraction of start radius
-    "minEndRad": 0.95,
-    "maxEndRad": 1.0,
+    "duct_segment_minEndRad": 0.95,
+    "duct_segment_maxEndRad": 1.0,
     # cost function preferential angle weighting
-    "angleWt": 1.0,
+    "duct_segment_angleWt": 1.0,
     # cost function density weighting
-    "densityWt": 20.0,
+    "duct_segment_densityWt": 20.0,
     # number of trial segments to generate (uint)
-    "numTry": 50,
+    "duct_segment_numTry": 50,
     # maximum number of segments to generate before
     # giving up and reducing length (uint)
-    "maxTry": 100,
+    "duct_segment_maxTry": 100,
     # total number of segment tries before completely giving up
-    "absMaxTry": 10000,
+    "duct_segment_absMaxTry": 10000,
     # step size for checking segment is valid (mm)
-    "roiStep": 0.1,
+    "duct_segment_roiStep": 0.1,
 
 
     #####################
     # vessel tree variables
     #####################
     # target number of branches (uint)
-    "maxBranch": 750,
+    "vessel_tree_maxBranch": 750,
     # maximum generation (uint)
-    "maxGen": 6,
+    "vessel_tree_maxGen": 6,
     # initial radius of tree (mm)
-    "initRad": 0.75,
+    "vessel_tree_initRad": 0.75,
     # base length of root vessel (mm)
-    "baseLength": 15.0,
+    "vessel_tree_baseLength": 15.0,
     # number of voxels for tree density tracking (uint)
-    "nFillX": 30,
-    "nFillY": 69,
-    "nFillZ": 69,
+    "vessel_tree_nFillX": 30,
+    "vessel_tree_nFillY": 69,
+    "vessel_tree_nFillZ": 69,
 
     #####################
     # vessel branch variables
     #####################
     # minimum branch radius to have children (mm)
-    "childMinRad": 0.1,
+    "vessel_branch_childMinRad": 0.1,
     # minimum starting radius as a fraction of parent end radius
-    "minRadFrac": 0.65,
+    "vessel_branch_minRadFrac": 0.65,
     # maximum starting radius as a fraction of parent end radius
-    "maxRadFrac": 0.99,
+    "vessel_branch_maxRadFrac": 0.99,
     # length reduction as fraction of parent length
-    "lenShrink": 0.8,
+    "vessel_branch_lenShrink": 0.8,
     # maximum jitter in branch length (fraction)
-    "lenRange": 0.1,
+    "vessel_branch_lenRange": 0.1,
     # aximuthal angle noise (radians)
-    "rotateJitter": 0.1,
+    "vessel_branch_rotateJitter": 0.1,
 
     #####################
     # vessel segment variables
     #####################
     # radius distribution shape parameters
-    "radiusBetaA": 6.0,
-    "radiusBetaB": 10.0,
+    "vessel_segment_radiusBetaA": 6.0,
+    "vessel_segment_radiusBetaB": 10.0,
     # fraction of branch length to segment
-    "segFrac": 0.25,
+    "vessel_segment_segFrac": 0.25,
     # maximum radius of curvature (mm)
-    "maxCurvRad": 200.0,
+    "vessel_segment_maxCurvRad": 200.0,
     # maximum length of segment based on
     # curvature (fraction of pi radians)
-    "maxCurvFrac": 0.5,
+    "vessel_segment_maxCurvFrac": 0.5,
     # min and max end radius as fraction of start radius
-    "minEndRad": 0.95,
-    "maxEndRad": 1.0,
+    "vessel_segment_minEndRad": 0.95,
+    "vessel_segment_maxEndRad": 1.0,
     # cost function preferential angle weighting
-    "angleWt": 100.0,
+    "vessel_segment_angleWt": 100.0,
     # cost function density weighting
-    "densityWt": 1.0,
+    "vessel_segment_densityWt": 1.0,
     # cost function direction weighting
-    "dirWt": 100.0,
+    "vessel_segment_dirWt": 100.0,
     # number of trial segments to generate (uint)
-    "numTry": 100,
+    "vessel_segment_numTry": 100,
     # maximum number of segments to generate before
     # giving up and reducing length (uint)
-    "maxTry": 300,
+    "vessel_segment_maxTry": 300,
     # total number of segment tries before completely giving up
-    "absMaxTry": 100000,
+    "vessel_segment_absMaxTry": 100000,
     # step size for checking segment is valid (mm)
-    "roiStep": 0.1,
+    "vessel_segment_roiStep": 0.1,
 }
 
 VICTRE_SCATTERED = {
@@ -1069,421 +1069,421 @@ VICTRE_SCATTERED = {
     # breast surface shape
     #####################
     # u resolution of base shape
-    "ures": 0.005,
+    "surface_ures": 0.005,
     # v resolution of base shape
-    "vres": 0.005,
+    "surface_vres": 0.005,
     # minimum point separation (mm)
-    "pointSep": 0.005,
+    "surface_pointSep": 0.005,
     # back ring thickness (mm)
-    "ringWidth": 10.0,
+    "surface_ringWidth": 10.0,
     # back ring step size (mm)
-    "ringSep": 0.5,
+    "surface_ringSep": 0.5,
     # angle to preserve while smoothing (degrees)
-    "featureAngle": 20.0,
+    "surface_featureAngle": 20.0,
     # fraction of triangles to decimate
-    "targetReduction": 0.05,
+    "surface_targetReduction": 0.05,
     # bottom scale was 1.3,
-    "a1b": 1.4,
+    "surface_a1b": 1.4,
     # top scale was 1.3,
-    "a1t": 1.4,
+    "surface_a1t": 1.4,
     # left scale
-    "a2l": 1.2,
+    "surface_a2l": 1.2,
     # right scale
-    "a2r": 1.2,
+    "surface_a2r": 1.2,
     # outward scale was 1.75,
-    "a3": 2.0,
+    "surface_a3": 2.0,
     # u quadric exponent
-    "eps1": 1.2,
+    "surface_eps1": 1.2,
     # v quadric exponent
-    "eps2": 1.0,
+    "surface_eps2": 1.0,
     # do ptosis deformation (boolean)
-    "doPtosis": "true",
-    "ptosisB0": 0.2,
-    "ptosisB1": 0.05,
+    "surface_doPtosis": "true",
+    "surface_ptosisB0": 0.2,
+    "surface_ptosisB1": 0.05,
     # do turn deformation (boolean)
-    "doTurn": "false",
-    "turnC0": -0.498,
-    "turnC1": 0.213,
+    "surface_doTurn": "false",
+    "surface_turnC0": -0.498,
+    "surface_turnC1": 0.213,
     # do top shape deformation (boolean)
-    "doTopShape": "true",
-    "topShapeS0": 0.0,
-    "topShapeS1": 0.0,
-    "topShapeT0": -8.0,
-    "topShapeT1": -2.0,
+    "surface_doTopShape": "true",
+    "surface_topShapeS0": 0.0,
+    "surface_topShapeS1": 0.0,
+    "surface_topShapeT0": -8.0,
+    "surface_topShapeT1": -2.0,
     # do flatten size deformation (boolean)
-    "doFlattenSide": "true",
-    "flattenSideG0": 1.5,
-    "flattenSideG1": -0.5,
+    "surface_doFlattenSide": "true",
+    "surface_flattenSideG0": 1.5,
+    "surface_flattenSideG1": -0.5,
     # do turn top deformation (boolean)
-    "doTurnTop": "true",
-    "turnTopH0": 0.166,
-    "turnTopH1": -0.372,
+    "surface_doTurnTop": "true",
+    "surface_turnTopH0": 0.166,
+    "surface_turnTopH1": -0.372,
 
     #####################
     # breast compartment
     #####################
     # number of breast compartments
-    "num": 10,
+    "compartment_num": 10,
     # distance along nipple line of compartment seed base (mm)
-    "seedBaseDist": 16,
+    "compartment_seedBaseDist": 16,
     # fraction of phantom in nipple direction forced to be fat
-    "backFatBufferFrac": 0.01,
+    "compartment_backFatBufferFrac": 0.01,
     # number of backplane seed points
-    "numBackSeeds": 250,
+    "compartment_numBackSeeds": 250,
     # maximum seed jitter (fraction of subtended angle)
-    "angularJitter": 0.125,
+    "compartment_angularJitter": 0.125,
     # maximum seed jitter in nipple direction (mm)
-    "zJitter": 5.0,
+    "compartment_zJitter": 5.0,
     # maximum radial distance from base seed as a fraction of distance to breast surface
-    "maxFracRadialDist": 0.5,
+    "compartment_maxFracRadialDist": 0.5,
     # minimum radial distance from base seed as a fraction of distance to breast surface
-    "minFracRadialDist": 0.25,
+    "compartment_minFracRadialDist": 0.25,
     # minimum scale in nipple direction
-    "minScaleNippleDir": 0.01,
+    "compartment_minScaleNippleDir": 0.01,
     # maximum scale in nipple direction
-    "maxScaleNippleDir": 0.01,
+    "compartment_maxScaleNippleDir": 0.01,
     # minimum scale in non-nipple direction
-    "minScale": 30.0,
+    "compartment_minScale": 30.0,
     # maximum scale in non-nipple direction
-    "maxScale": 40.0,
+    "compartment_maxScale": 40.0,
     # minimum gland strength
-    "minGlandStrength": 30.0,
+    "compartment_minGlandStrength": 30.0,
     # maximum gland strength
-    "maxGlandStrength": 30.0,
+    "compartment_maxGlandStrength": 30.0,
     # maximum compartment deflection angle from pointing towards nipple (fraction of pi)
-    "maxDeflect": 0.01,
+    "compartment_maxDeflect": 0.01,
     # minimum scale skin seeds in nipple direction
-    "minSkinScaleNippleDir": 5.0,
+    "compartment_minSkinScaleNippleDir": 5.0,
     # maximum scale skin seeds in nipple direction
-    "maxSkinScaleNippleDir": 5.0,
+    "compartment_maxSkinScaleNippleDir": 5.0,
     # minimum scale skin in non-nipple direction
-    "minSkinScale": 200.0,
+    "compartment_minSkinScale": 200.0,
     # maximum scale skin in non-nipple direction
-    "maxSkinScale": 200.0,
+    "compartment_maxSkinScale": 200.0,
     # skin strength
-    "skinStrength": 2.0,
+    "compartment_skinStrength": 2.0,
     # back scale
-    "backScale": 60.0,
+    "compartment_backScale": 60.0,
     # back strength
-    "backStrength": 4.0,
+    "compartment_backStrength": 4.0,
     # nipple scale
-    "nippleScale": 5.0,
+    "compartment_nippleScale": 5.0,
     # nipple strength
-    "nippleStrength": 10.0,
+    "compartment_nippleStrength": 10.0,
     # check seeds within radius (mm)
-    "voronSeedRadius": 100.0,
+    "compartment_voronSeedRadius": 100.0,
 
     #####################
     # TDLU variables
     #####################
     # maximum TDLU length
-    "maxLength": 2.0,
+    "tdlu_maxLength": 2.0,
     # minimum TDLU length
-    "minLength": 1.0,
+    "tdlu_minLength": 1.0,
     # maximum TDLU width
-    "maxWidth": 1.0,
+    "tdlu_maxWidth": 1.0,
     # minimum TDLU width
-    "minWidth": 0.5,
+    "tdlu_minWidth": 0.5,
 
     #####################
     # Perlin noise variables
     #####################
     # maximum fraction of radius deviation
-    "maxDeviation": 0.1,
+    "perlin_noise_maxDeviation_perlin": 0.1,
     # starting frequency
-    "frequency": 0.1,
+    "perlin_noise_frequency_perlin": 0.1,
     # octave frequency multiplier
-    "lacunarity": 2.0,
+    "perlin_noise_lacunarity_perlin": 2.0,
     # octave signal decay
-    "persistence": 0.5,
+    "perlin_noise_persistence_perlin": 0.5,
     # number of frequency octaves
-    "numOctaves": 6,
+    "perlin_noise_numOctaves": 6,
     # x direction noise generation seed
-    "xNoiseGen": 683,
+    "perlin_noise_xNoiseGen": 683,
     # y direction noise generation seed
-    "yNoiseGen": 4933,
+    "perlin_noise_yNoiseGen": 4933,
     # z direction noise generation seed
-    "zNoiseGen": 23,
+    "perlin_noise_zNoiseGen": 23,
     # seed noise generation
-    "seedNoiseGen": 3095,
+    "perlin_noise_seedNoiseGen": 3095,
     # shift noise generation seed
-    "shiftNoiseGen": 11,
+    "perlin_noise_shiftNoiseGen": 11,
 
     #####################
     # Compartment boundary noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.1,
+    "compartment_boundary_maxDeviation": 0.1,
     # starting frequency
-    "frequency": 0.15,
+    "compartment_boundary_frequency": 0.15,
     # octave frequency multiplier
-    "lacunarity": 1.5,
+    "compartment_boundary_lacunarity": 1.5,
     # octave signal decay
-    "persistence": 0.5,
+    "compartment_boundary_persistence": 0.5,
 
     #####################
     # Lobule boundary perturbation noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.25,
+    "lobule_boundary_maxDeviation": 0.25,
     # starting frequency
-    "frequency": 0.09,
+    "lobule_boundary_frequency": 0.09,
     # octave frequency multiplier
-    "lacunarity": 2.0,
+    "lobule_boundary_lacunarity": 2.0,
     # octave signal decay
-    "persistence": 0.4,
+    "lobule_boundary_persistence": 0.4,
 
     #####################
     # Lobule glandular buffer noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.15,
+    "lobule_glandular_maxDeviation": 0.15,
     # starting frequency
-    "frequency": 0.05,
+    "lobule_glandular_frequency": 0.05,
     # octave frequency multiplier
-    "lacunarity": 1.5,
+    "lobule_glandular_lacunarity": 1.5,
     # octave signal decay
-    "persistence": 0.5,
+    "lobule_glandular_persistence": 0.5,
 
     #####################
     # Voronoi segmentation variables
     #####################
     # fat voronoi seed density (mm^-3,)
-    "fatInFatSeedDensity": 0.001,
+    "voronoi_fatInFatSeedDensity": 0.001,
     # fat voronoi seed in glandular tissue density (mm^-3,)
-    "fatInGlandSeedDensity": 0.001,
+    "voronoi_fatInGlandSeedDensity": 0.001,
     # glandular voronoi seed density (mm^-3,)
-    "glandInGlandSeedDensity": 0.0005,
+    "voronoi_glandInGlandSeedDensity": 0.0005,
     # maximum deflection (fraction of pi)
-    "TDLUDeflectMax": 0.15,
+    "voronoi_TDLUDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenTDLU": 0.1,
+    "voronoi_minScaleLenTDLU": 0.1,
     # maximum length scale
-    "maxScaleLenTDLU": 0.2,
+    "voronoi_maxScaleLenTDLU": 0.2,
     # minimum width scale
-    "minScaleWidTDLU": 40.0,
+    "voronoi_minScaleWidTDLU": 40.0,
     # maximum width scale
-    "maxScaleWidTDLU": 45.0,
+    "voronoi_maxScaleWidTDLU": 45.0,
     # minimum strength
-    "minStrTDLU": 20.0,
+    "voronoi_minStrTDLU": 20.0,
     # maximum strength
-    "maxStrTDLU": 22.0,
+    "voronoi_maxStrTDLU": 22.0,
     # maximum deflection (fraction of pi)
-    "fatInFatDeflectMax": 0.15,
+    "voronoi_fatInFatDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenFatInFat": 5.0,
+    "voronoi_minScaleLenFatInFat": 5.0,
     # maximum length scale
-    "maxScaleLenFatInFat": 10.0,
+    "voronoi_maxScaleLenFatInFat": 10.0,
     # minimum width scale
-    "minScaleWidFatInFat": 50.0,
+    "voronoi_minScaleWidFatInFat": 50.0,
     # maximum width scale
-    "maxScaleWidFatInFat": 60.0,
+    "voronoi_maxScaleWidFatInFat": 60.0,
     # minimum strength
-    "minStrFatInFat": 40.0,
+    "voronoi_minStrFatInFat": 40.0,
     # maximum strength
-    "maxStrFatInFat": 50.0,
+    "voronoi_maxStrFatInFat": 50.0,
     # maximum deflection (fraction of pi)
-    "fatInGlandDeflectMax": 0.15,
+    "voronoi_fatInGlandDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenFatInGland": 1.0,
+    "voronoi_minScaleLenFatInGland": 1.0,
     # maximum length scale
-    "maxScaleLenFatInGland": 2.0,
+    "voronoi_maxScaleLenFatInGland": 2.0,
     # minimum width scale
-    "minScaleWidFatInGland": 30.0,
+    "voronoi_minScaleWidFatInGland": 30.0,
     # maximum width scale
-    "maxScaleWidFatInGland": 40.0,
+    "voronoi_maxScaleWidFatInGland": 40.0,
     # minimum strength
-    "minStrFatInGland": 20.0,
+    "voronoi_minStrFatInGland": 20.0,
     # maximum strength
-    "maxStrFatInGland": 22.0,
+    "voronoi_maxStrFatInGland": 22.0,
     # maximum deflection (fraction of pi)
-    "glandInGlandDeflectMax": 0.15,
+    "voronoi_glandInGlandDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenGlandInGland": 1.0,
+    "voronoi_minScaleLenGlandInGland": 1.0,
     # maximum length scale
-    "maxScaleLenGlandInGland": 2.0,
+    "voronoi_maxScaleLenGlandInGland": 2.0,
     # minimum width scale
-    "minScaleWidGlandInGland": 30.0,
+    "voronoi_minScaleWidGlandInGland": 30.0,
     # maximum width scale
-    "maxScaleWidGlandInGland": 40.0,
+    "voronoi_maxScaleWidGlandInGland": 40.0,
     # minimum strength
-    "minStrGlandInGland": 20.0,
+    "voronoi_minStrGlandInGland": 20.0,
     # maximum strength
-    "maxStrGlandInGland": 22.0,
+    "voronoi_maxStrGlandInGland": 22.0,
     # check seeds in radius (mm)
-    "seedRadius": 40.0,
+    "voronoi_seedRadius": 40.0,
 
     #####################
     # fat variables
     #####################
     # min lobule axis length (mm)
     # was 20,
-    "minLobuleAxis": 20.0,
+    "fat_minLobuleAxis": 20.0,
     # max lobule axis length (mm)
     # was 35,
-    "maxLobuleAxis": 30.0,
+    "fat_maxLobuleAxis": 30.0,
     # axial ratio min
-    "minAxialRatio": 0.13,
+    "fat_minAxialRatio_fat": 0.13,
     # axial ratio max
-    "maxAxialRatio": 0.75,
+    "fat_maxAxialRatio_fat": 0.75,
     # minimum ligament separation between lobules
-    "minLobuleGap": 0.15,
+    "fat_minLobuleGap": 0.15,
     # maximum of absolute value of Fourier coefficient as fraction of main radius
-    "maxCoeffStr": 0.1,
+    "fat_maxCoeffStr": 0.1,
     # minimum of absolute value of Fourier coefficient as fraction of main radius
-    "minCoeffStr": 0.05,
+    "fat_minCoeffStr": 0.05,
     # maximum number of trial lobules
     # was 401,
-    "maxLobuleTry": 401,
+    "fat_maxLobuleTry": 401,
 
 
     #####################
     # ligament variables
     #####################
-    "thickness": 0.1,
-    "targetFrac": 0.85,
-    "maxTry": 15000,
-    "minAxis": 20.0,
-    "maxAxis": 25.0,
-    "minAxialRatio": 0.2,
-    "maxAxialRatio": 0.3,
-    "maxPerturb": 0.05,
-    "maxDeflect": 0.12,
-    "scale": 0.007,
-    "lacunarity": 1.5,
-    "persistence": 0.3,
-    "numOctaves": 6,
+    "ligament_thickness": 0.1,
+    "ligament_targetFrac": 0.85,
+    "ligament_maxTry_ligament": 15000,
+    "ligament_minAxis": 20.0,
+    "ligament_maxAxis": 25.0,
+    "ligament_minAxialRatio_ligament": 0.2,
+    "ligament_maxAxialRatio_ligament": 0.3,
+    "ligament_maxPerturb": 0.05,
+    "ligament_maxDeflect": 0.12,
+    "ligament_scale": 0.007,
+    "ligament_lacunarity": 1.5,
+    "ligament_persistence": 0.3,
+    "ligament_numOctaves": 6,
 
     #####################
     # duct tree variables
     #####################
     # target number of branches (uint)
-    "maxBranch": 400,
+    "duct_tree_maxBranch": 400,
     # maximum generation (uint)
-    "maxGen": 7,
+    "duct_tree_maxGen": 7,
     # initial radius of tree (mm)
-    "initRad": 0.5,
+    "duct_tree_initRad": 0.5,
     # base Length of root duct at nipple (mm)
-    "baseLength": 7.6,
+    "duct_tree_baseLength": 7.6,
     # number of voxels for tree density tracking (uint)
-    "nFillX": 50,
-    "nFillY": 50,
-    "nFillZ": 50,
+    "duct_tree_nFillX": 50,
+    "duct_tree_nFillY": 50,
+    "duct_tree_nFillZ": 50,
 
     #####################
     # duct branch variables
     #####################
     # minimum branch radius to have children (mm)
-    "childMinRad": 0.1,
+    "duct_branch_childMinRad": 0.1,
     # minimum starting radius as a fraction of parent end radius
-    "minRadFrac": 0.65,
+    "duct_branch_minRadFrac": 0.65,
     # maximum starting radius as a fraction of parent end radius
-    "maxRadFrac": 0.99,
+    "duct_branch_maxRadFrac": 0.99,
     # length reduction as fraction of parent length
-    "lenShrink": 0.5,
+    "duct_branch_lenShrink": 0.5,
     # maximum jitter in branch length (fraction)
-    "lenRange": 0.1,
+    "duct_branch_lenRange": 0.1,
     # aximuthal angle noise (radians)
-    "rotateJitter": 0.1,
+    "duct_branch_rotateJitter": 0.1,
 
     #####################
     # duct segment variables
     #####################
     # radius distribution shape parameters
-    "radiusBetaA": 6.0,
-    "radiusBetaB": 10.0,
+    "duct_segment_radiusBetaA": 6.0,
+    "duct_segment_radiusBetaB": 10.0,
     # fraction of branch length per segment
-    "segFrac": 0.25,
+    "duct_segment_segFrac": 0.25,
     # maximum radius of curvature (mm)
-    "maxCurvRad": 10.0,
+    "duct_segment_maxCurvRad": 10.0,
     # maximum length of segment based on
     # curvature (fraction of pi radians)
-    "maxCurvFrac": 0.5,
+    "duct_segment_maxCurvFrac": 0.5,
     # min and max end radius as fraction of start radius
-    "minEndRad": 0.95,
-    "maxEndRad": 1.0,
+    "duct_segment_minEndRad": 0.95,
+    "duct_segment_maxEndRad": 1.0,
     # cost function preferential angle weighting
-    "angleWt": 1.0,
+    "duct_segment_angleWt": 1.0,
     # cost function density weighting
-    "densityWt": 20.0,
+    "duct_segment_densityWt": 20.0,
     # number of trial segments to generate (uint)
-    "numTry": 50,
+    "duct_segment_numTry": 50,
     # maximum number of segments to generate before
     # giving up and reducing length (uint)
-    "maxTry": 100,
+    "duct_segment_maxTry": 100,
     # total number of segment tries before completely giving up
-    "absMaxTry": 10000,
+    "duct_segment_absMaxTry": 10000,
     # step size for checking segment is valid (mm)
-    "roiStep": 0.1,
+    "duct_segment_roiStep": 0.1,
 
 
     #####################
     # vessel tree variables
     #####################
     # target number of branches (uint)
-    "maxBranch": 750,
+    "vessel_tree_maxBranch": 750,
     # maximum generation (uint)
-    "maxGen": 6,
+    "vessel_tree_maxGen": 6,
     # initial radius of tree (mm)
-    "initRad": 0.75,
+    "vessel_tree_initRad": 0.75,
     # base length of root vessel (mm)
-    "baseLength": 15.0,
+    "vessel_tree_baseLength": 15.0,
     # number of voxels for tree density tracking (uint)
-    "nFillX": 30,
-    "nFillY": 69,
-    "nFillZ": 69,
+    "vessel_tree_nFillX": 30,
+    "vessel_tree_nFillY": 69,
+    "vessel_tree_nFillZ": 69,
 
     #####################
     # vessel branch variables
     #####################
     # minimum branch radius to have children (mm)
-    "childMinRad": 0.1,
+    "vessel_branch_childMinRad": 0.1,
     # minimum starting radius as a fraction of parent end radius
-    "minRadFrac": 0.65,
+    "vessel_branch_minRadFrac": 0.65,
     # maximum starting radius as a fraction of parent end radius
-    "maxRadFrac": 0.99,
+    "vessel_branch_maxRadFrac": 0.99,
     # length reduction as fraction of parent length
-    "lenShrink": 0.8,
+    "vessel_branch_lenShrink": 0.8,
     # maximum jitter in branch length (fraction)
-    "lenRange": 0.1,
+    "vessel_branch_lenRange": 0.1,
     # aximuthal angle noise (radians)
-    "rotateJitter": 0.1,
+    "vessel_branch_rotateJitter": 0.1,
 
     #####################
     # vessel segment variables
     #####################
     # radius distribution shape parameters
-    "radiusBetaA": 6.0,
-    "radiusBetaB": 10.0,
+    "vessel_segment_radiusBetaA": 6.0,
+    "vessel_segment_radiusBetaB": 10.0,
     # fraction of branch length to segment
-    "segFrac": 0.25,
+    "vessel_segment_segFrac": 0.25,
     # maximum radius of curvature (mm)
-    "maxCurvRad": 200.0,
+    "vessel_segment_maxCurvRad": 200.0,
     # maximum length of segment based on
     # curvature (fraction of pi radians)
-    "maxCurvFrac": 0.5,
+    "vessel_segment_maxCurvFrac": 0.5,
     # min and max end radius as fraction of start radius
-    "minEndRad": 0.95,
-    "maxEndRad": 1.0,
+    "vessel_segment_minEndRad": 0.95,
+    "vessel_segment_maxEndRad": 1.0,
     # cost function preferential angle weighting
-    "angleWt": 100.0,
+    "vessel_segment_angleWt": 100.0,
     # cost function density weighting
-    "densityWt": 1.0,
+    "vessel_segment_densityWt": 1.0,
     # cost function direction weighting
-    "dirWt": 100.0,
+    "vessel_segment_dirWt": 100.0,
     # number of trial segments to generate (uint)
-    "numTry": 100,
+    "vessel_segment_numTry": 100,
     # maximum number of segments to generate before
     # giving up and reducing length (uint)
-    "maxTry": 300,
+    "vessel_segment_maxTry": 300,
     # total number of segment tries before completely giving up
-    "absMaxTry": 100000,
+    "vessel_segment_absMaxTry": 100000,
     # step size for checking segment is valid (mm)
-    "roiStep": 0.1,
+    "vessel_segment_roiStep": 0.1,
 }
 
 VICTRE_FATTY = {
-    "compressionThickness": 65,  # mm
+    "compressionThickness": 60,  # mm
     # phantom voxel size (mm)
     "imgRes": 0.05,
     # thickness of breast skin (mm)
@@ -1503,434 +1503,439 @@ VICTRE_FATTY = {
     # breast surface shape
     #####################
     # u resolution of base shape
-    "ures": 0.005,
+    "surface_ures": 0.005,
     # v resolution of base shape
-    "vres": 0.005,
+    "surface_vres": 0.005,
     # minimum point separation (mm)
-    "pointSep": 0.005,
+    "surface_pointSep": 0.005,
     # back ring thickness (mm)
-    "ringWidth": 10.0,
+    "surface_ringWidth": 10.0,
     # back ring step size (mm)
-    "ringSep": 0.5,
+    "surface_ringSep": 0.5,
     # angle to preserve while smoothing (degrees)
-    "featureAngle": 20.0,
+    "surface_featureAngle": 20.0,
     # fraction of triangles to decimate
-    "targetReduction": 0.05,
+    "surface_targetReduction": 0.05,
     # bottom scale was 1.3,
-    "a1b": 1.4,
+    "surface_a1b": 1.4,
     # top scale was 1.3,
-    "a1t": 1.4,
+    "surface_a1t": 1.4,
     # left scale
-    "a2l": 1.4,
+    "surface_a2l": 1.4,
     # right scale
-    "a2r": 1.4,
+    "surface_a2r": 1.4,
     # outward scale was 1.75,
-    "a3": 2.75,
+    "surface_a3": 2.75,
     # u quadric exponent
-    "eps1": 1.2,
+    "surface_eps1": 1.1,
     # v quadric exponent
-    "eps2": 1.1,
+    "surface_eps2": 1.0,
     # do ptosis deformation (boolean)
-    "doPtosis": "true",
-    "ptosisB0": 0.2,
-    "ptosisB1": 0.05,
+    "surface_doPtosis": "true",
+    "surface_ptosisB0": 0.2,
+    "surface_ptosisB1": 0.05,
     # do turn deformation (boolean)
-    "doTurn": "false",
-    "turnC0": -0.498,
-    "turnC1": 0.213,
+    "surface_doTurn": "false",
+    "surface_turnC0": -0.498,
+    "surface_turnC1": 0.213,
     # do top shape deformation (boolean)
-    "doTopShape": "true",
-    "topShapeS0": 0.0,
-    "topShapeS1": 0.0,
-    "topShapeT0": -8.0,
-    "topShapeT1": -2.0,
+    "surface_doTopShape": "true",
+    "surface_topShapeS0": 0.0,
+    "surface_topShapeS1": 0.0,
+    "surface_topShapeT0": -8.0,
+    "surface_topShapeT1": -2.0,
     # do flatten size deformation (boolean)
-    "doFlattenSide": "true",
-    "flattenSideG0": 1.5,
-    "flattenSideG1": -0.5,
+    "surface_doFlattenSide": "true",
+    "surface_flattenSideG0": 1.5,
+    "surface_flattenSideG1": -0.5,
     # do turn top deformation (boolean)
-    "doTurnTop": "true",
-    "turnTopH0": 0.166,
-    "turnTopH1": -0.372,
+    "surface_doTurnTop": "true",
+    "surface_turnTopH0": 0.166,
+    "surface_turnTopH1": -0.372,
 
     #####################
     # breast compartment
     #####################
     # number of breast compartments
-    "num": 10,
+    "compartment_num": 10,
     # distance along nipple line of compartment seed base (mm)
-    "seedBaseDist": 16,
+    "compartment_seedBaseDist": 16,
     # fraction of phantom in nipple direction forced to be fat
-    "backFatBufferFrac": 0.01,
+    "compartment_backFatBufferFrac": 0.01,
     # number of backplane seed points
-    "numBackSeeds": 250,
+    "compartment_numBackSeeds": 250,
     # maximum seed jitter (fraction of subtended angle)
-    "angularJitter": 0.125,
+    "compartment_angularJitter": 0.125,
     # maximum seed jitter in nipple direction (mm)
-    "zJitter": 5.0,
+    "compartment_zJitter": 5.0,
     # maximum radial distance from base seed as a fraction of distance to breast surface
-    "maxFracRadialDist": 0.5,
+    "compartment_maxFracRadialDist": 0.5,
     # minimum radial distance from base seed as a fraction of distance to breast surface
-    "minFracRadialDist": 0.25,
+    "compartment_minFracRadialDist": 0.25,
     # minimum scale in nipple direction
-    "minScaleNippleDir": 0.01,
+    "compartment_minScaleNippleDir": 0.01,
     # maximum scale in nipple direction
-    "maxScaleNippleDir": 0.01,
+    "compartment_maxScaleNippleDir": 0.01,
     # minimum scale in non-nipple direction
-    "minScale": 30.0,
+    "compartment_minScale": 30.0,
     # maximum scale in non-nipple direction
-    "maxScale": 40.0,
+    "compartment_maxScale": 40.0,
     # minimum gland strength
-    "minGlandStrength": 30.0,
+    "compartment_minGlandStrength": 30.0,
     # maximum gland strength
-    "maxGlandStrength": 30.0,
+    "compartment_maxGlandStrength": 30.0,
     # maximum compartment deflection angle from pointing towards nipple (fraction of pi)
-    "maxDeflect": 0.01,
+    "compartment_maxDeflect": 0.01,
     # minimum scale skin seeds in nipple direction
-    "minSkinScaleNippleDir": 5.0,
+    "compartment_minSkinScaleNippleDir": 5.0,
     # maximum scale skin seeds in nipple direction
-    "maxSkinScaleNippleDir": 5.0,
+    "compartment_maxSkinScaleNippleDir": 5.0,
     # minimum scale skin in non-nipple direction
-    "minSkinScale": 200.0,
+    "compartment_minSkinScale": 200.0,
     # maximum scale skin in non-nipple direction
-    "maxSkinScale": 200.0,
+    "compartment_maxSkinScale": 200.0,
     # skin strength
-    "skinStrength": 2.0,
+    "compartment_skinStrength": 2.0,
     # back scale
-    "backScale": 60.0,
+    "compartment_backScale": 60.0,
     # back strength
-    "backStrength": 4.0,
+    "compartment_backStrength": 4.0,
     # nipple scale
-    "nippleScale": 5.0,
+    "compartment_nippleScale": 5.0,
     # nipple strength
-    "nippleStrength": 10.0,
+    "compartment_nippleStrength": 10.0,
     # check seeds within radius (mm)
-    "voronSeedRadius": 100.0,
+    "compartment_voronSeedRadius": 100.0,
 
     #####################
     # TDLU variables
     #####################
     # maximum TDLU length
-    "maxLength": 2.0,
+    "tdlu_maxLength": 2.0,
     # minimum TDLU length
-    "minLength": 1.0,
+    "tdlu_minLength": 1.0,
     # maximum TDLU width
-    "maxWidth": 1.0,
+    "tdlu_maxWidth": 1.0,
     # minimum TDLU width
-    "minWidth": 0.5,
+    "tdlu_minWidth": 0.5,
 
     #####################
     # Perlin noise variables
     #####################
     # maximum fraction of radius deviation
-    "maxDeviation": 0.1,
+    "perlin_noise_maxDeviation": 0.1,
     # starting frequency
-    "frequency": 0.1,
+    "perlin_noise_frequency": 0.1,
     # octave frequency multiplier
-    "lacunarity": 2.0,
+    "perlin_noise_lacunarity": 2.0,
     # octave signal decay
-    "persistence": 0.5,
+    "perlin_noise_persistence": 0.5,
     # number of frequency octaves
-    "numOctaves": 6,
+    "perlin_noise_numOctaves": 6,
     # x direction noise generation seed
-    "xNoiseGen": 683,
+    "perlin_noise_xNoiseGen": 683,
     # y direction noise generation seed
-    "yNoiseGen": 4933,
+    "perlin_noise_yNoiseGen": 4933,
     # z direction noise generation seed
-    "zNoiseGen": 23,
+    "perlin_noise_zNoiseGen": 23,
     # seed noise generation
-    "seedNoiseGen": 3095,
+    "perlin_noise_seedNoiseGen": 3095,
     # shift noise generation seed
-    "shiftNoiseGen": 11,
+    "perlin_noise_shiftNoiseGen": 11,
 
     #####################
     # Compartment boundary noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.1,
+    "compartment_boundary_maxDeviation": 0.1,
     # starting frequency
-    "frequency": 0.15,
+    "compartment_boundary_frequency": 0.15,
     # octave frequency multiplier
-    "lacunarity": 1.5,
+    "compartment_boundary_lacunarity": 1.5,
     # octave signal decay
-    "persistence": 0.5,
+    "compartment_boundary_persistence": 0.5,
 
     #####################
     # Lobule boundary perturbation noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.25,
+    "lobule_boundary_maxDeviation": 0.25,
     # starting frequency
-    "frequency": 0.09,
+    "lobule_boundary_frequency": 0.09,
     # octave frequency multiplier
-    "lacunarity": 2.0,
+    "lobule_boundary_lacunarity": 2.0,
     # octave signal decay
-    "persistence": 0.4,
+    "lobule_boundary_persistence": 0.4,
 
     #####################
     # Lobule glandular buffer noise
     #####################
     # maximum fraction of distance deviation
-    "maxDeviation": 0.15,
+    "lobule_glandular_maxDeviation": 0.15,
     # starting frequency
-    "frequency": 0.05,
+    "lobule_glandular_frequency": 0.05,
     # octave frequency multiplier
-    "lacunarity": 1.5,
+    "lobule_glandular_lacunarity": 1.5,
     # octave signal decay
-    "persistence": 0.5,
+    "lobule_glandular_persistence": 0.5,
 
     #####################
     # Voronoi segmentation variables
     #####################
     # fat voronoi seed density (mm^-3,)
-    "fatInFatSeedDensity": 0.001,
+    "voronoi_fatInFatSeedDensity": 0.001,
     # fat voronoi seed in glandular tissue density (mm^-3,)
-    "fatInGlandSeedDensity": 0.001,
+    "voronoi_fatInGlandSeedDensity": 0.001,
     # glandular voronoi seed density (mm^-3,)
-    "glandInGlandSeedDensity": 0.0005,
+    "voronoi_glandInGlandSeedDensity": 0.0005,
     # maximum deflection (fraction of pi)
-    "TDLUDeflectMax": 0.15,
+    "voronoi_TDLUDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenTDLU": 0.1,
+    "voronoi_minScaleLenTDLU": 0.1,
     # maximum length scale
-    "maxScaleLenTDLU": 0.2,
+    "voronoi_maxScaleLenTDLU": 0.2,
     # minimum width scale
-    "minScaleWidTDLU": 40.0,
+    "voronoi_minScaleWidTDLU": 40.0,
     # maximum width scale
-    "maxScaleWidTDLU": 45.0,
+    "voronoi_maxScaleWidTDLU": 45.0,
     # minimum strength
-    "minStrTDLU": 20.0,
+    "voronoi_minStrTDLU": 20.0,
     # maximum strength
-    "maxStrTDLU": 22.0,
+    "voronoi_maxStrTDLU": 22.0,
     # maximum deflection (fraction of pi)
-    "fatInFatDeflectMax": 0.15,
+    "voronoi_fatInFatDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenFatInFat": 5.0,
+    "voronoi_minScaleLenFatInFat": 5.0,
     # maximum length scale
-    "maxScaleLenFatInFat": 10.0,
+    "voronoi_maxScaleLenFatInFat": 10.0,
     # minimum width scale
-    "minScaleWidFatInFat": 50.0,
+    "voronoi_minScaleWidFatInFat": 50.0,
     # maximum width scale
-    "maxScaleWidFatInFat": 60.0,
+    "voronoi_maxScaleWidFatInFat": 60.0,
     # minimum strength
-    "minStrFatInFat": 40.0,
+    "voronoi_minStrFatInFat": 40.0,
     # maximum strength
-    "maxStrFatInFat": 50.0,
+    "voronoi_maxStrFatInFat": 50.0,
     # maximum deflection (fraction of pi)
-    "fatInGlandDeflectMax": 0.15,
+    "voronoi_fatInGlandDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenFatInGland": 1.0,
+    "voronoi_minScaleLenFatInGland": 1.0,
     # maximum length scale
-    "maxScaleLenFatInGland": 2.0,
+    "voronoi_maxScaleLenFatInGland": 2.0,
     # minimum width scale
-    "minScaleWidFatInGland": 30.0,
+    "voronoi_minScaleWidFatInGland": 30.0,
     # maximum width scale
-    "maxScaleWidFatInGland": 40.0,
+    "voronoi_maxScaleWidFatInGland": 40.0,
     # minimum strength
-    "minStrFatInGland": 20.0,
+    "voronoi_minStrFatInGland": 20.0,
     # maximum strength
-    "maxStrFatInGland": 22.0,
+    "voronoi_maxStrFatInGland": 22.0,
     # maximum deflection (fraction of pi)
-    "glandInGlandDeflectMax": 0.15,
+    "voronoi_glandInGlandDeflectMax": 0.15,
     # minimum length scale
-    "minScaleLenGlandInGland": 1.0,
+    "voronoi_minScaleLenGlandInGland": 1.0,
     # maximum length scale
-    "maxScaleLenGlandInGland": 2.0,
+    "voronoi_maxScaleLenGlandInGland": 2.0,
     # minimum width scale
-    "minScaleWidGlandInGland": 30.0,
+    "voronoi_minScaleWidGlandInGland": 30.0,
     # maximum width scale
-    "maxScaleWidGlandInGland": 40.0,
+    "voronoi_maxScaleWidGlandInGland": 40.0,
     # minimum strength
-    "minStrGlandInGland": 20.0,
+    "voronoi_minStrGlandInGland": 20.0,
     # maximum strength
-    "maxStrGlandInGland": 22.0,
+    "voronoi_maxStrGlandInGland": 22.0,
     # check seeds in radius (mm)
-    "seedRadius": 40.0,
+    "voronoi_seedRadius": 40.0,
 
     #####################
     # fat variables
     #####################
     # min lobule axis length (mm)
     # was 20,
-    "minLobuleAxis": 20.0,
+    "fat_minLobuleAxis": 20.0,
     # max lobule axis length (mm)
     # was 35,
-    "maxLobuleAxis": 30.0,
+    "fat_maxLobuleAxis": 30.0,
     # axial ratio min
-    "minAxialRatio": 0.13,
+    "fat_minAxialRatio": 0.13,
     # axial ratio max
-    "maxAxialRatio": 0.75,
+    "fat_maxAxialRatio": 0.75,
     # minimum ligament separation between lobules
-    "minLobuleGap": 0.15,
+    "fat_minLobuleGap": 0.15,
     # maximum of absolute value of Fourier coefficient as fraction of main radius
-    "maxCoeffStr": 0.1,
+    "fat_maxCoeffStr": 0.1,
     # minimum of absolute value of Fourier coefficient as fraction of main radius
-    "minCoeffStr": 0.05,
+    "fat_minCoeffStr": 0.05,
     # maximum number of trial lobules
     # was 401,
-    "maxLobuleTry": 401,
+    "fat_maxLobuleTry": 401,
 
 
     #####################
     # ligament variables
     #####################
-    "thickness": 0.1,
-    "targetFrac": 0.85,
-    "maxTry": 15000,
-    "minAxis": 20.0,
-    "maxAxis": 25.0,
-    "minAxialRatio": 0.2,
-    "maxAxialRatio": 0.3,
-    "maxPerturb": 0.05,
-    "maxDeflect": 0.12,
-    "scale": 0.007,
-    "lacunarity": 1.5,
-    "persistence": 0.3,
-    "numOctaves": 6,
+    "ligament_thickness": 0.1,
+    "ligament_targetFrac": 0.85,
+    "ligament_maxTry": 15000,
+    "ligament_minAxis": 20.0,
+    "ligament_maxAxis": 25.0,
+    "ligament_minAxialRatio": 0.2,
+    "ligament_maxAxialRatio": 0.3,
+    "ligament_maxPerturb": 0.05,
+    "ligament_maxDeflect": 0.12,
+    "ligament_scale": 0.007,
+    "ligament_lacunarity": 1.5,
+    "ligament_persistence": 0.3,
+    "ligament_numOctaves": 6,
 
     #####################
     # duct tree variables
     #####################
     # target number of branches (uint)
-    "maxBranch": 400,
+    "duct_tree_maxBranch": 400,
     # maximum generation (uint)
-    "maxGen": 7,
+    "duct_tree_maxGen": 7,
     # initial radius of tree (mm)
-    "initRad": 0.5,
+    "duct_tree_initRad": 0.5,
     # base Length of root duct at nipple (mm)
-    "baseLength": 19.0,
+    "duct_tree_baseLength": 19.0,
     # number of voxels for tree density tracking (uint)
-    "nFillX": 50,
-    "nFillY": 50,
-    "nFillZ": 50,
+    "duct_tree_nFillX": 50,
+    "duct_tree_nFillY": 50,
+    "duct_tree_nFillZ": 50,
 
     #####################
     # duct branch variables
     #####################
     # minimum branch radius to have children (mm)
-    "childMinRad": 0.1,
+    "duct_branch_childMinRad": 0.1,
     # minimum starting radius as a fraction of parent end radius
-    "minRadFrac": 0.65,
+    "duct_branch_minRadFrac": 0.65,
     # maximum starting radius as a fraction of parent end radius
-    "maxRadFrac": 0.99,
+    "duct_branch_maxRadFrac": 0.99,
     # length reduction as fraction of parent length
-    "lenShrink": 0.5,
+    "duct_branch_lenShrink": 0.5,
     # maximum jitter in branch length (fraction)
-    "lenRange": 0.1,
+    "duct_branch_lenRange": 0.1,
     # aximuthal angle noise (radians)
-    "rotateJitter": 0.1,
+    "duct_branch_rotateJitter": 0.1,
 
     #####################
     # duct segment variables
     #####################
     # radius distribution shape parameters
-    "radiusBetaA": 6.0,
-    "radiusBetaB": 10.0,
+    "duct_segment_radiusBetaA": 6.0,
+    "duct_segment_radiusBetaB": 10.0,
     # fraction of branch length per segment
-    "segFrac": 0.15,
+    "duct_segment_segFrac": 0.15,
     # maximum radius of curvature (mm)
-    "maxCurvRad": 10.0,
+    "duct_segment_maxCurvRad": 10.0,
     # maximum length of segment based on
     # curvature (fraction of pi radians)
-    "maxCurvFrac": 0.5,
+    "duct_segment_maxCurvFrac": 0.5,
     # min and max end radius as fraction of start radius
-    "minEndRad": 0.95,
-    "maxEndRad": 1.0,
+    "duct_segment_minEndRad": 0.95,
+    "duct_segment_maxEndRad": 1.0,
     # cost function preferential angle weighting
-    "angleWt": 1.0,
+    "duct_segment_angleWt": 1.0,
     # cost function density weighting
-    "densityWt": 20.0,
+    "duct_segment_densityWt": 20.0,
     # number of trial segments to generate (uint)
-    "numTry": 50,
+    "duct_segment_numTry": 50,
     # maximum number of segments to generate before
     # giving up and reducing length (uint)
-    "maxTry": 100,
+    "duct_segment_maxTry": 100,
     # total number of segment tries before completely giving up
-    "absMaxTry": 10000,
+    "duct_segment_absMaxTry": 10000,
     # step size for checking segment is valid (mm)
-    "roiStep": 0.1,
+    "duct_segment_roiStep": 0.1,
 
 
     #####################
     # vessel tree variables
     #####################
     # target number of branches (uint)
-    "maxBranch": 750,
+    "vessel_tree_maxBranch": 750,
     # maximum generation (uint)
-    "maxGen": 6,
+    "vessel_tree_maxGen": 6,
     # initial radius of tree (mm)
-    "initRad": 0.75,
+    "vessel_tree_initRad": 0.75,
     # base length of root vessel (mm)
-    "baseLength": 15.0,
+    "vessel_tree_baseLength": 15.0,
     # number of voxels for tree density tracking (uint)
-    "nFillX": 30,
-    "nFillY": 69,
-    "nFillZ": 69,
+    "vessel_tree_nFillX": 30,
+    "vessel_tree_nFillY": 69,
+    "vessel_tree_nFillZ": 69,
 
     #####################
     # vessel branch variables
     #####################
     # minimum branch radius to have children (mm)
-    "childMinRad": 0.1,
+    "vessel_branch_childMinRad": 0.1,
     # minimum starting radius as a fraction of parent end radius
-    "minRadFrac": 0.65,
+    "vessel_branch_minRadFrac": 0.65,
     # maximum starting radius as a fraction of parent end radius
-    "maxRadFrac": 0.99,
+    "vessel_branch_maxRadFrac": 0.99,
     # length reduction as fraction of parent length
-    "lenShrink": 0.8,
+    "vessel_branch_lenShrink": 0.8,
     # maximum jitter in branch length (fraction)
-    "lenRange": 0.1,
+    "vessel_branch_lenRange": 0.1,
     # aximuthal angle noise (radians)
-    "rotateJitter": 0.1,
+    "vessel_branch_rotateJitter": 0.1,
 
     #####################
     # vessel segment variables
     #####################
     # radius distribution shape parameters
-    "radiusBetaA": 6.0,
-    "radiusBetaB": 10.0,
+    "vessel_segment_radiusBetaA": 6.0,
+    "vessel_segment_radiusBetaB": 10.0,
     # fraction of branch length to segment
-    "segFrac": 0.25,
+    "vessel_segment_segFrac": 0.25,
     # maximum radius of curvature (mm)
-    "maxCurvRad": 200.0,
+    "vessel_segment_maxCurvRad": 200.0,
     # maximum length of segment based on
     # curvature (fraction of pi radians)
-    "maxCurvFrac": 0.5,
+    "vessel_segment_maxCurvFrac": 0.5,
     # min and max end radius as fraction of start radius
-    "minEndRad": 0.95,
-    "maxEndRad": 1.0,
+    "vessel_segment_minEndRad": 0.95,
+    "vessel_segment_maxEndRad": 1.0,
     # cost function preferential angle weighting
-    "angleWt": 100.0,
+    "vessel_segment_angleWt": 100.0,
     # cost function density weighting
-    "densityWt": 1.0,
+    "vessel_segment_densityWt": 1.0,
     # cost function direction weighting
-    "dirWt": 100.0,
+    "vessel_segment_dirWt": 100.0,
     # number of trial segments to generate (uint)
-    "numTry": 100,
+    "vessel_segment_numTry": 100,
     # maximum number of segments to generate before
     # giving up and reducing length (uint)
-    "maxTry": 300,
+    "vessel_segment_maxTry": 300,
     # total number of segment tries before completely giving up
-    "absMaxTry": 100000,
+    "vessel_segment_absMaxTry": 100000,
     # step size for checking segment is valid (mm)
-    "roiStep": 0.1,
+    "vessel_segment_roiStep": 0.1,
 }
 
 DENSITY_RANGES = {"targetFatFrac": [0.4, 0.66, 0.85, 0.95],
-                  "a1b": [1.0, 1.2, 1.4, 1.4],
-                  "a1t": [1.0, 1.2, 1.4, 1.4],
-                  "a2l": [1.0, 1.0, 1.2, 1.4],
-                  "a2r": [1.0, 1.0, 1.2, 1.4],
-                  "a3": [1.0, 1.55, 2.0, 2.75],
-                  "eps2": [1.0, 1.0, 1.0, 1.1],
-                  "topShapeT0": [-12.0, -12.0, -8.0, -8.0],
-                  "topShapeT1": [-5.0, -5.0, -2.0, -2.0],
-                  "backFatBufferFrac": [0.008, 0.01, 0.01, 0.01],
-                  "numBackSeeds": [150, 250, 250, 250],
-                  "minSkinScaleNippleDir": [10.0, 10.0, 5.0, 5.0],
-                  "maxSkinScaleNippleDir": [20.0, 20.0, 5.0, 5.0],
+                  "surface_a1b": [1.0, 1.2, 1.4, 1.4],
+                  "surface_a1t": [1.0, 1.2, 1.4, 1.4],
+                  "surface_a2l": [1.0, 1.0, 1.2, 1.4],
+                  "surface_a2r": [1.0, 1.0, 1.2, 1.4],
+                  "surface_a3": [1.0, 1.55, 2.0, 2.75],
+                  "surface_eps1": [1.2, 1.2, 1.2, 1.1],
+                  "surface_topShapeT0": [-12.0, -12.0, -8.0, -8.0],
+                  "surface_topShapeT1": [-5.0, -5.0, -2.0, -2.0],
+                  "compartment_backFatBufferFrac": [0.008, 0.01, 0.01, 0.01],
+                  "compartment_numBackSeeds": [150, 250, 250, 250],
+                  "compartment_minSkinScaleNippleDir": [10.0, 10.0, 5.0, 5.0],
+                  "compartment_maxSkinScaleNippleDir": [20.0, 20.0, 5.0, 5.0],
+                  "compartment_maxSkinScale":[400,200,200,200],
+                  "compartment_skinStrength":[0.5,1.0,2.0,2.0],
+                  "compartment_backStrength":[1.0,2.0,4.0,4.0],
+                  "duct_tree_baseLength":[7.6,7.6,7.6,19],
+                  "duct_segment_segFrac":[0.25,0.25,0.25,0.15],
                   # mm (this is the objective thickness)
-                  "compressionThickness": [35, 45, 55, 65],
+                  "compressionThickness": [35, 45, 55, 60],
                   "number_histories": [7.8e9, 1.02e10, 2.04e10, 2.22e10],
                   }
 

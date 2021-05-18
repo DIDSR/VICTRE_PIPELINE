@@ -32,256 +32,256 @@ seed=$seed
 #####################
 [shape]
 # u resolution of base shape
-ures=$ures
+ures=$surface_ures
 # v resolution of base shape
-vres=$vres
+vres=$surface_vres
 # minimum point separation (mm)
-pointSep=$pointSep
+pointSep=$surface_pointSep
 # back ring thickness (mm)
-ringWidth=$ringWidth
+ringWidth=$surface_ringWidth
 # back ring step size (mm)
-ringSep=$ringSep
+ringSep=$surface_ringSep
 # angle to preserve while smoothing (degrees)
-featureAngle=$featureAngle
+featureAngle=$surface_featureAngle
 # fraction of triangles to decimate
-targetReduction=$targetReduction
+targetReduction=$surface_targetReduction
 # bottom scale was 1.3
-a1b=$a1b
+a1b=$surface_a1b
 # top scale was 1.3
-a1t=$a1t
+a1t=$surface_a1t
 # left scale
-a2l=$a2l
+a2l=$surface_a2l
 # right scale
-a2r=$a2r
+a2r=$surface_a2r
 # outward scale was 1.75
-a3=$a3
+a3=$surface_a3
 # u quadric exponent
-eps1=$eps1
+eps1=$surface_eps1
 # v quadric exponent
-eps2=$eps2
+eps2=$surface_eps2
 # do ptosis deformation (boolean)
-doPtosis=$doPtosis
-ptosisB0=$ptosisB0
-ptosisB1=$ptosisB1
+doPtosis=$surface_doPtosis
+ptosisB0=$surface_ptosisB0
+ptosisB1=$surface_ptosisB1
 # do turn deformation (boolean)
-doTurn=$doTurn
-turnC0=$turnC0
-turnC1=$turnC1
+doTurn=$surface_doTurn
+turnC0=$surface_turnC0
+turnC1=$surface_turnC1
 # do top shape deformation (boolean)
-doTopShape=$doTopShape
-topShapeS0=$topShapeS0
-topShapeS1=$topShapeS1
-topShapeT0=$topShapeT0
-topShapeT1=$topShapeT1
+doTopShape=$surface_doTopShape
+topShapeS0=$surface_topShapeS0
+topShapeS1=$surface_topShapeS1
+topShapeT0=$surface_topShapeT0
+topShapeT1=$surface_topShapeT1
 # do flatten size deformation (boolean)
-doFlattenSide=$doFlattenSide
-flattenSideG0=$flattenSideG0
-flattenSideG1=$flattenSideG1
+doFlattenSide=$surface_doFlattenSide
+flattenSideG0=$surface_flattenSideG0
+flattenSideG1=$surface_flattenSideG1
 # do turn top deformation (boolean)
-doTurnTop=$doTurnTop
-turnTopH0=$turnTopH0
-turnTopH1=$turnTopH1
+doTurnTop=$surface_doTurnTop
+turnTopH0=$surface_turnTopH0
+turnTopH1=$surface_turnTopH1
 
 #####################
 # breast compartment
 #####################
 [compartments]
 # number of breast compartments
-num=$num
+num=$compartment_num
 # distance along nipple line of compartment seed base (mm)
-seedBaseDist=$seedBaseDist
+seedBaseDist=$compartment_seedBaseDist
 # fraction of phantom in nipple direction forced to be fat
-backFatBufferFrac=$backFatBufferFrac
+backFatBufferFrac=$compartment_backFatBufferFrac
 # number of backplane seed points
-numBackSeeds=$numBackSeeds
+numBackSeeds=$compartment_numBackSeeds
 # maximum seed jitter (fraction of subtended angle)
-angularJitter=$angularJitter
+angularJitter=$compartment_angularJitter
 # maximum seed jitter in nipple direction (mm)
-zJitter=$zJitter
+zJitter=$compartment_zJitter
 # maximum radial distance from base seed as a fraction of distance to breast surface
-maxFracRadialDist=$maxFracRadialDist
+maxFracRadialDist=$compartment_maxFracRadialDist
 # minimum radial distance from base seed as a fraction of distance to breast surface
-minFracRadialDist=$minFracRadialDist
+minFracRadialDist=$compartment_minFracRadialDist
 # minimum scale in nipple direction
-minScaleNippleDir=$minScaleNippleDir
+minScaleNippleDir=$compartment_minScaleNippleDir
 # maximum scale in nipple direction
-maxScaleNippleDir=$maxScaleNippleDir
+maxScaleNippleDir=$compartment_maxScaleNippleDir
 # minimum scale in non-nipple direction
-minScale=$minScale
+minScale=$compartment_minScale
 # maximum scale in non-nipple direction
-maxScale=$maxScale
+maxScale=$compartment_maxScale
 # minimum gland strength
-minGlandStrength=$minGlandStrength
+minGlandStrength=$compartment_minGlandStrength
 # maximum gland strength
-maxGlandStrength=$maxGlandStrength
+maxGlandStrength=$compartment_maxGlandStrength
 # maximum compartment deflection angle from pointing towards nipple (fraction of pi)
-maxDeflect=$maxDeflect
+maxDeflect=$compartment_maxDeflect
 # minimum scale skin seeds in nipple direction
-minSkinScaleNippleDir=$minSkinScaleNippleDir
+minSkinScaleNippleDir=$compartment_minSkinScaleNippleDir
 # maximum scale skin seeds in nipple direction
-maxSkinScaleNippleDir=$maxSkinScaleNippleDir
+maxSkinScaleNippleDir=$compartment_maxSkinScaleNippleDir
 # minimum scale skin in non-nipple direction
-minSkinScale=$minSkinScale
+minSkinScale=$compartment_minSkinScale
 # maximum scale skin in non-nipple direction
-maxSkinScale=$maxSkinScale
+maxSkinScale=$compartment_maxSkinScale
 # skin strength
-skinStrength=$skinStrength
+skinStrength=$compartment_skinStrength
 # back scale
-backScale=$backScale
+backScale=$compartment_backScale
 # back strength
-backStrength=$backStrength
+backStrength=$compartment_backStrength
 # nipple scale
-nippleScale=$nippleScale
+nippleScale=$compartment_nippleScale
 # nipple strength
-nippleStrength=$nippleStrength
+nippleStrength=$compartment_nippleStrength
 # check seeds within radius (mm)
-voronSeedRadius=$voronSeedRadius
+voronSeedRadius=$compartment_voronSeedRadius
 
 #####################
 # TDLU variables
 #####################
 [TDLU]
 # maximum TDLU length
-maxLength=$maxLength
+maxLength=$tdlu_maxLength
 # minimum TDLU length
-minLength=$minLength
+minLength=$tdlu_minLength
 # maximum TDLU width
-maxWidth=$maxWidth
+maxWidth=$tdlu_maxWidth
 # minimum TDLU width
-minWidth=$minWidth
+minWidth=$tdlu_minWidth
 
 #####################
 # Perlin noise variables
 #####################
 [perlin]
 # maximum fraction of radius deviation 
-maxDeviation=$maxDeviation
+maxDeviation=$perlin_noise_maxDeviation
 # starting frequency
-frequency=$frequency
+frequency=$perlin_noise_frequency
 # octave frequency multiplier
-lacunarity=$lacunarity
+lacunarity=$perlin_noise_lacunarity
 # octave signal decay
-persistence=$persistence
+persistence=$perlin_noise_persistence
 # number of frequency octaves
-numOctaves=$numOctaves
+numOctaves=$perlin_noise_numOctaves
 # x direction noise generation seed
-xNoiseGen=$xNoiseGen
+xNoiseGen=$perlin_noise_xNoiseGen
 # y direction noise generation seed
-yNoiseGen=$yNoiseGen
+yNoiseGen=$perlin_noise_yNoiseGen
 # z direction noise generation seed
-zNoiseGen=$zNoiseGen
+zNoiseGen=$perlin_noise_zNoiseGen
 # seed noise generation
-seedNoiseGen=$seedNoiseGen
+seedNoiseGen=$perlin_noise_seedNoiseGen
 # shift noise generation seed
-shiftNoiseGen=$shiftNoiseGen
+shiftNoiseGen=$perlin_noise_shiftNoiseGen
 
 #####################
 # Compartment boundary noise
 #####################
 [boundary]
 # maximum fraction of distance deviation 
-maxDeviation=$maxDeviation
+maxDeviation=$compartment_boundary_maxDeviation
 # starting frequency
-frequency=$frequency
+frequency=$compartment_boundary_frequency
 # octave frequency multiplier
-lacunarity=$lacunarity
+lacunarity=$compartment_boundary_lacunarity
 # octave signal decay
-persistence=$persistence
+persistence=$compartment_boundary_persistence
 
 #####################
 # Lobule boundary perturbation noise
 #####################
 [perturb]
 # maximum fraction of distance deviation 
-maxDeviation=$maxDeviation
+maxDeviation=$lobule_boundary_maxDeviation
 # starting frequency
-frequency=$frequency
+frequency=$lobule_boundary_frequency
 # octave frequency multiplier
-lacunarity=$lacunarity
+lacunarity=$lobule_boundary_lacunarity
 # octave signal decay
-persistence=$persistence
+persistence=$lobule_boundary_persistence
 
 #####################
 # Lobule glandular buffer noise
 #####################
 [buffer]
 # maximum fraction of distance deviation 
-maxDeviation=$maxDeviation
+maxDeviation=$lobule_glandular_maxDeviation
 # starting frequency
-frequency=$frequency
+frequency=$lobule_glandular_frequency
 # octave frequency multiplier
-lacunarity=$lacunarity
+lacunarity=$lobule_glandular_lacunarity
 # octave signal decay
-persistence=$persistence
+persistence=$lobule_glandular_persistence
 
 #####################
 # Voronoi segmentation variables
 #####################
 [voronoi]
 # fat voronoi seed density (mm^-3)
-fatInFatSeedDensity=$fatInFatSeedDensity
+fatInFatSeedDensity=$voronoi_fatInFatSeedDensity
 # fat voronoi seed in glandular tissue density (mm^-3)
-fatInGlandSeedDensity=$fatInGlandSeedDensity
+fatInGlandSeedDensity=$voronoi_fatInGlandSeedDensity
 # glandular voronoi seed density (mm^-3)
-glandInGlandSeedDensity=$glandInGlandSeedDensity
+glandInGlandSeedDensity=$voronoi_glandInGlandSeedDensity
 # maximum deflection (fraction of pi)
-TDLUDeflectMax=$TDLUDeflectMax
+TDLUDeflectMax=$voronoi_TDLUDeflectMax
 # minimum length scale
-minScaleLenTDLU=$minScaleLenTDLU
+minScaleLenTDLU=$voronoi_minScaleLenTDLU
 # maximum length scale
-maxScaleLenTDLU=$maxScaleLenTDLU
+maxScaleLenTDLU=$voronoi_maxScaleLenTDLU
 # minimum width scale
-minScaleWidTDLU=$minScaleWidTDLU
+minScaleWidTDLU=$voronoi_minScaleWidTDLU
 # maximum width scale
-maxScaleWidTDLU=$maxScaleWidTDLU
+maxScaleWidTDLU=$voronoi_maxScaleWidTDLU
 # minimum strength
-minStrTDLU=$minStrTDLU
+minStrTDLU=$voronoi_minStrTDLU
 # maximum strength
-maxStrTDLU=$maxStrTDLU
+maxStrTDLU=$voronoi_maxStrTDLU
 # maximum deflection (fraction of pi)
-fatInFatDeflectMax=$fatInFatDeflectMax
+fatInFatDeflectMax=$voronoi_fatInFatDeflectMax
 # minimum length scale
-minScaleLenFatInFat=$minScaleLenFatInFat
+minScaleLenFatInFat=$voronoi_minScaleLenFatInFat
 # maximum length scale
-maxScaleLenFatInFat=$maxScaleLenFatInFat
+maxScaleLenFatInFat=$voronoi_maxScaleLenFatInFat
 # minimum width scale
-minScaleWidFatInFat=$minScaleWidFatInFat
+minScaleWidFatInFat=$voronoi_minScaleWidFatInFat
 # maximum width scale
-maxScaleWidFatInFat=$maxScaleWidFatInFat
+maxScaleWidFatInFat=$voronoi_maxScaleWidFatInFat
 # minimum strength
-minStrFatInFat=$minStrFatInFat
+minStrFatInFat=$voronoi_minStrFatInFat
 # maximum strength
-maxStrFatInFat=$maxStrFatInFat
+maxStrFatInFat=$voronoi_maxStrFatInFat
 # maximum deflection (fraction of pi)
-fatInGlandDeflectMax=$fatInGlandDeflectMax
+fatInGlandDeflectMax=$voronoi_fatInGlandDeflectMax
 # minimum length scale
-minScaleLenFatInGland=$minScaleLenFatInGland
+minScaleLenFatInGland=$voronoi_minScaleLenFatInGland
 # maximum length scale
-maxScaleLenFatInGland=$maxScaleLenFatInGland
+maxScaleLenFatInGland=$voronoi_maxScaleLenFatInGland
 # minimum width scale
-minScaleWidFatInGland=$minScaleWidFatInGland
+minScaleWidFatInGland=$voronoi_minScaleWidFatInGland
 # maximum width scale
-maxScaleWidFatInGland=$maxScaleWidFatInGland
+maxScaleWidFatInGland=$voronoi_maxScaleWidFatInGland
 # minimum strength
-minStrFatInGland=$minStrFatInGland
+minStrFatInGland=$voronoi_minStrFatInGland
 # maximum strength
-maxStrFatInGland=$maxStrFatInGland
+maxStrFatInGland=$voronoi_maxStrFatInGland
 # maximum deflection (fraction of pi)
-glandInGlandDeflectMax=$glandInGlandDeflectMax
+glandInGlandDeflectMax=$voronoi_glandInGlandDeflectMax
 # minimum length scale
-minScaleLenGlandInGland=$minScaleLenGlandInGland
+minScaleLenGlandInGland=$voronoi_minScaleLenGlandInGland
 # maximum length scale
-maxScaleLenGlandInGland=$maxScaleLenGlandInGland
+maxScaleLenGlandInGland=$voronoi_maxScaleLenGlandInGland
 # minimum width scale
-minScaleWidGlandInGland=$minScaleWidGlandInGland
+minScaleWidGlandInGland=$voronoi_minScaleWidGlandInGland
 # maximum width scale
-maxScaleWidGlandInGland=$maxScaleWidGlandInGland
+maxScaleWidGlandInGland=$voronoi_maxScaleWidGlandInGland
 # minimum strength
-minStrGlandInGland=$minStrGlandInGland
+minStrGlandInGland=$voronoi_minStrGlandInGland
 # maximum strength
-maxStrGlandInGland=$maxStrGlandInGland
+maxStrGlandInGland=$voronoi_maxStrGlandInGland
 # check seeds in radius (mm) 
-seedRadius=$seedRadius
+seedRadius=$voronoi_seedRadius
 
 #####################
 # fat variables
@@ -289,107 +289,107 @@ seedRadius=$seedRadius
 [fat]
 # min lobule axis length (mm)
 # was 20
-minLobuleAxis=$minLobuleAxis
+minLobuleAxis=$fat_minLobuleAxis
 # max lobule axis length (mm)
 # was 35
-maxLobuleAxis=$maxLobuleAxis
+maxLobuleAxis=$fat_maxLobuleAxis
 # axial ratio min
-minAxialRatio=$minAxialRatio
+minAxialRatio=$fat_minAxialRatio
 # axial ratio max
-maxAxialRatio=$maxAxialRatio
+maxAxialRatio=$fat_maxAxialRatio
 # minimum ligament separation between lobules
-minLobuleGap=$minLobuleGap
+minLobuleGap=$fat_minLobuleGap
 # maximum of absolute value of Fourier coefficient as fraction of main radius
-maxCoeffStr=$maxCoeffStr
+maxCoeffStr=$fat_maxCoeffStr
 # minimum of absolute value of Fourier coefficient as fraction of main radius
-minCoeffStr=$minCoeffStr
+minCoeffStr=$fat_minCoeffStr
 # maximum number of trial lobules
 # was 401
-maxLobuleTry=$maxLobuleTry
+maxLobuleTry=$fat_maxLobuleTry
 
 
 #####################
 # ligament variables
 #####################
 [lig]
-thickness=$thickness
-targetFrac=$targetFrac
-maxTry=$maxTry
-minAxis=$minAxis
-maxAxis=$maxAxis
-minAxialRatio=$minAxialRatio
-maxAxialRatio=$maxAxialRatio
-maxPerturb=$maxPerturb
-maxDeflect=$maxDeflect
-scale=$scale
-lacunarity=$lacunarity
-persistence=$persistence
-numOctaves=$numOctaves
+thickness=$ligament_thickness
+targetFrac=$ligament_targetFrac
+maxTry=$ligament_maxTry
+minAxis=$ligament_minAxis
+maxAxis=$ligament_maxAxis
+minAxialRatio=$ligament_minAxialRatio
+maxAxialRatio=$ligament_maxAxialRatio
+maxPerturb=$ligament_maxPerturb
+maxDeflect=$ligament_maxDeflect
+scale=$ligament_scale
+lacunarity=$ligament_lacunarity
+persistence=$ligament_persistence
+numOctaves=$ligament_numOctaves
 
 #####################
 # duct tree variables
 #####################
 [ductTree]
 # target number of branches (uint)
-maxBranch=$maxBranch
+maxBranch=$duct_tree_maxBranch
 # maximum generation (uint)
-maxGen=$maxGen
+maxGen=$duct_tree_maxGen
 # initial radius of tree (mm)
-initRad=$initRad
+initRad=$duct_tree_initRad
 # base Length of root duct at nipple (mm)
-baseLength=$baseLength
+baseLength=$duct_tree_baseLength
 # number of voxels for tree density tracking (uint)
-nFillX=$nFillX
-nFillY=$nFillY
-nFillZ=$nFillZ
+nFillX=$duct_tree_nFillX
+nFillY=$duct_tree_nFillY
+nFillZ=$duct_tree_nFillZ
 
 #####################
 # duct branch variables
 #####################
 [ductBr]
 # minimum branch radius to have children (mm)
-childMinRad=$childMinRad
+childMinRad=$duct_branch_childMinRad
 # minimum starting radius as a fraction of parent end radius
-minRadFrac=$minRadFrac
+minRadFrac=$duct_branch_minRadFrac
 # maximum starting radius as a fraction of parent end radius
-maxRadFrac=$maxRadFrac
+maxRadFrac=$duct_branch_maxRadFrac
 # length reduction as fraction of parent length
-lenShrink=$lenShrink
+lenShrink=$duct_branch_lenShrink
 # maximum jitter in branch length (fraction)
-lenRange=$lenRange
+lenRange=$duct_branch_lenRange
 # aximuthal angle noise (radians)
-rotateJitter=$rotateJitter
+rotateJitter=$duct_branch_rotateJitter
 
 #####################
 # duct segment variables
 #####################
 [ductSeg]
 # radius distribution shape parameters
-radiusBetaA=$radiusBetaA
-radiusBetaB=$radiusBetaB
+radiusBetaA=$duct_segment_radiusBetaA
+radiusBetaB=$duct_segment_radiusBetaB
 # fraction of branch length per segment
-segFrac=$segFrac
+segFrac=$duct_segment_segFrac
 # maximum radius of curvature (mm)
-maxCurvRad=$maxCurvRad
+maxCurvRad=$duct_segment_maxCurvRad
 # maximum length of segment based on
 # curvature (fraction of pi radians)
-maxCurvFrac=$maxCurvFrac
+maxCurvFrac=$duct_segment_maxCurvFrac
 # min and max end radius as fraction of start radius
-minEndRad=$minEndRad
-maxEndRad=$maxEndRad
+minEndRad=$duct_segment_minEndRad
+maxEndRad=$duct_segment_maxEndRad
 # cost function preferential angle weighting
-angleWt=$angleWt
+angleWt=$duct_segment_angleWt
 # cost function density weighting
-densityWt=$densityWt
+densityWt=$duct_segment_densityWt
 # number of trial segments to generate (uint)
-numTry=$numTry
+numTry=$duct_segment_numTry
 # maximum number of segments to generate before
 # giving up and reducing length (uint)
-maxTry=$maxTry
+maxTry=$duct_segment_maxTry
 # total number of segment tries before completely giving up
-absMaxTry=$absMaxTry
+absMaxTry=$duct_segment_absMaxTry
 # step size for checking segment is valid (mm)
-roiStep=$roiStep
+roiStep=$duct_segment_roiStep
 
 
 #####################
@@ -397,64 +397,64 @@ roiStep=$roiStep
 #####################
 [vesselTree]
 # target number of branches (uint)
-maxBranch=$maxBranch
+maxBranch=$vessel_tree_maxBranch
 # maximum generation (uint)
-maxGen=$maxGen
+maxGen=$vessel_tree_maxGen
 # initial radius of tree (mm)
-initRad=$initRad
+initRad=$vessel_tree_initRad
 # base length of root vessel (mm)
-baseLength=$baseLength
+baseLength=$vessel_tree_baseLength
 # number of voxels for tree density tracking (uint)
-nFillX=$nFillX
-nFillY=$nFillY
-nFillZ=$nFillZ
+nFillX=$vessel_tree_nFillX
+nFillY=$vessel_tree_nFillY
+nFillZ=$vessel_tree_nFillZ
 
 #####################
 # vessel branch variables
 #####################
 [vesselBr]
 # minimum branch radius to have children (mm)
-childMinRad=$childMinRad
+childMinRad=$vessel_branch_childMinRad
 # minimum starting radius as a fraction of parent end radius 
-minRadFrac=$minRadFrac
+minRadFrac=$vessel_branch_minRadFrac
 # maximum starting radius as a fraction of parent end radius 
-maxRadFrac=$maxRadFrac
+maxRadFrac=$vessel_branch_maxRadFrac
 # length reduction as fraction of parent length
-lenShrink=$lenShrink
+lenShrink=$vessel_branch_lenShrink
 # maximum jitter in branch length (fraction)
-lenRange=$lenRange
+lenRange=$vessel_branch_lenRange
 # aximuthal angle noise (radians)
-rotateJitter=$rotateJitter
+rotateJitter=$vessel_branch_rotateJitter
 
 #####################
 # vessel segment variables
 #####################
 [vesselSeg]
 # radius distribution shape parameters
-radiusBetaA=$radiusBetaA
-radiusBetaB=$radiusBetaB
+radiusBetaA=$vessel_segment_radiusBetaA
+radiusBetaB=$vessel_segment_radiusBetaB
 # fraction of branch length to segment
-segFrac=$segFrac
+segFrac=$vessel_segment_segFrac
 # maximum radius of curvature (mm)
-maxCurvRad=$maxCurvRad
+maxCurvRad=$vessel_segment_maxCurvRad
 # maximum length of segment based on 
 # curvature (fraction of pi radians)
-maxCurvFrac=$maxCurvFrac
+maxCurvFrac=$vessel_segment_maxCurvFrac
 # min and max end radius as fraction of start radius
-minEndRad=$minEndRad
-maxEndRad=$maxEndRad
+minEndRad=$vessel_segment_minEndRad
+maxEndRad=$vessel_segment_maxEndRad
 # cost function preferential angle weighting
-angleWt=$angleWt
+angleWt=$vessel_segment_angleWt
 # cost function density weighting
-densityWt=$densityWt
+densityWt=$vessel_segment_densityWt
 # cost function direction weighting
-dirWt =$dirWt 
+dirWt=$vessel_segment_dirWt
 # number of trial segments to generate (uint)
-numTry=$numTry
+numTry=$vessel_segment_numTry
 # maximum number of segments to generate before
 # giving up and reducing length (uint)
-maxTry=$maxTry
+maxTry=$vessel_segment_maxTry
 # total number of segment tries before completely giving up
-absMaxTry=$absMaxTry
+absMaxTry=$vessel_segment_absMaxTry
 # step size for checking segment is valid (mm)
-roiStep=$roiStep
+roiStep=$vessel_segment_roiStep
