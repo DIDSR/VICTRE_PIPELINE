@@ -1235,6 +1235,9 @@ class Pipeline:
                                               cand_type
                                               ]))
         else:
+            current_seed = self.seed
+            np.random.seed(current_seed)
+
             if self.candidate_locations is not None:
                 # from mm to voxels
                 for idx, cand in enumerate(self.candidate_locations):
@@ -1246,12 +1249,12 @@ class Pipeline:
                                                                   self.mhd["ElementSpacing"][1]))]
                 Constants.INSERTION_MAX_TRIES = len(self.candidate_locations)
                 Constants.INSERTION_MAX_TOTAL_ATTEMPTS = 1000
+                np.random.shuffle(self.candidate_locations)
                 # current_candidate = 0
 
             roi_shape = self.roi_sizes[lesion_type]
             c = 0
-            current_seed = self.seed
-            random.seed(current_seed)
+            
             max_attempts = Constants.INSERTION_MAX_TOTAL_ATTEMPTS
             while c < n and max_attempts >= 0:
                 found = False
