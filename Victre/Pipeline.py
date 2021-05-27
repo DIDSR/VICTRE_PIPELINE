@@ -281,9 +281,11 @@ class Pipeline:
                     Constants.DENSITY_RANGES["targetFatFrac"], Constants.DENSITY_RANGES[key])
                 ranges[key] = np.round(float(interp(fat)), 2)
 
-            ranges["numBackSeeds"] = int(
-                ranges["numBackSeeds"])  # this should be integer
-
+            ranges["compartment_numBackSeeds"] = int(
+                ranges["compartment_numBackSeeds"])  # this should be integer
+            ranges["compartment_maxSkinScale"] = int(
+                            ranges["compartment_maxSkinScale"])  # this should be integer
+                            
             self.arguments_generation.update(ranges)
             if fat >= 0.75:  # increase the kVp when breast has low density
                 # this is hardcoded here, careful
@@ -430,8 +432,10 @@ class Pipeline:
             # this would be for the first GPU
             gpu_ram = (get_gpu_memory()[0] - 500) * 1024 * 1024
 
-            if gpu_ram < template_arguments["number_voxels"][0] * template_arguments["number_voxels"][1] * template_arguments["number_voxels"][2]:
-                template_arguments["low_resolution_voxel_size"] = [1, 1, 0]
+            if template_arguments["low_resolution_voxel_size"] == [0,0,0]: # if the binary tree has not been set
+                if gpu_ram < template_arguments["number_voxels"][0] * template_arguments["number_voxels"][1] * template_arguments["number_voxels"][2] or \
+                    template_arguments["number_voxels"][0] * template_arguments["number_voxels"][1] * template_arguments["number_voxels"][2] > 2**32:
+                    template_arguments["low_resolution_voxel_size"] = [1, 1, 1]
 
             for key in template_arguments.keys():
                 if type(template_arguments[key]) is list:
