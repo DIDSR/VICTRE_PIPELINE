@@ -182,8 +182,8 @@ What is your GPU architecture?
         printf "\n\n"
         read -n 1 -p "Compile with MPI support? (y/n): " yn
         case $yn in
-            [Yy]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -lmpi -lz --ptxas-options=-v $GPU_OPTIONS );;
-            [Nn]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O3 -use_fast_math -I. -I$CUDA_INC -I$CUDA_SAMPLES -lz --ptxas-options=-v $GPU_OPTIONS );;
+            [Yy]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O2 -DUSING_MPI -I. -I$CUDA_INC -I$CUDA_SAMPLES -I $MPI_INCLUDE -lmpi -lz --ptxas-options=-v $GPU_OPTIONS );;
+            [Nn]* ) ( cd ./Victre/projection && nvcc MC-GPU_v1.5b.cu -o MC-GPU_v1.5b.x -m64 -O2 -I. -I$CUDA_INC -I$CUDA_SAMPLES -lz --ptxas-options=-v $GPU_OPTIONS );;
             * ) echo "No answer";;
         esac
     ;;
