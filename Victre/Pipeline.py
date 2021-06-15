@@ -468,8 +468,7 @@ class Pipeline:
         else:
             ssh_command = "ssh -Y {:s} \"{:s}\"".format(
                 self.ips["gpu"], command)
-        # print(os.system("cd {:s} && ls -la ./Victre/projection/MC-GPU_v1.5b.x > log.txt".format(os.getcwd())))
-        # os.system(ssh_command, sh)
+        
         cprint("Initializing MCGPU for {:s}...".format(
             filename), 'cyan') if self.verbosity else None
 
@@ -677,8 +676,6 @@ class Pipeline:
         else:
             ssh_command = "ssh -Y {:s} \"{:s}\"".format(
                 self.ips["cpu"], command)
-        # print(ssh_command)
-        # res = os.popen(ssh_command).read()
 
         self.recon_size = dict(
             x=np.ceil(self.arguments_recon["voxels_x"] * self.arguments_recon["voxel_size"] /
@@ -829,7 +826,7 @@ class Pipeline:
         location[1] += det_origin[1]
 
         # we figured out by looking at the voxels and pixels that Y
-        location[1] = self.arguments_recon["detector_elements"] - location[1]
+        location[1] = self.arguments_mcgpu["image_pixels"][0] - location[1]
 
         return location[0], location[1]
 
@@ -985,10 +982,6 @@ class Pipeline:
 
             ds.fix_meta_info()
 
-            # print("Writing test file",
-            #       "./results/{:d}/DICOM/{:03d}.dcm".format(self.seed, count))
-            # ds.save_as("./results/{:d}/DICOM/{:03d}.dcm".format(self.seed, count))
-
             pydicom.filewriter.dcmwrite(
                 "{:s}/{:d}/DICOM_{:s}/{:03d}.dcm".format(
                     self.results_folder, self.seed, modality, count), ds,
@@ -1115,7 +1108,6 @@ class Pipeline:
             os.getcwd(),
             self.arguments_spiculated["seed"])
 
-        # print(command)
         cprint("Generating mass (seed={:d}, size={:.2f})...".format(
             self.arguments_spiculated["seed"], self.arguments_spiculated["alpha"]), 'cyan') if self.verbosity else None
         os.system(command)
@@ -1643,6 +1635,18 @@ class Pipeline:
         self.arguments_recon["voxels_y"] = self.arguments_mcgpu["number_voxels"][0]
         self.arguments_recon["voxels_z"] = self.arguments_mcgpu["number_voxels"][2]
 
+        self.recon_size = dict(
+            x=np.ceil(self.arguments_recon["voxels_x"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_pixel_size"]).astype(int),
+            y=np.ceil(self.arguments_recon["voxels_y"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_pixel_size"]).astype(int),
+            z=np.ceil(self.arguments_recon["voxels_z"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_thickness"]).astype(int)
+        )
+
+        self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
+            self.arguments_mcgpu["voxel_size"][1] / 2
+
         self.candidate_locations = np.loadtxt(
             "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
@@ -1696,6 +1700,18 @@ class Pipeline:
         self.arguments_recon["voxels_x"] = self.arguments_mcgpu["number_voxels"][1]
         self.arguments_recon["voxels_y"] = self.arguments_mcgpu["number_voxels"][0]
         self.arguments_recon["voxels_z"] = self.arguments_mcgpu["number_voxels"][2]
+
+        self.recon_size = dict(
+            x=np.ceil(self.arguments_recon["voxels_x"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_pixel_size"]).astype(int),
+            y=np.ceil(self.arguments_recon["voxels_y"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_pixel_size"]).astype(int),
+            z=np.ceil(self.arguments_recon["voxels_z"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_thickness"]).astype(int)
+        )
+
+        self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
+            self.arguments_mcgpu["voxel_size"][1] / 2
 
         with gzip.open("{:s}/{:d}/pc_{:d}_crop.raw.gz".format(self.results_folder, self.seed, self.seed), 'wb') as f:
             f.write(np.ascontiguousarray(phantom))
