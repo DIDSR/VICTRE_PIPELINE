@@ -13,8 +13,11 @@ endif()
 
 include_directories("$(PROJECT_SOURCE_DIR)")
 
+add_definitions(-DTETLIBRARY)
 add_library(predicates predicates.cxx)
 add_library(tet tetgen.cxx)
+
+target_link_libraries(tet predicates)
 
 #SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_BUILD_TYPE "Release")
