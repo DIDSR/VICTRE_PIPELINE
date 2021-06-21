@@ -13,6 +13,7 @@ endif()
 
 include_directories("$(PROJECT_SOURCE_DIR)")
 
+add_library(predicates predicates.cxx)
 add_library(tet tetgen.cxx)
 
 #SET(CMAKE_BUILD_TYPE "Debug")
@@ -22,4 +23,4 @@ SET(CMAKE_CXX_FLAGS  "-std=gnu++11 ${CMAKE_CXX_FLAGS}")
 
 add_executable(breastCompressMain breastCompress.cxx)
 
-target_link_libraries(breastCompressMain z lapack tet blas boost_program_options ${VTK_LIBRARIES})
+target_link_libraries(breastCompressMain z lapack predicates tet blas boost_program_options ${VTK_LIBRARIES})
