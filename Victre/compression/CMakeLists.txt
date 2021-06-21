@@ -20,4 +20,4 @@ SET(CMAKE_CXX_FLAGS  "-std=gnu++11 ${CMAKE_CXX_FLAGS}")
 
 add_executable(breastCompressMain breastCompress.cxx)
 
-target_link_libraries(breastCompressMain z tet lapack blas boost_program_options ${VTK_LIBRARIES})
+target_link_libraries(breastCompressMain z lapack blas boost_program_options ${VTK_LIBRARIES})
