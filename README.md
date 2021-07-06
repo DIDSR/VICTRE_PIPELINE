@@ -89,7 +89,7 @@ Install the required python libraries:
 
 > You might need to use `pip3` instead of `pip`.
 
-Add the `FEBio` executable to the path (replace `{{{routetofebio}}}` with the path to your FEBio installation):
+Download `FEBio 2.x` from the [official website](https://febio.org/febio/febio-downloads/) as a standalone executable and add it to the path (replace `{{{routetofebio}}}` with the path to your FEBio installation on this line):
 
 `export PATH="$PATH:/{{{routetofebio}}}/FEBio-2.9.1/bin"`
 
