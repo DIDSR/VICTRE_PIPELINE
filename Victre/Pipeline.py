@@ -337,7 +337,7 @@ class Pipeline:
                             "{:s}/{:d}".format(self.results_folder, self.seed))
 
         if locations is not None:
-            if type(locations[0]) is not list:
+            if not (type(locations[0]) is list or type(locations[0]) is np.ndarray):
                 locations = [locations]
             self.insert_lesions(locations=locations,
                                 save_phantom=False)
