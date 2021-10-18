@@ -269,10 +269,6 @@ class Pipeline:
 
         self.arguments_generation = Constants.VICTRE_DENSE  # dense by default
 
-        self.arguments_generation["outputDir"] = os.path.abspath("{:s}/{:d}/".format(
-            self.results_folder, self.seed))
-        self.arguments_generation["seed"] = self.seed
-
         if density is not None:
             fat = np.max([0.4, np.min([0.95, 1 - density])])
             ranges = {}
@@ -284,8 +280,8 @@ class Pipeline:
             ranges["compartment_numBackSeeds"] = int(
                 ranges["compartment_numBackSeeds"])  # this should be integer
             ranges["compartment_maxSkinScale"] = int(
-                            ranges["compartment_maxSkinScale"])  # this should be integer
-                            
+                ranges["compartment_maxSkinScale"])  # this should be integer
+
             self.arguments_generation.update(ranges)
             if fat >= 0.75:  # increase the kVp when breast has low density
                 # this is hardcoded here, careful
@@ -295,6 +291,9 @@ class Pipeline:
             self.arguments_mcgpu["number_histories"] = ranges["number_histories"]
 
         self.arguments_generation.update(arguments_generation)
+        self.arguments_generation["seed"] = self.seed
+        self.arguments_generation["outputDir"] = os.path.abspath("{:s}/{:d}/".format(
+            self.results_folder, self.seed))
 
         self.recon_size = dict(
             x=np.ceil(self.arguments_recon["voxels_x"] * self.arguments_recon["voxel_size"] /
@@ -336,14 +335,14 @@ class Pipeline:
                 shutil.copy("{:s}/{:s}.loc".format(path, filename),
                             "{:s}/{:d}".format(self.results_folder, self.seed))
 
+        self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
+            self.arguments_mcgpu["voxel_size"][1] / 2
+
         if locations is not None:
-            if not (type(locations[0]) is list or type(locations[0]) is np.ndarray):
+            if type(locations[0]) is not list:
                 locations = [locations]
             self.insert_lesions(locations=locations,
                                 save_phantom=False)
-
-        self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
-            self.arguments_mcgpu["voxel_size"][1] / 2
 
         # self.arguments_mcgpu["number_voxels"]
 
@@ -432,9 +431,10 @@ class Pipeline:
             # this would be for the first GPU
             gpu_ram = (get_gpu_memory()[0] - 500) * 1024 * 1024
 
-            if template_arguments["low_resolution_voxel_size"] == [0,0,0]: # if the binary tree has not been set
+            # if the binary tree has not been set
+            if template_arguments["low_resolution_voxel_size"] == [0, 0, 0]:
                 if gpu_ram < template_arguments["number_voxels"][0] * template_arguments["number_voxels"][1] * template_arguments["number_voxels"][2] or \
-                    template_arguments["number_voxels"][0] * template_arguments["number_voxels"][1] * template_arguments["number_voxels"][2] > 2**32:
+                        template_arguments["number_voxels"][0] * template_arguments["number_voxels"][1] * template_arguments["number_voxels"][2] > 2**32:
                     template_arguments["low_resolution_voxel_size"] = [1, 1, 1]
 
             for key in template_arguments.keys():
@@ -468,7 +468,7 @@ class Pipeline:
         else:
             ssh_command = "ssh -Y {:s} \"{:s}\"".format(
                 self.ips["gpu"], command)
-        
+
         cprint("Initializing MCGPU for {:s}...".format(
             filename), 'cyan') if self.verbosity else None
 
@@ -830,7 +830,7 @@ class Pipeline:
 
         return location[0], location[1]
 
-    def save_DICOM(self, modality="dbt"):
+    def save_DICOM(self, modality="dbt", scaling=Constants.DICOM_SCALING["Siemens"]):
         """
             Saves the DM or DBT images in DICOM format. If present, lesion location will be 
             stored in a custom tag 0x009900XX where XX is the lesion number.
@@ -999,8 +999,10 @@ class Pipeline:
         else:
             pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                       dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
-            pixel_array = ((2**16 - 1) * (pixel_array - pixel_array.min()) /
-                           (pixel_array.max() - pixel_array.min())).astype(np.uint16)
+            # pixel_array = ((2**16 - 1) * (pixel_array - np.nanmin(pixel_array)) /
+            #                (np.nanmax(pixel_array) - np.nanmin(pixel_array))).astype(np.uint16)
+            pixel_array = (scaling["toUInt16"] * (scaling["offset"] + (pixel_array -
+                                                                       scaling["meanAdditiveNoise"]) * scaling["conversionFactorDM"])).astype(np.uint16)
 
         for s in progressbar.progressbar(range(pixel_array.shape[0])):
             save_DICOM_one(np.squeeze(pixel_array[s, :, :]), s)
@@ -1250,7 +1252,7 @@ class Pipeline:
 
             roi_shape = self.roi_sizes[lesion_type]
             c = 0
-            
+
             max_attempts = Constants.INSERTION_MAX_TOTAL_ATTEMPTS
             while c < n and max_attempts >= 0:
                 found = False
@@ -1577,7 +1579,11 @@ class Pipeline:
             :returns: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED.raw.gz` with the raw data, and `pc_SEED.mhd` with the information about the raw data.
         """
         if thickness is None:
-            thickness = int(self.arguments_generation["compressionThickness"])
+            # thickness = int(self.arguments_generation["compressionThickness"])
+            interp = interpolate.interp1d(
+                Constants.DENSITY_RANGES["breastHeight"], Constants.DENSITY_RANGES["compressionThickness"])
+            thickness = int(float(interp(
+                self.arguments_mcgpu["number_voxels"][2] * self.arguments_mcgpu["voxel_size"][2] * 10)), 2)
 
         command = "cd {:s} && ./Victre/compression/build/breastCompressMain -s {:d} -t {:f} -d {:s}/{:d}".format(
             os.getcwd(),
@@ -1620,7 +1626,7 @@ class Pipeline:
         if completed == 0 or not os.path.exists("{:s}/{:d}/pc_{:d}.mhd".format(self.results_folder, self.seed, self.seed)):
             cprint("\nError while compressing, check the output_compression.out file in the results folder",
                    'red', attrs=['bold'])
-            raise Exceptions.VictreError("Generation error")
+            raise Exceptions.VictreError("Compression error")
 
         cprint("Compression finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
