@@ -1916,28 +1916,30 @@ VICTRE_FATTY = {
     "vessel_segment_roiStep": 0.1,
 }
 
-DENSITY_RANGES = {"targetFatFrac": [0.4, 0.66, 0.85, 0.95],
-                  "surface_a1b": [1.0, 1.2, 1.4, 1.4],
-                  "surface_a1t": [1.0, 1.2, 1.4, 1.4],
-                  "surface_a2l": [1.0, 1.0, 1.2, 1.4],
-                  "surface_a2r": [1.0, 1.0, 1.2, 1.4],
-                  "surface_a3": [1.0, 1.55, 2.0, 2.75],
-                  "surface_eps1": [1.2, 1.2, 1.2, 1.1],
-                  "surface_topShapeT0": [-12.0, -12.0, -8.0, -8.0],
-                  "surface_topShapeT1": [-5.0, -5.0, -2.0, -2.0],
-                  "compartment_backFatBufferFrac": [0.008, 0.01, 0.01, 0.01],
-                  "compartment_numBackSeeds": [150, 250, 250, 250],
-                  "compartment_minSkinScaleNippleDir": [10.0, 10.0, 5.0, 5.0],
-                  "compartment_maxSkinScaleNippleDir": [20.0, 20.0, 5.0, 5.0],
-                  "compartment_maxSkinScale":[400,200,200,200],
-                  "compartment_skinStrength":[0.5,1.0,2.0,2.0],
-                  "compartment_backStrength":[1.0,2.0,4.0,4.0],
-                  "duct_tree_baseLength":[7.6,7.6,7.6,19],
-                  "duct_segment_segFrac":[0.25,0.25,0.25,0.15],
-                  # mm (this is the objective thickness)
-                  "compressionThickness": [35, 45, 55, 60],
-                  "number_histories": [7.8e9, 1.02e10, 2.04e10, 2.22e10],
-                  }
+DENSITY_RANGES = {
+    "breastHeight":[71.7,89.7,108.4,109.9],
+    "targetFatFrac": [0.4, 0.66, 0.85, 0.95],
+    "surface_a1b": [1.0, 1.2, 1.4, 1.4],
+    "surface_a1t": [1.0, 1.2, 1.4, 1.4],
+    "surface_a2l": [1.0, 1.0, 1.2, 1.4],
+    "surface_a2r": [1.0, 1.0, 1.2, 1.4],
+    "surface_a3": [1.0, 1.55, 2.0, 2.75],
+    "surface_eps1": [1.2, 1.2, 1.2, 1.1],
+    "surface_topShapeT0": [-12.0, -12.0, -8.0, -8.0],
+    "surface_topShapeT1": [-5.0, -5.0, -2.0, -2.0],
+    "compartment_backFatBufferFrac": [0.008, 0.01, 0.01, 0.01],
+    "compartment_numBackSeeds": [150, 250, 250, 250],
+    "compartment_minSkinScaleNippleDir": [10.0, 10.0, 5.0, 5.0],
+    "compartment_maxSkinScaleNippleDir": [20.0, 20.0, 5.0, 5.0],
+    "compartment_maxSkinScale":[400,200,200,200],
+    "compartment_skinStrength":[0.5,1.0,2.0,2.0],
+    "compartment_backStrength":[1.0,2.0,4.0,4.0],
+    "duct_tree_baseLength":[7.6,7.6,7.6,19],
+    "duct_segment_segFrac":[0.25,0.25,0.25,0.15],
+    # mm (this is the objective thickness)
+    "compressionThickness": [35, 45, 55, 60],
+    "number_histories": [7.8e9, 1.02e10, 2.04e10, 2.22e10],
+}
 
 MHD_FILE = """ObjectType = $ObjectType
 NDims = $NDims
@@ -2029,4 +2031,14 @@ VICTRE_DEFAULT_SPICULATED_MASS = {
     "meanBranchAng": 6.55,
     # std. deviation branch angle.
     "stdBranchAng": 0.62
+}
+
+DICOM_SCALING={"Siemens":
+    {
+        "meanAdditiveNoise":5200,
+        "conversionFactorDM":0.000239,
+        "conversionFactorDBT":0.001469,
+        "offset":50,
+        "toUInt16":8
+    }
 }
