@@ -132,6 +132,22 @@ class Pipeline:
         self.arguments_spiculated["seed"] = self.seed
 
         locations = None
+        self.mhd = {
+            "ObjectType": "Image",
+            "NDims": 2,
+            "BinaryData": "True",
+            "BinaryDataByteOrderMSB": "False",
+            "CompressedData": "False",
+            "TransformMatrix": "1 0 0 0 1 0 0 0 1",
+            "Offset": "0 0 0",
+            "CenterOfRotation": "0 0 0",
+            "ElementSpacing": "0.085 0.085",
+            "DimSize": "3000 1500",
+            "AnatomicalOrientation": "???",
+            "ElementType": "MET_FLOAT",
+            "ObjectType": "Image",
+            "ElementDataFile": ""
+        }
 
         if phantom_file is None:
             if os.path.exists("{:s}/{:d}/pcl_{:d}.mhd".format(self.results_folder, seed, seed)):
@@ -315,7 +331,7 @@ class Pipeline:
 
             shutil.copy(phantom_file,
                         "{:s}/{:d}".format(self.results_folder, self.seed))
-
+            
             if os.path.exists("{:s}/{:s}.mhd".format(path, filename)):
                 cprint("Found phantom information!",
                        'cyan') if self.verbosity else None
@@ -328,18 +344,18 @@ class Pipeline:
                             "{:s}/{:d}".format(self.results_folder, self.seed))
             if os.path.exists("{:s}/{:s}.loc".format(path, filename)):
                 try:
-                    locations = list(np.loadtxt(
-                        "{:s}/{:s}.loc".format(path, filename)))
+                    locations = np.loadtxt(
+                        "{:s}/{:s}.loc".format(path, filename))
                 except:
                     pass
                 shutil.copy("{:s}/{:s}.loc".format(path, filename),
                             "{:s}/{:d}".format(self.results_folder, self.seed))
-
+                
         self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
             self.arguments_mcgpu["voxel_size"][1] / 2
 
         if locations is not None:
-            if type(locations[0]) is not list:
+            if not (type(locations[0]) is list or type(locations[0]) is np.ndarray):
                 locations = [locations]
             self.insert_lesions(locations=locations,
                                 save_phantom=False)
@@ -643,7 +659,8 @@ class Pipeline:
                                                                          self.arguments_recon["detector_elements_perpendicular"],
                                                                          self.arguments_recon["detector_elements"])
 
-                projection_DM = np.divide(curr_flatfield_DM, projection_DM)
+                projection_DM = np.divide(
+                    curr_flatfield_DM, projection_DM)
             else:
                 projection_DM = np.divide(1, projection_DM)
 
@@ -748,6 +765,26 @@ class Pipeline:
 
         cprint("Reconstruction finished!", 'green',
                attrs=['bold']) if self.verbosity else None
+
+    def reverse_dbt_coordinates(self, dbt_location):
+        location = dbt_location.copy()
+
+        # interchange X and Y
+        location[0], location[1] = location[1], location[0]
+
+        # mirror Y axis
+        location[1] = self.recon_size["x"] - location[1]
+
+        location[0] = location[0] / self.arguments_recon["voxel_size"] * \
+            self.arguments_recon["pixel_size"]
+        location[1] = location[1] / self.arguments_recon["voxel_size"] * \
+            self.arguments_recon["pixel_size"]
+        location[2] = location[2] / self.arguments_recon["voxel_size"] * \
+            self.arguments_recon["recon_thickness"]  # in mm
+
+        location[2] = location[2] + self.arguments_recon["detector_offset"]
+
+        return location
 
     def get_coordinates_dbt(self, vx_location):
         """
@@ -998,14 +1035,15 @@ class Pipeline:
                                   0, 2**16 - 1).astype(np.uint16)
         else:
             pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
-                                      dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
+                                      dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1]).astype(np.uint16)
             # pixel_array = ((2**16 - 1) * (pixel_array - np.nanmin(pixel_array)) /
             #                (np.nanmax(pixel_array) - np.nanmin(pixel_array))).astype(np.uint16)
-            pixel_array = (scaling["toUInt16"] * (scaling["offset"] + (pixel_array -
-                                                                       scaling["meanAdditiveNoise"]) * scaling["conversionFactorDM"])).astype(np.uint16)
+            # pixel_array = (scaling["toUInt16"] * (scaling["offset"] + (pixel_array -
+            #                                                            scaling["meanAdditiveNoise"]) * scaling["conversionFactorDM"])).astype(np.uint16)
 
         for s in progressbar.progressbar(range(pixel_array.shape[0])):
-            save_DICOM_one(np.squeeze(pixel_array[s, :, :]), s)
+            save_DICOM_one(np.squeeze(
+                pixel_array[s, :, :]), s)
 
     def save_ROIs(self, roi_sizes=None, clean=True):
         """
@@ -1760,6 +1798,34 @@ class Pipeline:
                                                            self.seed),
                        self.candidate_locations,
                        delimiter=',')
+
+    def get_DBT_segmentation(self):
+        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
+            phantom = f.read()
+        phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
+            self.arguments_mcgpu["number_voxels"][2],
+            self.arguments_mcgpu["number_voxels"][1],
+            self.arguments_mcgpu["number_voxels"][0])
+
+        recon_mhd = self._read_mhd("{:s}/{:d}/reconstruction{:d}.mhd".format(self.results_folder,
+                                                                             self.seed,
+                                                                             self.seed))
+
+        mask = np.zeros(
+            [recon_mhd["DimSize"][2], recon_mhd["DimSize"][1], recon_mhd["DimSize"][0]], dtype=np.uint8)
+
+        for x in progressbar.progressbar(range(mask.shape[0])):
+            for y in range(mask.shape[1]):
+                for z in range(mask.shape[2]):
+                    try:
+                        vx_location = [int(x)
+                                       for x in self.reverse_dbt_coordinates([z, y, x])]
+                        mask[x, y, z] = phantom[vx_location[2],
+                                                vx_location[1],
+                                                vx_location[0]]
+                    except:
+                        pass
+          return mask 
 
     @staticmethod
     def get_folder_contents(folder):
