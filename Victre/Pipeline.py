@@ -867,7 +867,7 @@ class Pipeline:
 
         return location[0], location[1]
 
-    def save_DICOM(self, modality="dbt", scaling=Constants.DICOM_SCALING["Siemens"]):
+    def save_DICOM(self, modality="dbt"):
         """
             Saves the DM or DBT images in DICOM format. If present, lesion location will be 
             stored in a custom tag 0x009900XX where XX is the lesion number.
