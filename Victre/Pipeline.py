@@ -9,30 +9,30 @@
 
 				    DISCLAIMER
 
- This software and documentation (the "Software") were 
- developed at the Food and Drug Administration (FDA) by 
- employees of the Federal Government in the course of 
- their official duties. Pursuant to Title 17, Section 
+ This software and documentation (the "Software") were
+ developed at the Food and Drug Administration (FDA) by
+ employees of the Federal Government in the course of
+ their official duties. Pursuant to Title 17, Section
  105 of the United States Code, this work is not subject
- to copyright protection and is in the public domain. 
- Permission is hereby granted, free of charge, to any 
- person obtaining a copy of the Software, to deal in the 
- Software without restriction, including without 
- limitation the rights to use, copy, modify, merge, 
- publish, distribute, sublicense, or sell copies of the 
- Software or derivatives, and to permit persons to whom 
- the Software is furnished to do so. FDA assumes no 
- responsibility whatsoever for use by other parties of 
- the Software, its source code, documentation or compiled 
- executables, and makes no guarantees, expressed or 
- implied, about its quality, reliability, or any other 
- characteristic. Further, use of this code in no way 
- implies endorsement by the FDA or confers any advantage 
- in regulatory decisions. Although this software can be 
- redistributed and/or modified freely, we ask that any 
- derivative works bear some notice that they are derived 
- from it, and any modified versions bear some notice that 
- they have been modified. 
+ to copyright protection and is in the public domain.
+ Permission is hereby granted, free of charge, to any
+ person obtaining a copy of the Software, to deal in the
+ Software without restriction, including without
+ limitation the rights to use, copy, modify, merge,
+ publish, distribute, sublicense, or sell copies of the
+ Software or derivatives, and to permit persons to whom
+ the Software is furnished to do so. FDA assumes no
+ responsibility whatsoever for use by other parties of
+ the Software, its source code, documentation or compiled
+ executables, and makes no guarantees, expressed or
+ implied, about its quality, reliability, or any other
+ characteristic. Further, use of this code in no way
+ implies endorsement by the FDA or confers any advantage
+ in regulatory decisions. Although this software can be
+ redistributed and/or modified freely, we ask that any
+ derivative works bear some notice that they are derived
+ from it, and any modified versions bear some notice that
+ they have been modified.
 
  More information: https://github.com/DIDSR/VICTRE_PIPELINE
 
@@ -175,7 +175,7 @@ class Pipeline:
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
                 if os.path.exists("{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, seed, seed)):
-                    self.candidate_locations = np.loadtxt(
+                    locations = np.loadtxt(
                         "{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
@@ -190,7 +190,7 @@ class Pipeline:
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
                 if os.path.exists("{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, seed, seed)):
-                    self.candidate_locations = np.loadtxt(
+                    locations = np.loadtxt(
                         "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}.raw.gz".format(
@@ -331,7 +331,9 @@ class Pipeline:
 
             shutil.copy(phantom_file,
                         "{:s}/{:d}".format(self.results_folder, self.seed))
-            
+            os.chmod(
+                "{:s}/{:d}/{:s}.raw.gz".format(self.results_folder, self.seed, filename), 0o664)
+
             if os.path.exists("{:s}/{:s}.mhd".format(path, filename)):
                 cprint("Found phantom information!",
                        'cyan') if self.verbosity else None
@@ -350,7 +352,9 @@ class Pipeline:
                     pass
                 shutil.copy("{:s}/{:s}.loc".format(path, filename),
                             "{:s}/{:d}".format(self.results_folder, self.seed))
-                
+                os.chmod(
+                    "{:s}/{:d}/{:s}.loc".format(self.results_folder, self.seed, filename), 0o664)
+
         self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
             self.arguments_mcgpu["voxel_size"][1] / 2
 
@@ -366,7 +370,7 @@ class Pipeline:
         """
             Method that runs MCGPU to project the phantom.
 
-            :param flatfield_correction: If True, the projections will be corrected using a given flatfield. 
+            :param flatfield_correction: If True, the projections will be corrected using a given flatfield.
                                    It will be generated if not found and not given.
             :param clean: If True, it will delete the contents of the output folder before projecting.
             :param do_flatfield: If > 0, it will generate an empty flat field projection.
@@ -659,10 +663,10 @@ class Pipeline:
                                                                          self.arguments_recon["detector_elements_perpendicular"],
                                                                          self.arguments_recon["detector_elements"])
 
-                projection_DM = np.divide(
+                projection_DM = np.true_divide(
                     curr_flatfield_DM, projection_DM)
             else:
-                projection_DM = np.divide(1, projection_DM)
+                projection_DM = np.true_divide(1, projection_DM)
 
             projection_DM.tofile(
                 "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
@@ -869,7 +873,7 @@ class Pipeline:
 
     def save_DICOM(self, modality="dbt"):
         """
-            Saves the DM or DBT images in DICOM format. If present, lesion location will be 
+            Saves the DM or DBT images in DICOM format. If present, lesion location will be
             stored in a custom tag 0x009900XX where XX is the lesion number.
 
             :param modality: Modality to save: dbt or dm
@@ -1035,7 +1039,7 @@ class Pipeline:
                                   0, 2**16 - 1).astype(np.uint16)
         else:
             pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
-                                      dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1]).astype(np.uint16)
+                                      dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
             # pixel_array = ((2**16 - 1) * (pixel_array - np.nanmin(pixel_array)) /
             #                (np.nanmax(pixel_array) - np.nanmin(pixel_array))).astype(np.uint16)
             # pixel_array = (scaling["toUInt16"] * (scaling["offset"] + (pixel_array -
@@ -1043,9 +1047,9 @@ class Pipeline:
 
         for s in progressbar.progressbar(range(pixel_array.shape[0])):
             save_DICOM_one(np.squeeze(
-                pixel_array[s, :, :]), s)
+                pixel_array[s, :, :]).astype(np.uint16), s)
 
-    def save_ROIs(self, roi_sizes=None, clean=True):
+    def save_ROIs(self, roi_sizes=None, clean=True, save_folder=None):
         """
             Saves the generated ROIs (absent and present) in RAW and HDF5 formats
 
@@ -1060,32 +1064,41 @@ class Pipeline:
         if roi_sizes is not None:
             self.roi_sizes = roi_sizes
 
+        if save_folder is None:
+            save_folder = self.results_folder
+
         # SAVE DBT ROIs
         if clean:
             shutil.rmtree(
-                "{:s}/{:d}/ROIs".format(self.results_folder, self.seed), ignore_errors=True)
+                "{:s}/{:d}/ROIs".format(save_folder, self.seed), ignore_errors=True)
 
-        os.makedirs("{:s}/{:d}/ROIs/".format(self.results_folder,
+        os.makedirs("{:s}/{:d}/ROIs/".format(save_folder,
                                              self.seed), exist_ok=True)
 
         hf = h5py.File(
-            "{:s}/{:d}/ROIs.h5".format(self.results_folder, self.seed), 'w')
+            "{:s}/{:d}/ROIs.h5".format(save_folder, self.seed), 'w')
 
         if os.path.exists("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed)):
+            mhd = self._read_mhd(
+                "{:s}/{:d}/reconstruction{:d}.mhd".format(self.results_folder, self.seed, self.seed))
             hfdbt = hf.create_group("dbt")
+            hfdbt_loc = hf.create_group("dbt_locations")
+
             pixel_array = np.fromfile("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed),
-                                      dtype="float64").reshape(self.recon_size["z"], self.recon_size["y"], self.recon_size["x"])
+                                      dtype="float64").reshape(int(mhd["DimSize"][2]), int(mhd["DimSize"][1]), int(mhd["DimSize"][0]))
 
             for idx, lesion in enumerate(self.lesion_locations["dbt"]):
                 lesion_type = np.abs(lesion[3])
                 roi = pixel_array[1 + lesion[2] - int(np.ceil(self.roi_sizes[lesion_type][2] / 2)):1 + lesion[2] + int(np.floor(self.roi_sizes[lesion_type][2] / 2)),
-                                  lesion[1] - int(np.ceil(self.roi_sizes[lesion_type][1] / 2)):lesion[1] + int(np.floor(self.roi_sizes[lesion_type][1] / 2)),
-                                  lesion[0] - int(np.ceil(self.roi_sizes[lesion_type][0] / 2)):lesion[0] + int(np.floor(self.roi_sizes[lesion_type][0] / 2))]
+                                  lesion[1] - int(np.ceil(self.roi_sizes[lesion_type][1] / 2)): lesion[1] + int(np.floor(self.roi_sizes[lesion_type][1] / 2)),
+                                  lesion[0] - int(np.ceil(self.roi_sizes[lesion_type][0] / 2)): lesion[0] + int(np.floor(self.roi_sizes[lesion_type][0] / 2))]
                 # with open("./results/{:d}/ROIs/ROI_{:03d}_type{:d}.raw".format(self.seed, idx, lesion_type), 'wb') as f:
                 roi.astype(np.dtype('<f8')).tofile(
-                    "{:s}/{:d}/ROIs/ROI_DBT_{:02d}_type{:d}.raw".format(self.results_folder, self.seed, idx, lesion[3]))
+                    "{:s}/{:d}/ROIs/ROI_DBT_{:02d}_type{:d}.raw".format(save_folder, self.seed, idx, lesion[3]))
                 hfdbt.create_dataset("{:d}".format(idx),
                                      data=roi.astype(np.float32), compression="gzip", compression_opts=9)
+                hfdbt_loc.create_dataset("{:d}".format(idx), data=lesion)
+
             hfdbt.create_dataset("lesion_type",
                                  data=np.array(self.lesion_locations["dbt"])[:, 3])
 
@@ -1096,6 +1109,7 @@ class Pipeline:
                                                            self.arguments_recon["detector_elements"])
 
         hfdm = hf.create_group("dm")
+        hfdm_loc = hf.create_group("dm_locations")
 
         for idx, lesion in enumerate(self.lesion_locations["dm"]):
             lesion_type = np.abs(lesion[2])
@@ -1104,11 +1118,12 @@ class Pipeline:
                               lesion[1] - int(np.ceil(self.roi_sizes[lesion_type][1] / 2)):lesion[1] + int(np.floor(self.roi_sizes[lesion_type][1] / 2))]
             # with open("./results/{:d}/ROIs/ROI_{:03d}_type{:d}.raw".format(self.seed, idx, lesion_type), 'wb') as f:
             roi.tofile(
-                "{:s}/{:d}/ROIs/ROI_DM_{:02d}_type{:d}.raw".format(self.results_folder, self.seed, idx, lesion[2]))
+                "{:s}/{:d}/ROIs/ROI_DM_{:02d}_type{:d}.raw".format(save_folder, self.seed, idx, lesion[2]))
             # dm_rois.append(roi)
 
             hfdm.create_dataset("{:d}".format(idx),
                                 data=roi, compression="gzip", compression_opts=9)
+            hfdm_loc.create_dataset("{:d}".format(idx), data=lesion)
 
         hfdm.create_dataset("lesion_type",
                             data=np.array(self.lesion_locations["dm"])[:, 2])
@@ -1252,6 +1267,8 @@ class Pipeline:
                 cand_type = lesion_type
                 if cand_type is None:
                     cand_type = cand[3]
+                    if cand_type == 0:
+                        cand_type = 2
 
                 if lesion is None:
                     lesion_shape = self.roi_sizes[np.abs(cand_type)]
@@ -1468,6 +1485,20 @@ class Pipeline:
                                               cand[2],
                                               -lesion_type  # -1 for absent
                                               ]))
+                loc = {"dm": self.get_coordinates_dm([cand[1] + roi_shape[1] / 2,
+                                                      cand[2] +
+                                                      roi_shape[2] / 2,
+                                                      cand[0] + roi_shape[0] / 2]),
+                       "dbt": self.get_coordinates_dbt([cand[1] + roi_shape[1] / 2,
+                                                        cand[2] +
+                                                        roi_shape[2] / 2,
+                                                        cand[0] + roi_shape[0] / 2])}
+
+                self.lesion_locations["dm"].append(
+                    list(np.round([loc["dm"][0], loc["dm"][1], -lesion_type]).astype(int)))
+
+                self.lesion_locations["dbt"].append(
+                    list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], -lesion_type]).astype(int)))
         else:
             c = 0
             while c < n:
@@ -1825,7 +1856,7 @@ class Pipeline:
                                                 vx_location[0]]
                     except:
                         pass
-          return mask 
+        return mask
 
     @staticmethod
     def get_folder_contents(folder):
