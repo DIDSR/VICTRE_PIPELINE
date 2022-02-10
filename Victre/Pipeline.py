@@ -1650,8 +1650,10 @@ class Pipeline:
         if thickness is None:
             # thickness = int(self.arguments_generation["compressionThickness"])
             interp = interpolate.interp1d(
-                Constants.DENSITY_RANGES["breastHeight"], Constants.DENSITY_RANGES["compressionThickness"])
-            thickness = int(float(interp(
+                Constants.DENSITY_RANGES["breastHeight"],
+                Constants.DENSITY_RANGES["compressionThickness"],
+                fill_value="extrapolate")
+            thickness = np.round(float(interp(
                 self.arguments_mcgpu["number_voxels"][2] * self.arguments_mcgpu["voxel_size"][2] * 10)), 2)
 
         command = "cd {:s} && ./Victre/compression/build/breastCompressMain -s {:d} -t {:f} -d {:s}/{:d}".format(
