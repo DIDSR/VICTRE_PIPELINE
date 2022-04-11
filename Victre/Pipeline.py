@@ -127,6 +127,7 @@ class Pipeline:
         self.arguments_mcgpu["phantom_file"] = phantom_file
         self.arguments_mcgpu["output_file"] = "{:s}/{:d}/projection".format(
             self.results_folder, self.seed)
+        self.arguments_mcgpu["random_seed"] = self.seed
 
         self.arguments_spiculated = Constants.VICTRE_DEFAULT_SPICULATED_MASS
         self.arguments_spiculated["seed"] = self.seed
@@ -175,8 +176,17 @@ class Pipeline:
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
                 if os.path.exists("{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, seed, seed)):
-                    locations = np.loadtxt(
+                    self.candidate_locations = np.loadtxt(
                         "{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+
+                # from mm to voxels
+                for idx, cand in enumerate(self.candidate_locations):
+                    self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
+                                                                  self.mhd["ElementSpacing"][0])),
+                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                                                  self.mhd["ElementSpacing"][2])),
+                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                                                  self.mhd["ElementSpacing"][1]))]
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -190,8 +200,16 @@ class Pipeline:
                     x / 10 for x in self.mhd["ElementSpacing"]]
 
                 if os.path.exists("{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, seed, seed)):
-                    locations = np.loadtxt(
+                    self.candidate_locations = np.loadtxt(
                         "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+                # from mm to voxels
+                for idx, cand in enumerate(self.candidate_locations):
+                    self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
+                                                                  self.mhd["ElementSpacing"][0])),
+                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                                                  self.mhd["ElementSpacing"][2])),
+                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                                                  self.mhd["ElementSpacing"][1]))]
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -207,6 +225,15 @@ class Pipeline:
 
                 self.candidate_locations = np.loadtxt(
                     "{:s}/{:d}/p_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+
+                # from mm to voxels
+                for idx, cand in enumerate(self.candidate_locations):
+                    self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
+                                                                  self.mhd["ElementSpacing"][0])),
+                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                                                  self.mhd["ElementSpacing"][2])),
+                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                                                  self.mhd["ElementSpacing"][1]))]
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/p_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -257,6 +284,7 @@ class Pipeline:
 
         self.flatfield_DBT = flatfield_DBT
         self.flatfield_DM = flatfield_DM
+        self.arguments_recon["flatfield_file"] = flatfield_DBT
 
         if self.flatfield_DBT is None and os.path.exists("{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
                 self.results_folder,
@@ -329,10 +357,10 @@ class Pipeline:
             path = '/'.join(splitted[:-1])
             filename = splitted[-1].split('.')[0]
 
-            shutil.copy(phantom_file,
-                        "{:s}/{:d}".format(self.results_folder, self.seed))
-            os.chmod(
-                "{:s}/{:d}/{:s}.raw.gz".format(self.results_folder, self.seed, filename), 0o664)
+            # shutil.copy(phantom_file,
+            #             "{:s}/{:d}".format(self.results_folder, self.seed))
+            # os.chmod(
+            #     "{:s}/{:d}/{:s}.raw.gz".format(self.results_folder, self.seed, filename), 0o664)
 
             if os.path.exists("{:s}/{:s}.mhd".format(path, filename)):
                 cprint("Found phantom information!",
@@ -342,18 +370,19 @@ class Pipeline:
                 self.arguments_mcgpu["number_voxels"] = self.mhd["DimSize"]
                 self.arguments_mcgpu["voxel_size"] = [
                     x / 10 for x in self.mhd["ElementSpacing"]]
-                shutil.copy("{:s}/{:s}.mhd".format(path, filename),
-                            "{:s}/{:d}".format(self.results_folder, self.seed))
+
+                # shutil.copy("{:s}/{:s}.mhd".format(path, filename),
+                #             "{:s}/{:d}".format(self.results_folder, self.seed))
             if os.path.exists("{:s}/{:s}.loc".format(path, filename)):
                 try:
                     locations = np.loadtxt(
                         "{:s}/{:s}.loc".format(path, filename))
                 except:
                     pass
-                shutil.copy("{:s}/{:s}.loc".format(path, filename),
-                            "{:s}/{:d}".format(self.results_folder, self.seed))
-                os.chmod(
-                    "{:s}/{:d}/{:s}.loc".format(self.results_folder, self.seed, filename), 0o664)
+                # shutil.copy("{:s}/{:s}.loc".format(path, filename),
+                #             "{:s}/{:d}".format(self.results_folder, self.seed))
+                # os.chmod(
+                #     "{:s}/{:d}/{:s}.loc".format(self.results_folder, self.seed, filename), 0o664)
 
         self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
             self.arguments_mcgpu["voxel_size"][1] / 2
@@ -506,10 +535,10 @@ class Pipeline:
                     break
                 elif "!!DBT!! Simulating first" in output.strip():
                     cprint(
-                        "Starting DM projection, this may take a few minutes...", 'cyan') if self.verbosity else None
+                        "[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Starting DM projection, this may take a few minutes...", 'cyan') if self.verbosity else None
                 elif "Simulating tomographic projection" in output.strip():
                     if completed == 0:
-                        cprint("Starting DBT projection...",
+                        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Starting DBT projection...",
                                'cyan') if self.verbosity else None
                         bar = progressbar.ProgressBar(
                             max_value=self.arguments_mcgpu["number_projections"]) if self.verbosity else None
@@ -526,7 +555,7 @@ class Pipeline:
             raise Exceptions.VictreError("Projection error")
 
         bar.finish() if bar is not None and self.verbosity else None
-        cprint("Projection finished!", 'green', attrs=[
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Projection finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
 
         if self.arguments_mcgpu["number_projections"] > 1:
@@ -657,6 +686,7 @@ class Pipeline:
                                         dtype="float32").reshape(2,
                                                                  self.arguments_recon["detector_elements_perpendicular"],
                                                                  self.arguments_recon["detector_elements"])
+
             if flatfield_correction and self.flatfield_DM is not None:
                 curr_flatfield_DM = np.fromfile(self.flatfield_DM,
                                                 dtype="float32").reshape(2,
@@ -668,8 +698,14 @@ class Pipeline:
             else:
                 projection_DM = np.true_divide(1, projection_DM)
 
+            projection_DM[projection_DM == np.inf] = 0
+            projection_DM[np.isnan(projection_DM)] = 0
+
             projection_DM.tofile(
                 "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
+            if len(self.lesion_locations["dm"]) > 0:
+                np.savetxt("{:s}/{:d}/projection_DM{:d}.loc".format(self.results_folder, self.seed, self.seed),
+                           np.asarray(self.lesion_locations["dm"]), fmt="%d")
 
     def reconstruct(self):
         """
@@ -717,6 +753,7 @@ class Pipeline:
                                    stderr=subprocess.STDOUT)
 
         bar = None
+        finished = False
         with open("{:s}/{:d}/output_recon.out".format(self.results_folder, self.seed), "wb") as f:
             while True:
                 output = process.stdout.readline().decode("utf-8")
@@ -724,7 +761,7 @@ class Pipeline:
                     break
                 elif "Image slice" in output.strip():
                     if completed == 0:
-                        cprint("Starting reconstruction...",
+                        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Starting reconstruction...",
                                'cyan') if self.verbosity else None
                         bar = progressbar.ProgressBar(
                             max_value=self.recon_size["y"]) if self.verbosity else None
@@ -732,11 +769,13 @@ class Pipeline:
                     completed += 1
                     bar.update(completed) if self.verbosity else None
                     progressbar.streams.flush() if self.verbosity else None
+                elif "Total execution time elapsed" in output.strip():
+                    finished = True
                 # rc = process.poll()
                 f.write(output.encode('utf-8'))
                 f.flush()
 
-        if completed != self.recon_size["y"]:
+        if not finished or completed != self.recon_size["y"]:
             cprint("\nError while reconstructing, check the output_recon.out file (seed = {:d})".format(self.seed),
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Reconstruction error")
@@ -767,8 +806,70 @@ class Pipeline:
             result = src.substitute(template_arguments)
             f.write(result)
 
-        cprint("Reconstruction finished!", 'green',
+        if len(self.lesion_locations["dbt"]) > 0:
+            np.savetxt("{:s}/{:d}/reconstruction{:d}.loc".format(self.results_folder, self.seed, self.seed),
+                       np.asarray(self.lesion_locations["dbt"]), fmt="%d")
+
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Reconstruction finished!", 'green',
                attrs=['bold']) if self.verbosity else None
+
+    def reverse_dm_coordinates(self, dm_location):
+        location = dm_location.copy()
+
+        location[1] = self.arguments_mcgpu["image_pixels"][0] - location[1]
+
+        # cropped phantom length in Y dimension (mm)
+        crop_phan_lenY_mm = self.arguments_recon["voxels_x"] * \
+            self.arguments_recon["voxel_size"]
+        # detector length in Y dimension (mm)
+        det_lenY_mm = self.arguments_recon["detector_elements"] * \
+            self.arguments_recon["pixel_size"]
+
+        det_origin = [0,
+                      ((det_lenY_mm - crop_phan_lenY_mm) * 0.5) /
+                      self.arguments_recon["pixel_size"]]
+
+        detector_z = - (self.arguments_mcgpu["distance_source"] -
+                        self.arguments_mcgpu["source_position"][2])  # -20 / 10
+
+        location[0] -= det_origin[0]
+        location[1] -= det_origin[1]
+
+        location[0] = location[0] * self.arguments_recon["pixel_size"]
+        location[1] = location[1] * self.arguments_recon["pixel_size"]
+
+        orig_location = location
+
+        locations = []
+
+        for s in range(self.arguments_mcgpu['number_voxels'][0]):
+            location = [orig_location[0], orig_location[1],
+                        s * self.arguments_recon["voxel_size"]]
+            alpha = (detector_z -
+                     self.arguments_mcgpu["source_position"][2]) / \
+                (location[2] - self.arguments_mcgpu["source_position"][2])
+            location[0] = (location[0] - self.arguments_mcgpu["source_position"][0]) / \
+                alpha + self.arguments_mcgpu["source_position"][0]
+            location[1] = (location[1] - self.arguments_mcgpu["source_position"][1]) / \
+                alpha + self.arguments_mcgpu["source_position"][1]
+
+            location[0] = location[0] / \
+                self.arguments_recon["voxel_size"]
+            location[1] = location[1] / \
+                self.arguments_recon["voxel_size"]
+            location[2] = location[2] / \
+                self.arguments_recon["voxel_size"]
+
+            location[2] = location[2] - self.arguments_recon["detector_offset"]
+            location = [int(n) for n in location]
+            # locations.append([int(n) for n in location])
+            if location[2] < self.arguments_mcgpu['number_voxels'][2] \
+                    and location[1] < self.arguments_mcgpu['number_voxels'][1]\
+                    and location[0] < self.arguments_mcgpu['number_voxels'][0]\
+                    and location[0] >= 0 and location[1] >= 0 and location[2] >= 0:
+                locations.append(location)
+
+        return locations
 
     def reverse_dbt_coordinates(self, dbt_location):
         location = dbt_location.copy()
@@ -815,7 +916,7 @@ class Pipeline:
         location[0], location[1] = location[1], location[0]
         # location = [location[1], location[0], location[2], location[3]]
 
-        return location
+        return [int(np.round(x)) for x in location]
 
     def get_coordinates_dm(self, vx_location):
         """
@@ -831,19 +932,16 @@ class Pipeline:
 
         location[2] = location[2] - self.arguments_recon["detector_offset"]
 
-        location[0] = location[0] * \
-            self.arguments_recon["voxel_size"]
-        location[1] = location[1] * \
-            self.arguments_recon["voxel_size"]
-        location[2] = location[2] * \
-            self.arguments_recon["voxel_size"]
+        pixel_size = self.arguments_mcgpu["image_size"][0] / \
+            self.arguments_mcgpu["image_pixels"][0]
 
-        # cropped phantom length in Y dimension (mm)
-        crop_phan_lenY_mm = self.arguments_recon["voxels_x"] * \
-            self.arguments_recon["voxel_size"]
-        # detector length in Y dimension (mm)
-        det_lenY_mm = self.arguments_recon["detector_elements"] * \
-            self.arguments_recon["pixel_size"]
+        location[0] = location[0] * self.arguments_mcgpu["voxel_size"][0]
+        location[1] = location[1] * self.arguments_mcgpu["voxel_size"][1]
+        location[2] = location[2] * self.arguments_mcgpu["voxel_size"][2]
+
+        # cropped phantom length in Y dimension
+        crop_phan_lenY = self.arguments_mcgpu["number_voxels"][1] * \
+            self.arguments_mcgpu["voxel_size"][1]
 
         alpha = (detector_z -
                  self.arguments_mcgpu["source_position"][2]) / \
@@ -857,11 +955,11 @@ class Pipeline:
                      self.arguments_mcgpu["source_position"][1])
 
         det_origin = [0,
-                      ((det_lenY_mm - crop_phan_lenY_mm) * 0.5) /
-                      self.arguments_recon["pixel_size"]]
+                      ((self.arguments_mcgpu["image_size"][0] - crop_phan_lenY) * 0.5) /
+                      pixel_size]
 
-        location[0] = int(location[0] / self.arguments_recon["pixel_size"])
-        location[1] = int(location[1] / self.arguments_recon["pixel_size"])
+        location[0] = location[0] / pixel_size
+        location[1] = location[1] / pixel_size
 
         location[0] += det_origin[0]
         location[1] += det_origin[1]
@@ -869,7 +967,7 @@ class Pipeline:
         # we figured out by looking at the voxels and pixels that Y
         location[1] = self.arguments_mcgpu["image_pixels"][0] - location[1]
 
-        return location[0], location[1]
+        return [int(np.round(location[0])), int(np.round(location[1]))]
 
     def save_DICOM(self, modality="dbt"):
         """
@@ -1130,7 +1228,7 @@ class Pipeline:
 
         hf.close()
 
-        cprint("ROIs saved!", 'green', attrs=[
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] ROIs saved!", 'green', attrs=[
                'bold']) if self.verbosity else None
 
     def generate_spiculated(self, seed=None, size=None):
@@ -1163,7 +1261,7 @@ class Pipeline:
             os.getcwd(),
             self.arguments_spiculated["seed"])
 
-        cprint("Generating mass (seed={:d}, size={:.2f})...".format(
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Generating mass (seed={:d}, size={:.2f})...".format(
             self.arguments_spiculated["seed"], self.arguments_spiculated["alpha"]), 'cyan') if self.verbosity else None
         os.system(command)
 
@@ -1198,7 +1296,7 @@ class Pipeline:
 
         self.lesion_file = "{:s}/lesions/spiculated/mass_{:d}_size{:.2f}_{:.2f}.h5"
 
-        cprint("Generation finished!", 'green', attrs=[
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Generation finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
 
     def insert_lesions(self, lesion_type=None, n=-1, lesion_file=None, lesion_size=None, locations=None, roi_sizes=None, save_phantom=True):
@@ -1242,7 +1340,7 @@ class Pipeline:
                     n = 1
 
             if save_phantom:
-                cprint("Inserting {:d} non-overlapping lesions...".format(n),
+                cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Inserting {:d} non-overlapping lesions...".format(n),
                        'cyan') if self.verbosity else None
             else:
                 cprint("Retrieving {:d} lesion locations...".format(
@@ -1292,14 +1390,6 @@ class Pipeline:
             np.random.seed(current_seed)
 
             if self.candidate_locations is not None:
-                # from mm to voxels
-                for idx, cand in enumerate(self.candidate_locations):
-                    self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                                                  self.mhd["ElementSpacing"][0])),
-                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                                                  self.mhd["ElementSpacing"][2])),
-                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                                                  self.mhd["ElementSpacing"][1]))]
                 Constants.INSERTION_MAX_TRIES = len(self.candidate_locations)
                 Constants.INSERTION_MAX_TOTAL_ATTEMPTS = 1000
                 np.random.shuffle(self.candidate_locations)
@@ -1426,7 +1516,7 @@ class Pipeline:
 
             # save new phantom file
             if save_phantom:
-                cprint("Saving new phantom...",
+                cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Saving new phantom...",
                        'cyan') if self.verbosity else None
 
                 # We save the phantom in gzip to reduce needed disk space
@@ -1448,10 +1538,10 @@ class Pipeline:
                     result = src.substitute(template_arguments)
                     f.write(result)
 
-                cprint("Insertion finished!", 'green', attrs=[
+                cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Insertion finished!", 'green', attrs=[
                        'bold']) if self.verbosity else None
 
-    def add_absent_ROIs(self, lesion_type, n=1, locations=None, roi_sizes=None):
+    def add_absent_ROIs(self, lesion_type, n=1, locations=None, roi_sizes=None, save_locations=True):
         """
             Adds the specified number of lesion-absent regions of interest.
 
@@ -1521,7 +1611,7 @@ class Pipeline:
                                                             roi_shape[2] / 2,
                                                             cand[0] + roi_shape[0] / 2])}
 
-                    if np.any(np.array(loc["dm"]) < np.array(roi_shape[:2])) or \
+                    if np.any(np.array(loc["dm"][:2]) < np.array(roi_shape[:2])) or \
                        np.any(np.array(loc["dbt"]) < np.array(roi_shape)):
                         continue
 
@@ -1548,9 +1638,9 @@ class Pipeline:
                     list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], -lesion_type]).astype(int)))
 
                 c += 1
-
-        np.savetxt("{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed),
-                   self.lesions, fmt="%d")
+        if save_locations:
+            np.savetxt("{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed),
+                       self.lesions, fmt="%d")
 
     def generate_phantom(self):
         """
@@ -1582,7 +1672,7 @@ class Pipeline:
             ssh_command = "ssh -Y {:s} \"{:s}\"".format(
                 self.ips["cpu"], command)
 
-        cprint("Starting phantom generation (seed = {:d}), this will take some time...".format(
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Starting phantom generation (seed = {:d}), this will take some time...".format(
             self.seed), 'cyan') if self.verbosity else None
 
         completed = 0
@@ -1607,7 +1697,7 @@ class Pipeline:
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Generation error")
 
-        cprint("Generation finished!", 'green', attrs=[
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Generation finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
         self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/p_{:d}.raw.gz".format(
             self.results_folder, self.seed, self.seed)
@@ -1670,7 +1760,7 @@ class Pipeline:
             ssh_command = "ssh -Y {:s} \"{:s}\"".format(
                 self.ips["cpu"], command)
 
-        cprint("Starting phantom compression, this will take some time...",
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Starting phantom compression, this will take some time...",
                'cyan') if self.verbosity else None
 
         completed = 0
@@ -1699,7 +1789,7 @@ class Pipeline:
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Compression error")
 
-        cprint("Compression finished!", 'green', attrs=[
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Compression finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
         self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}.raw.gz".format(
             self.results_folder, self.seed, self.seed)
@@ -1734,7 +1824,8 @@ class Pipeline:
             :returns: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: `pc_SEED_crop.raw.gz` with the raw data, and `pc_SEED_crop.mhd` with the information about the raw data.
         """
 
-        cprint("Cropping phantom...", 'cyan') if self.verbosity else None
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") +
+               "] Cropping phantom...", 'cyan') if self.verbosity else None
 
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
             phantom = f.read()
@@ -1831,6 +1922,33 @@ class Pipeline:
                                                            self.seed),
                        self.candidate_locations,
                        delimiter=',')
+
+    def get_dm_segmentation(self, roi=None, selected_materials=[]):
+        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
+            phantom = f.read()
+        phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
+            self.arguments_mcgpu["number_voxels"][2],
+            self.arguments_mcgpu["number_voxels"][1],
+            self.arguments_mcgpu["number_voxels"][0])
+
+        if roi is None:
+            roi = [[0, 0], self.arguments_mcgpu["image_pixels"][::-1]]
+
+        mask = [[[] for _ in range(roi[1][1] - roi[0][1])]
+                for _ in range(roi[1][0] - roi[0][0])]
+
+        for row in progressbar.progressbar(range(roi[0][0], roi[1][0])):
+            for col in range(roi[0][1], roi[1][1]):
+
+                vx_location2 = self.reverse_dm_coordinates([row, col])
+                for loc in vx_location2:
+                    mat = phantom[loc[2],
+                                  loc[1],
+                                  loc[0]]
+                    if mat != 0 and (len(selected_materials) == 0 or mat in selected_materials):
+                        mask[row - roi[0][0]][col - roi[0][1]].append(mat)
+
+        return mask
 
     def get_DBT_segmentation(self):
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
