@@ -180,13 +180,8 @@ class Pipeline:
                         "{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
                 # from mm to voxels
-                for idx, cand in enumerate(self.candidate_locations):
-                    self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                                                  self.mhd["ElementSpacing"][0])),
-                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                                                  self.mhd["ElementSpacing"][2])),
-                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                                                  self.mhd["ElementSpacing"][1]))]
+                self.candidate_locations = self._mm_to_voxels(
+                    self.candidate_locations)
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -202,14 +197,10 @@ class Pipeline:
                 if os.path.exists("{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, seed, seed)):
                     self.candidate_locations = np.loadtxt(
                         "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+
                 # from mm to voxels
-                for idx, cand in enumerate(self.candidate_locations):
-                    self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                                                  self.mhd["ElementSpacing"][0])),
-                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                                                  self.mhd["ElementSpacing"][2])),
-                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                                                  self.mhd["ElementSpacing"][1]))]
+                self.candidate_locations = self._mm_to_voxels(
+                    self.candidate_locations)
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -227,13 +218,8 @@ class Pipeline:
                     "{:s}/{:d}/p_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
 
                 # from mm to voxels
-                for idx, cand in enumerate(self.candidate_locations):
-                    self.candidate_locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                                                  self.mhd["ElementSpacing"][0])),
-                                                     int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                                                  self.mhd["ElementSpacing"][2])),
-                                                     int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                                                  self.mhd["ElementSpacing"][1]))]
+                self.candidate_locations = self._mm_to_voxels(
+                    self.candidate_locations)
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/p_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
@@ -1727,8 +1713,8 @@ class Pipeline:
 
         self.lesions = []
 
-        self.candidate_locations = np.loadtxt(
-            "{:s}/{:d}/p_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+        self.candidate_locations = self._mm_to_voxels(np.loadtxt(
+            "{:s}/{:d}/p_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist())
 
     def compress_phantom(self, thickness=None):
         """
@@ -1814,8 +1800,8 @@ class Pipeline:
         self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
             self.arguments_mcgpu["voxel_size"][1] / 2
 
-        self.candidate_locations = np.loadtxt(
-            "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+        self.candidate_locations = self._mm_to_voxels(np.loadtxt(
+            "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist())
 
     def crop(self, size=None):
         """
@@ -1908,6 +1894,9 @@ class Pipeline:
             result = src.substitute(template_arguments)
             f.write(result)
 
+        self.candidate_locations = np.loadtxt(
+            "{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed)).tolist()
+
         if self.candidate_locations is not None:
             for cand in self.candidate_locations:
                 cand[0] = ((cand[0] - prevOffset[0]) / self.mhd["ElementSpacing"][0] -
@@ -1916,12 +1905,15 @@ class Pipeline:
                            crop["from"][1]) * self.mhd["ElementSpacing"][1] + self.mhd["Offset"][1]
                 cand[2] = ((cand[2] - prevOffset[2]) / self.mhd["ElementSpacing"][2] -
                            crop["from"][2]) * self.mhd["ElementSpacing"][2] + self.mhd["Offset"][2]
-
+            #saving in mm
             np.savetxt("{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder,
                                                            self.seed,
                                                            self.seed),
                        self.candidate_locations,
                        delimiter=',')
+
+            self.candidate_locations = self._mm_to_voxels(
+                self.candidate_locations)
 
     def get_dm_segmentation(self, roi=None, selected_materials=[]):
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
@@ -2017,3 +2009,13 @@ class Pipeline:
                         else:
                             data[s[1]] = int(data[s[1]])
         return data
+
+    def _mm_to_voxels(self, locations):
+        for idx, cand in enumerate(locations):
+            locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
+                                           self.mhd["ElementSpacing"][0])),
+                              int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                           self.mhd["ElementSpacing"][2])),
+                              int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                           self.mhd["ElementSpacing"][1]))]
+        return locations
