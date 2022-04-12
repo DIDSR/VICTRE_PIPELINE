@@ -1895,7 +1895,7 @@ class Pipeline:
             f.write(result)
 
         self.candidate_locations = np.loadtxt(
-            "{:s}/{:d}/p_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed)).tolist()
+            "{:s}/{:d}/pc_{:d}.loc".format(self.results_folder, self.seed, self.seed)).tolist()
 
         if self.candidate_locations is not None:
             for cand in self.candidate_locations:
@@ -2014,9 +2014,9 @@ class Pipeline:
         if locations is not None:
             for idx, cand in enumerate(locations):
                 locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                            self.mhd["ElementSpacing"][0])),
-                                int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                            self.mhd["ElementSpacing"][2])),
-                                int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                            self.mhd["ElementSpacing"][1]))]
+                                               self.mhd["ElementSpacing"][0])),
+                                  int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                               self.mhd["ElementSpacing"][2])),
+                                  int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                               self.mhd["ElementSpacing"][1]))]
         return locations
