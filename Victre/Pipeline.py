@@ -1895,7 +1895,7 @@ class Pipeline:
             f.write(result)
 
         self.candidate_locations = np.loadtxt(
-            "{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed)).tolist()
+            "{:s}/{:d}/p_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed)).tolist()
 
         if self.candidate_locations is not None:
             for cand in self.candidate_locations:
