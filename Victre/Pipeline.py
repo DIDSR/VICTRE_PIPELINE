@@ -2011,11 +2011,12 @@ class Pipeline:
         return data
 
     def _mm_to_voxels(self, locations):
-        for idx, cand in enumerate(locations):
-            locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
-                                           self.mhd["ElementSpacing"][0])),
-                              int(np.round((cand[2] - self.mhd["Offset"][2]) /
-                                           self.mhd["ElementSpacing"][2])),
-                              int(np.round((cand[1] - self.mhd["Offset"][1]) /
-                                           self.mhd["ElementSpacing"][1]))]
+        if locations is not None:
+            for idx, cand in enumerate(locations):
+                locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
+                                            self.mhd["ElementSpacing"][0])),
+                                int(np.round((cand[2] - self.mhd["Offset"][2]) /
+                                            self.mhd["ElementSpacing"][2])),
+                                int(np.round((cand[1] - self.mhd["Offset"][1]) /
+                                            self.mhd["ElementSpacing"][1]))]
         return locations
