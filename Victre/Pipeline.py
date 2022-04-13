@@ -163,6 +163,14 @@ class Pipeline:
                 locations = np.loadtxt(
                     "{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed)).tolist()
 
+                if os.path.exists("{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, seed, seed)):
+                    self.candidate_locations = np.loadtxt(
+                        "{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder, self.seed, self.seed), delimiter=',').tolist()
+
+                # from mm to voxels
+                self.candidate_locations = self._mm_to_voxels(
+                    self.candidate_locations)
+
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pcl_{:d}.raw.gz".format(
                     self.results_folder, seed, seed)
 
@@ -1128,8 +1136,10 @@ class Pipeline:
             #                (np.nanmax(pixel_array) - np.nanmin(pixel_array))).astype(np.uint16)
             # pixel_array = (scaling["toUInt16"] * (scaling["offset"] + (pixel_array -
             #                                                            scaling["meanAdditiveNoise"]) * scaling["conversionFactorDM"])).astype(np.uint16)
-
-        for s in progressbar.progressbar(range(pixel_array.shape[0])):
+        bar = progressbar.ProgressBar(max_value=range(
+            pixel_array.shape[0])) if self.verbosity else None
+        for s in range(pixel_array.shape[0]):
+            bar.update(s) if self.verbosity else None
             save_DICOM_one(np.squeeze(
                 pixel_array[s, :, :]).astype(np.uint16), s)
 
@@ -1473,32 +1483,19 @@ class Pipeline:
                                               lesion_type
                                               ]))
 
+                self.lesion_locations["dm"].append(
+                    list(np.round([loc["dm"][0], loc["dm"][1], cand[3]]).astype(int)))
+
+                self.lesion_locations["dbt"].append(
+                    list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], cand[3]]).astype(int)))
+
                 c += 1
 
                 bar.finish() if self.verbosity else None
 
-        for cand in self.lesions:
-            loc = {"dm": self.get_coordinates_dm([
-                cand[1],
-                cand[2],
-                cand[0]]),
-                "dbt": self.get_coordinates_dbt([
-                    cand[1],
-                    cand[2],
-                    cand[0]])}
-            self.lesion_locations["dm"].append(
-                list(np.round([loc["dm"][0], loc["dm"][1], cand[3]]).astype(int)))
-
-            self.lesion_locations["dbt"].append(
-                list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], cand[3]]).astype(int)))
-
         if lesion is not None:
             np.savetxt("{:s}/{:d}/pcl_{:d}.loc".format(self.results_folder, self.seed, self.seed),
                        np.asarray(self.lesions), fmt="%d")
-
-            # with h5py.File("phantom/pcl_{:d}_crop.h5".format(self.seed), "w") as hf:
-            #     hf.create_dataset("phantom", data=phantom.astype(
-            #         np.uint8), compression="gzip")
 
             # save new phantom file
             if save_phantom:
