@@ -1484,10 +1484,10 @@ class Pipeline:
                                               ]))
 
                 self.lesion_locations["dm"].append(
-                    list(np.round([loc["dm"][0], loc["dm"][1], cand[3]]).astype(int)))
+                    list(np.round([loc["dm"][0], loc["dm"][1], lesion_type]).astype(int)))
 
                 self.lesion_locations["dbt"].append(
-                    list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], cand[3]]).astype(int)))
+                    list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], lesion_type]).astype(int)))
 
                 c += 1
 
