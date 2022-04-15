@@ -1381,6 +1381,21 @@ class Pipeline:
                                               cand[2],
                                               cand_type
                                               ]))
+
+                loc = {"dm": self.get_coordinates_dm([
+                    cand[1] + lesion.shape[1] / 2,
+                    cand[2] + lesion.shape[2] / 2,
+                    cand[0] + lesion.shape[0] / 2]),
+                    "dbt": self.get_coordinates_dbt([
+                        cand[1] + lesion.shape[1] / 2,
+                        cand[2] + lesion.shape[2] / 2,
+                        cand[0] + lesion.shape[0] / 2])}
+
+                self.lesion_locations["dm"].append(
+                    list(np.round([loc["dm"][0], loc["dm"][1], cand_type]).astype(int)))
+
+                self.lesion_locations["dbt"].append(
+                    list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], cand_type]).astype(int)))
         else:
             current_seed = self.seed
             np.random.seed(current_seed)
