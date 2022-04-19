@@ -1383,13 +1383,13 @@ class Pipeline:
                                               ]))
 
                 loc = {"dm": self.get_coordinates_dm([
-                    cand[1] + lesion.shape[1] / 2,
-                    cand[2] + lesion.shape[2] / 2,
-                    cand[0] + lesion.shape[0] / 2]),
+                    cand[1],
+                    cand[2],
+                    cand[0]]),
                     "dbt": self.get_coordinates_dbt([
-                        cand[1] + lesion.shape[1] / 2,
-                        cand[2] + lesion.shape[2] / 2,
-                        cand[0] + lesion.shape[0] / 2])}
+                        cand[1],
+                        cand[2],
+                        cand[0]])}
 
                 self.lesion_locations["dm"].append(
                     list(np.round([loc["dm"][0], loc["dm"][1], cand_type]).astype(int)))
