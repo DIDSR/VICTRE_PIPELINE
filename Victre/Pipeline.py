@@ -993,8 +993,8 @@ class Pipeline:
 
             # Add the data elements -- not trying to set all required here. Check DICOM
             # standard
-            # ds.SamplesPerPixel = 1
-            # ds.PhotometricInterpretation = "MONOCHROME2"
+            ds.SamplesPerPixel = 1
+            ds.PhotometricInterpretation = "MONOCHROME2"
             ds.PixelRepresentation = 0
             ds.HighBit = 15
             ds.BitsStored = 16
@@ -1096,7 +1096,6 @@ class Pipeline:
                 if lesion[-1] > 0:
                     block.add_new(idx + 1, 'ST', ' '.join(str(item)
                                                           for item in lesion))
-
             ds.PixelData = data.tobytes()
 
             # Set the transfer syntax
@@ -1136,12 +1135,15 @@ class Pipeline:
             #                (np.nanmax(pixel_array) - np.nanmin(pixel_array))).astype(np.uint16)
             # pixel_array = (scaling["toUInt16"] * (scaling["offset"] + (pixel_array -
             #                                                            scaling["meanAdditiveNoise"]) * scaling["conversionFactorDM"])).astype(np.uint16)
-        bar = progressbar.ProgressBar(max_value=range(
-            pixel_array.shape[0])) if self.verbosity else None
+        pixel_array = np.iinfo(np.uint16).max * (pixel_array - np.nanmin(
+            pixel_array)) / (np.nanmax(pixel_array) - np.nanmin(pixel_array))
+        bar = progressbar.ProgressBar(
+            max_value=pixel_array.shape[0]) if self.verbosity else None
         for s in range(pixel_array.shape[0]):
             bar.update(s) if self.verbosity else None
             save_DICOM_one(np.squeeze(
                 pixel_array[s, :, :]).astype(np.uint16), s)
+        bar.finish() if self.verbosity else None
 
     def save_ROIs(self, roi_sizes=None, clean=True, save_folder=None):
         """
