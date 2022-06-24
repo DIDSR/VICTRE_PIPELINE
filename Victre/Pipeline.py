@@ -1126,8 +1126,7 @@ class Pipeline:
         if modality == "dbt":
             pixel_array = np.fromfile("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                       dtype="float64").reshape(self.recon_size["z"], self.recon_size["x"], self.recon_size["y"])
-            pixel_array = np.clip(((2**16 - 1) * pixel_array),
-                                  0, 2**16 - 1).astype(np.uint16)
+            pixel_array = np.clip(((2**16 - 1) * pixel_array), 0, 2**16 - 1)
         else:
             pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                       dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
