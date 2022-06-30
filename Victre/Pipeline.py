@@ -389,7 +389,7 @@ class Pipeline:
 
         # self.arguments_mcgpu["number_voxels"]
 
-    def project(self, flatfield_correction=True, clean=True, do_flatfield=0):
+    def project(self, flatfield_correction=True, clean=True, do_flatfield=0, for_presentation=False):
         """
             Method that runs MCGPU to project the phantom.
 
@@ -418,6 +418,7 @@ class Pipeline:
             with gzip.open("{:s}/{:d}/empty_phantom.raw.gz".format(
                     self.results_folder, self.seed), "wb") as gz:
                 gz.write(empty_phantom)
+            del empty_phantom
 
             prev_flatfield_DBT, prev_flatfield_DM = None, None
 
@@ -440,6 +441,19 @@ class Pipeline:
                     dtype="float32").reshape(self.arguments_mcgpu["number_projections"],
                                              self.arguments_mcgpu["image_pixels"][0],
                                              self.arguments_mcgpu["image_pixels"][1])
+        elif for_presentation:
+            with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
+                phantom = f.read()
+            phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
+                self.arguments_mcgpu["number_voxels"][2],
+                self.arguments_mcgpu["number_voxels"][1],
+                self.arguments_mcgpu["number_voxels"][0])
+            phantom[phantom != 0] = Constants.PHANTOM_MATERIALS["adipose"]
+            with gzip.open("{:s}/{:d}/presentation.raw.gz".format(
+                    self.results_folder, self.seed), "wb") as gz:
+                gz.write(phantom)
+            del phantom
+            filename = "presentation"
         else:
             filename = "projection"
 
@@ -467,6 +481,14 @@ class Pipeline:
                     self.results_folder,
                     self.seed)
                 template_arguments["number_histories"] *= Constants.FLATFIELD_DOSE_MULTIPLIER
+            elif for_presentation:
+                template_arguments["phantom_file"] = "{:s}/{:d}/presentation.raw.gz".format(
+                    self.results_folder,
+                    self.seed)
+                # template_arguments["number_projections"] = 1
+                # if self.arguments_mcgpu["number_projections"] > 1:
+                #     template_arguments["number_histories"] = self.arguments_mcgpu["number_histories"] * \
+                #         self.arguments_mcgpu["number_projections"] * 2 / 3
             template_arguments["output_file"] = "{:s}/{:d}/{:s}".format(
                 self.results_folder, self.seed, filename)
 
@@ -535,7 +557,7 @@ class Pipeline:
                         cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Starting DBT projection...",
                                'cyan') if self.verbosity else None
                         bar = progressbar.ProgressBar(
-                            max_value=self.arguments_mcgpu["number_projections"]) if self.verbosity else None
+                            max_value=template_arguments["number_projections"]) if self.verbosity else None
                         bar.update(0) if self.verbosity else None
                     completed += 1
                     bar.update(completed) if self.verbosity else None
@@ -543,7 +565,7 @@ class Pipeline:
                 f.write(output.encode('utf-8'))
                 f.flush()
 
-        if self.arguments_mcgpu["number_projections"] > 1 and completed != self.arguments_mcgpu["number_projections"]:
+        if template_arguments["number_projections"] > 1 and completed != template_arguments["number_projections"]:
             cprint("\nError while projecting, check the output_{:s}.out file in the results folder (seed = {:d})".format(filename, self.seed),
                    'red', attrs=['bold'])
             raise Exceptions.VictreError("Projection error")
@@ -572,7 +594,7 @@ class Pipeline:
             os.remove(
                 "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed))
 
-        if self.arguments_mcgpu["number_projections"] > 1:
+        if template_arguments["number_projections"] > 1:
             os.rename("{:s}/{:d}/{:s}_0000.raw".format(self.results_folder, self.seed, filename),
                       "{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed))
         else:
@@ -604,6 +626,9 @@ class Pipeline:
                     "{:s}/{:d}/{:s}_{:04d}.raw".format(self.results_folder, self.seed, filename, i + 1))
                 os.remove(
                     "{:s}/{:d}/{:s}_{:04d}".format(self.results_folder, self.seed, filename, i + 1))
+        with contextlib.suppress(FileNotFoundError):
+            os.remove(
+                "{:s}/{:d}/{:s}".format(self.results_folder, self.seed, filename))
 
         if do_flatfield > 0:
             os.remove("{:s}/{:d}/empty_phantom.raw.gz".format(
@@ -674,13 +699,36 @@ class Pipeline:
             self.flatfield_DM = "{:s}/{:d}/flatfield_DM{:d}.raw".format(
                 self.results_folder, self.seed, self.seed)
 
+        if for_presentation:
+            os.remove("{:s}/{:d}/presentation.raw.gz".format(
+                self.results_folder, self.seed))
+            self.project(flatfield_correction=False, clean=clean)
+            projection_DM = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
+                                        dtype="float32").reshape(2,
+                                                                 self.arguments_recon["detector_elements_perpendicular"],
+                                                                 self.arguments_recon["detector_elements"])
+            presentation_tmp = np.fromfile("{:s}/{:d}/presentation_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
+                                           dtype="float32").reshape(2,
+                                                                    self.arguments_recon["detector_elements_perpendicular"],
+                                                                    self.arguments_recon["detector_elements"])
+            os.remove(
+                "{:s}/{:d}/presentation_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
+            os.rename(
+                "{:s}/{:d}/presentation_DM{:d}.mhd".format(
+                    self.results_folder, self.seed, self.seed),
+                "{:s}/{:d}/forpresentation_DM{:d}.mhd".format(self.results_folder, self.seed, self.seed))
+            np.seterr(divide='ignore', invalid='ignore')
+            projection_DM = 1 / projection_DM / presentation_tmp
+            projection_DM.tofile(
+                "{:s}/{:d}/forpresentation_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
+
         if do_flatfield == 0:
             # normalize with flatfield
             projection_DM = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                         dtype="float32").reshape(2,
                                                                  self.arguments_recon["detector_elements_perpendicular"],
                                                                  self.arguments_recon["detector_elements"])
-
+            np.seterr(divide='ignore', invalid='ignore')
             if flatfield_correction and self.flatfield_DM is not None:
                 curr_flatfield_DM = np.fromfile(self.flatfield_DM,
                                                 dtype="float32").reshape(2,
@@ -694,7 +742,6 @@ class Pipeline:
 
             projection_DM[projection_DM == np.inf] = 0
             projection_DM[np.isnan(projection_DM)] = 0
-
             projection_DM.tofile(
                 "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
             if len(self.lesion_locations["dm"]) > 0:
