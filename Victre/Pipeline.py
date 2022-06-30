@@ -1320,7 +1320,7 @@ class Pipeline:
                 side = int(s[1])
 
         lesion_raw = np.fromfile("{:s}/lesions/spiculated/mass_{:d}_{:d}.raw".format(self.results_folder, self.arguments_spiculated["seed"], side),
-                                 dtype=np.int8).reshape(side, side, side)
+                                 dtype=np.uint8).reshape(side, side, side)
 
         # clean files
         for name in generated_files:
@@ -1328,17 +1328,19 @@ class Pipeline:
                 os.remove(name)
 
         # save in HDF
-        with h5py.File("{:s}/lesions/spiculated/mass_{:d}_size{:.2f}_{:.2f}.h5".format(
+        with h5py.File("{:s}/lesions/spiculated/mass_{:d}_size{:.2f}.h5".format(
                 self.results_folder,
                 self.arguments_spiculated["seed"],
-                self.arguments_spiculated["alpha"],
-                self.arguments_spiculated["meanInitRad"]), "w") as hf:
+                self.arguments_spiculated["alpha"]), "w") as hf:
             hf.create_dataset("volume", data=lesion_raw,
                               compression="gzip")
             hf.create_dataset("seed", data=self.arguments_spiculated["seed"])
             hf.create_dataset("size", data=self.arguments_spiculated["alpha"])
 
-        self.lesion_file = "{:s}/lesions/spiculated/mass_{:d}_size{:.2f}_{:.2f}.h5"
+        self.lesion_file = "{:s}/lesions/spiculated/mass_{:d}_size{:.2f}.h5".format(
+            self.results_folder,
+            self.arguments_spiculated["seed"],
+            self.arguments_spiculated["alpha"])
 
         cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Generation finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
