@@ -713,14 +713,14 @@ class Pipeline:
                                                                     self.arguments_recon["detector_elements"])
             os.remove(
                 "{:s}/{:d}/presentation_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
-            os.rename(
-                "{:s}/{:d}/presentation_DM{:d}.mhd".format(
-                    self.results_folder, self.seed, self.seed),
-                "{:s}/{:d}/forpresentation_DM{:d}.mhd".format(self.results_folder, self.seed, self.seed))
+            # os.rename(
+            #     "{:s}/{:d}/presentation_DM{:d}.mhd".format(
+            #         self.results_folder, self.seed, self.seed),
+            #     "{:s}/{:d}/projection_DM{:d}.mhd".format(self.results_folder, self.seed, self.seed))
             np.seterr(divide='ignore', invalid='ignore')
             projection_DM = 1 / projection_DM / presentation_tmp
             projection_DM.tofile(
-                "{:s}/{:d}/forpresentation_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
+                "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
 
         if do_flatfield == 0:
             # normalize with flatfield
@@ -1173,7 +1173,8 @@ class Pipeline:
         if modality == "dbt":
             pixel_array = np.fromfile("{:s}/{:d}/reconstruction{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                       dtype="float64").reshape(self.recon_size["z"], self.recon_size["x"], self.recon_size["y"])
-            pixel_array = np.clip(((2**16 - 1) * pixel_array), 0, 2**16 - 1)
+            pixel_array = np.clip(((2**16 - 1) * pixel_array),
+                                  0, 2**16 - 1).astype(np.uint16)
         else:
             pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
                                       dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
