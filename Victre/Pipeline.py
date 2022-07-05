@@ -1491,6 +1491,8 @@ class Pipeline:
 
                         # rollback
                         self.lesions = self.lesions[:-c]
+                        self.lesion_locations["dm"] = self.lesion_locations["dm"][:-c]
+                        self.lesion_locations["dbt"] = self.lesion_locations["dbt"][:-c]
                         c = 0
 
                         if self.candidate_locations is not None:
