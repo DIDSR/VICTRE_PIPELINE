@@ -1931,16 +1931,18 @@ class Pipeline:
         self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
             self.arguments_mcgpu["voxel_size"][1] / 2
 
-        with gzip.open("{:s}/{:d}/pc_{:d}_crop.raw.gz".format(self.results_folder, self.seed, self.seed), 'wb') as f:
+        gzip_file = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(self.results_folder, self.seed, self.seed)
+
+        with gzip.open(gzip_file, 'wb') as f:
             f.write(np.ascontiguousarray(phantom))
 
-        self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
-            self.results_folder, self.seed, self.seed)
+        self.arguments_mcgpu["phantom_file"] = gzip_file
+
+        self.mhd["ElementDataFile"] = os.path.basename(gzip_file)
+        self.mhd["CompressedData"] = True  # because of gzip
 
         prevOffset = copy.deepcopy(self.mhd["Offset"])
 
-        self.mhd["ElementDataFile"] = "pc_{:d}_crop.raw.gz".format(
-            self.seed)
         self.mhd["Offset"][0] = self.mhd["Offset"][0] + \
             crop["from"][0] * self.mhd["ElementSpacing"][0]
         self.mhd["Offset"][1] = self.mhd["Offset"][1] + \
