@@ -41,26 +41,22 @@
 
 import numpy as np
 import os
-from termcolor import colored, cprint
+from termcolor import cprint
 import shutil
-from os.path import isfile, join
-from os import walk
+from os.path import join
 import contextlib
 import pathlib
-import glob
 import progressbar
 import h5py
 import subprocess
-from datetime import date
 from string import Template
 import random
 import time
 from . import Constants, Exceptions
 import pydicom
-from pydicom.dataset import Dataset, FileDataset, FileMetaDataset
+from pydicom.dataset import FileDataset, FileMetaDataset
 import copy
 import datetime
-from pydicom.encaps import encapsulate
 import re
 import gzip
 from scipy import interpolate
