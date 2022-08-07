@@ -45,7 +45,6 @@ from termcolor import cprint
 import shutil
 from os.path import join
 import contextlib
-import pathlib
 import progressbar
 import h5py
 import subprocess
@@ -2040,11 +2039,9 @@ class Pipeline:
             :param folder: Path to the folder to be processed
             :returns: List with files inside the given folder
         """
-        dir_folder = pathlib.Path(folder)
         files = []
-        for currentFile in dir_folder.iterdir():
-            files.append(join(folder, currentFile.name))
-
+        for currentFile in os.listdir(folder):
+            files.append(join(folder, currentFile))
         return files
 
     @staticmethod
