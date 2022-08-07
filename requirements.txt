@@ -1,0 +1,7 @@
+h5py
+numpy
+pathlib
+progressbar
+pydicom
+scipy
+termcolor
