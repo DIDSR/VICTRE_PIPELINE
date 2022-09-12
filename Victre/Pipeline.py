@@ -384,6 +384,14 @@ class Pipeline:
 
         # self.arguments_mcgpu["number_voxels"]
 
+    def _load_phantom_array_from_gzip(self):
+        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as gz:
+            phantom = gz.read()
+        return np.fromstring(phantom, dtype=np.uint8).reshape(
+            self.arguments_mcgpu["number_voxels"][2],
+            self.arguments_mcgpu["number_voxels"][1],
+            self.arguments_mcgpu["number_voxels"][0])
+
     def project(self, flatfield_correction=True, clean=True, do_flatfield=0, for_presentation=False):
         """
             Method that runs MCGPU to project the phantom.
@@ -437,12 +445,7 @@ class Pipeline:
                                              self.arguments_mcgpu["image_pixels"][0],
                                              self.arguments_mcgpu["image_pixels"][1])
         elif for_presentation:
-            with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
-                phantom = f.read()
-            phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
-                self.arguments_mcgpu["number_voxels"][2],
-                self.arguments_mcgpu["number_voxels"][1],
-                self.arguments_mcgpu["number_voxels"][0])
+            phantom = self._load_phantom_array_from_gzip()
             phantom[phantom != 0] = Constants.PHANTOM_MATERIALS["adipose"]
             with gzip.open("{:s}/{:d}/presentation.raw.gz".format(
                     self.results_folder, self.seed), "wb") as gz:
@@ -1365,13 +1368,7 @@ class Pipeline:
             self.lesion_file = lesion_file
 
         # read self.arguments_mcgpu compressed
-        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
-            phantom = f.read()
-
-        phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
-            self.arguments_mcgpu["number_voxels"][2],
-            self.arguments_mcgpu["number_voxels"][1],
-            self.arguments_mcgpu["number_voxels"][0])
+        phantom = self._load_phantom_array_from_gzip()
 
         if self.lesion_file is not None:
             if n == -1:
@@ -1473,13 +1470,8 @@ class Pipeline:
 
                         cprint(
                             "Too many attempts at inserting, restarting the insertion! ({:d} remaining)".format(max_attempts), 'red') if self.verbosity else None
-                        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
-                            phantom = f.read()
+                        phantom = self._load_phantom_array_from_gzip()
 
-                        phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
-                            self.arguments_mcgpu["number_voxels"][2],
-                            self.arguments_mcgpu["number_voxels"][1],
-                            self.arguments_mcgpu["number_voxels"][0])
                         current_seed += 1
                         random.seed(current_seed)  # try with a different seed
 
@@ -1596,18 +1588,12 @@ class Pipeline:
             :param roi_sizes: Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
             :returns: None. A location file will be saved inside the `phantom` folder with the corresponding seed. Negative lesion type means absent ROI.
         """
-        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
-            phantom = f.read()
+        phantom = self._load_phantom_array_from_gzip()
 
         if roi_sizes is not None:
             self.roi_sizes = roi_sizes
 
         roi_shape = self.roi_sizes[lesion_type]
-
-        phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
-            self.arguments_mcgpu["number_voxels"][2],
-            self.arguments_mcgpu["number_voxels"][1],
-            self.arguments_mcgpu["number_voxels"][0])
 
         if locations is not None:
             for cand in locations:
@@ -1872,13 +1858,7 @@ class Pipeline:
         cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") +
                "] Cropping phantom...", 'cyan') if self.verbosity else None
 
-        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
-            phantom = f.read()
-
-        phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
-            self.arguments_mcgpu["number_voxels"][2],
-            self.arguments_mcgpu["number_voxels"][1],
-            self.arguments_mcgpu["number_voxels"][0])
+        phantom = self._load_phantom_array_from_gzip()
 
         # crop from top to bottom (and bottom to top) when the plates start/end
         crop = {"from": [0, 0, 0], "to": list(phantom.shape)}
@@ -1978,12 +1958,7 @@ class Pipeline:
                 self.candidate_locations)
 
     def get_dm_segmentation(self, roi=None, selected_materials=[]):
-        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
-            phantom = f.read()
-        phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
-            self.arguments_mcgpu["number_voxels"][2],
-            self.arguments_mcgpu["number_voxels"][1],
-            self.arguments_mcgpu["number_voxels"][0])
+        phantom = self._load_phantom_array_from_gzip()
 
         if roi is None:
             roi = [[0, 0], self.arguments_mcgpu["image_pixels"][::-1]]
@@ -2005,12 +1980,7 @@ class Pipeline:
         return mask
 
     def get_DBT_segmentation(self):
-        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as f:
-            phantom = f.read()
-        phantom = np.fromstring(phantom, dtype=np.uint8).reshape(
-            self.arguments_mcgpu["number_voxels"][2],
-            self.arguments_mcgpu["number_voxels"][1],
-            self.arguments_mcgpu["number_voxels"][0])
+        phantom = self._load_phantom_array_from_gzip()
 
         recon_mhd = self._read_mhd("{:s}/{:d}/reconstruction{:d}.mhd".format(self.results_folder,
                                                                              self.seed,
