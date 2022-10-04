@@ -96,6 +96,7 @@ class Pipeline:
                  arguments_spiculated=dict(),
                  arguments_mcgpu=dict(),
                  arguments_recon=dict(),
+                 arguments_cluster=dict(),
                  flatfield_DBT=None,
                  flatfield_DM=None,
                  density=None,
@@ -104,7 +105,7 @@ class Pipeline:
         if seed is None:
             self.seed = int(time.time())
         else:
-            self.seed = seed
+            self.seed = int(seed)
 
         self.ips = ips
         self.lesion_file = lesion_file
@@ -126,6 +127,8 @@ class Pipeline:
 
         self.arguments_spiculated = Constants.VICTRE_DEFAULT_SPICULATED_MASS
         self.arguments_spiculated["seed"] = self.seed
+        self.arguments_cluster = Constants.VICTRE_DEFAULT_CLUSTER
+        self.arguments_cluster["seed"] = self.seed
 
         locations = None
         self.mhd = {
@@ -233,6 +236,7 @@ class Pipeline:
         self.arguments_spiculated["imgRes"] = self.arguments_mcgpu["voxel_size"][0] * 10
 
         self.arguments_spiculated.update(arguments_spiculated)
+        self.arguments_cluster.update(arguments_cluster)
 
         self.materials = materials
         if self.materials is None:
@@ -372,6 +376,12 @@ class Pipeline:
                 #             "{:s}/{:d}".format(self.results_folder, self.seed))
                 # os.chmod(
                 #     "{:s}/{:d}/{:s}.loc".format(self.results_folder, self.seed, filename), 0o664)
+            self.arguments_recon.update(dict(
+                voxels_x=self.arguments_mcgpu["number_voxels"][1],
+                voxels_y=self.arguments_mcgpu["number_voxels"][0],
+                voxels_z=self.arguments_mcgpu["number_voxels"][2],
+                voxel_size=self.arguments_mcgpu["voxel_size"][0]
+            ))
 
         self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
             self.arguments_mcgpu["voxel_size"][1] / 2
@@ -418,15 +428,16 @@ class Pipeline:
             filename = "flatfield"
             empty_phantom = np.zeros(
                 self.arguments_mcgpu["number_voxels"], np.uint8)
-            with gzip.open("{:s}/{:d}/empty_phantom.raw.gz".format(
-                    self.results_folder, self.seed), "wb") as gz:
+            with gzip.GzipFile(fileobj=open("{:s}/{:d}/empty_phantom.raw.gz".format(
+                self.results_folder, self.seed), "wb"),
+                    filename="", mtime=0) as gz:
                 gz.write(empty_phantom)
             del empty_phantom
 
             prev_flatfield_DBT, prev_flatfield_DM = None, None
 
             if os.path.exists("{:s}/{:d}/{:s}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed)):
-                prev_flatfield_DM = np.fromfile("{:s}/{:d}/{:}_DM.raw".format(self.results_folder, self.seed, filename),
+                prev_flatfield_DM = np.fromfile("{:s}/{:d}/{:}_DM{:d}.raw".format(self.results_folder, self.seed, filename, self.seed),
                                                 dtype="float32").reshape(2,
                                                                          self.arguments_recon["detector_elements_perpendicular"],
                                                                          self.arguments_recon["detector_elements"])
@@ -447,8 +458,9 @@ class Pipeline:
         elif for_presentation:
             phantom = self._load_phantom_array_from_gzip()
             phantom[phantom != 0] = Constants.PHANTOM_MATERIALS["adipose"]
-            with gzip.open("{:s}/{:d}/presentation.raw.gz".format(
-                    self.results_folder, self.seed), "wb") as gz:
+            with gzip.GzipFile(fileobj=open("{:s}/{:d}/presentation.raw.gz".format(
+                self.results_folder, self.seed), "wb"),
+                    filename="", mtime=0) as gz:
                 gz.write(phantom)
             del phantom
             filename = "presentation"
@@ -664,38 +676,36 @@ class Pipeline:
                     self.arguments_mcgpu["number_projections"]))
 
         elif flatfield_correction and (self.arguments_recon["flatfield_file"] is None or self.flatfield_DM is None):
-            with contextlib.suppress(FileNotFoundError):
-                os.remove(
-                    "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed, self.seed).format(
-                        self.results_folder,
-                        self.seed,
-                        'x'.join(
-                            map(str, self.arguments_mcgpu["image_pixels"])),
-                        self.arguments_mcgpu["number_projections"]))
-                if self.arguments_mcgpu["number_projections"] > 1:
-                    os.remove(
-                        "{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
-                            self.results_folder,
-                            self.seed,
-                            'x'.join(
-                                map(str, self.arguments_mcgpu["image_pixels"])),
-                            self.arguments_mcgpu["number_projections"]))
+            # with contextlib.suppress(FileNotFoundError):
+            #     os.remove(
+            #         "{:s}/{:d}/flatfield_DM{:d}.raw".format(self.results_folder, self.seed, self.seed).format(
+            #             self.results_folder,
+            #             self.seed,
+            #             'x'.join(
+            #                 map(str, self.arguments_mcgpu["image_pixels"])),
+            #             self.arguments_mcgpu["number_projections"]))
+            #     if self.arguments_mcgpu["number_projections"] > 1:
+            #         os.remove(
+            #             "{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
+            #                 self.results_folder,
+            #                 self.seed,
+            #                 'x'.join(
+            #                     map(str, self.arguments_mcgpu["image_pixels"])),
+            #                 self.arguments_mcgpu["number_projections"]))
 
             # number of iterations to average the flatfield
-            for n in range(Constants.FLATFIELD_REPETITIONS):
-                cprint("Flatfield files not specified, projecting {:d}/{:d}...".format(
-                    n + 1, Constants.FLATFIELD_REPETITIONS), 'cyan') if self.verbosity else None
-                self.project(do_flatfield=Constants.FLATFIELD_REPETITIONS)
-
-            if self.arguments_mcgpu["number_projections"] > 1:
+            if self.flatfield_DM is None or self.arguments_mcgpu["number_projections"] > 1 and self.arguments_recon["flatfield_file"] is None:
+                for n in range(Constants.FLATFIELD_REPETITIONS):
+                    cprint("Flatfield files not specified, projecting {:d}/{:d}...".format(
+                        n + 1, Constants.FLATFIELD_REPETITIONS), 'cyan') if self.verbosity else None
+                    self.project(do_flatfield=Constants.FLATFIELD_REPETITIONS)
+                self.flatfield_DM = "{:s}/{:d}/flatfield_DM{:d}.raw".format(
+                    self.results_folder, self.seed, self.seed)
                 self.arguments_recon["flatfield_file"] = "{:s}/{:d}/flatfield_{:s}pixels_{:d}proj.raw".format(
                     self.results_folder,
                     self.seed,
                     'x'.join(map(str, self.arguments_mcgpu["image_pixels"])),
                     self.arguments_mcgpu["number_projections"])
-
-            self.flatfield_DM = "{:s}/{:d}/flatfield_DM{:d}.raw".format(
-                self.results_folder, self.seed, self.seed)
 
         if for_presentation:
             os.remove("{:s}/{:d}/presentation.raw.gz".format(
@@ -714,11 +724,12 @@ class Pipeline:
             # os.rename(
             #     "{:s}/{:d}/presentation_DM{:d}.mhd".format(
             #         self.results_folder, self.seed, self.seed),
-            #     "{:s}/{:d}/projection_DM{:d}.mhd".format(self.results_folder, self.seed, self.seed))
+            #     "{:s}/{:d}/forpresentation_DM{:d}.mhd".format(self.results_folder, self.seed, self.seed))
             np.seterr(divide='ignore', invalid='ignore')
             projection_DM = 1 / projection_DM / presentation_tmp
+            projection_DM = np.max(projection_DM) - projection_DM
             projection_DM.tofile(
-                "{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
+                "{:s}/{:d}/presentation_DM{:d}.raw".format(self.results_folder, self.seed, self.seed))
 
         if do_flatfield == 0:
             # normalize with flatfield
@@ -1076,11 +1087,11 @@ class Pipeline:
             ds.ClinicalTrialSubjectID = ' '
             ds.ClinicalTrialSubjectReadingID = ' '
             ds.ImageLaterality = 'R'
-            ds.ImagerPixelSpacing = "{:f}\{:f}".format(
+            ds.ImagerPixelSpacing = "{:f}\\{:f}".format(
                 self.arguments_recon["recon_pixel_size"] * 10, self.arguments_recon["recon_pixel_size"] * 10)
             ds.InstanceNumber = ''
             ds.PatientBirthDate = ''
-            ds.PatientOrientation = 'P\H'
+            ds.PatientOrientation = 'P\\H'
             ds.PatientSex = 'F'
             ds.PresentationIntentType = 'FOR PROCESSING'
             ds.ReferringPhysicianName = 'Virtual'
@@ -1096,7 +1107,7 @@ class Pipeline:
             ds.InstitutionalDepartmentName = 'DIDSR'
             ds.SoftwareVersions = 'MC-GPU_1.5b'
 
-            ds.ImageType = 'ORIGINAL\PRIMARY'
+            ds.ImageType = 'ORIGINAL\\PRIMARY'
             ds.ImageComments = "SA" if len(
                 self.lesion_locations[modality]) == 0 else "SP"
             ds.LossyImageCompression = '00'
@@ -1173,8 +1184,12 @@ class Pipeline:
                                       dtype="float64").reshape(self.recon_size["z"], self.recon_size["x"], self.recon_size["y"])
             pixel_array = np.clip(((2**16 - 1) * pixel_array), 0, 2**16 - 1)
         else:
-            pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
-                                      dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
+            if os.path.exists("{:s}/{:d}/presentation_DM{:d}.raw".format(self.results_folder, self.seed, self.seed)):
+                pixel_array = np.fromfile("{:s}/{:d}/presentation_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
+                                          dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
+            else:
+                pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
+                                          dtype="float32").reshape(2, self.arguments_mcgpu["image_pixels"][0], self.arguments_mcgpu["image_pixels"][1])
             # pixel_array = ((2**16 - 1) * (pixel_array - np.nanmin(pixel_array)) /
             #                (np.nanmax(pixel_array) - np.nanmin(pixel_array))).astype(np.uint16)
             # pixel_array = (scaling["toUInt16"] * (scaling["offset"] + (pixel_array -
@@ -1236,11 +1251,12 @@ class Pipeline:
                 roi.astype(np.dtype('<f8')).tofile(
                     "{:s}/{:d}/ROIs/ROI_DBT_{:02d}_type{:d}.raw".format(save_folder, self.seed, idx, lesion[3]))
                 hfdbt.create_dataset("{:d}".format(idx),
-                                     data=roi.astype(np.float32), compression="gzip", compression_opts=9)
-                hfdbt_loc.create_dataset("{:d}".format(idx), data=lesion)
+                                     data=roi.astype(np.float32), compression="gzip", compression_opts=9, track_times=False)
+                hfdbt_loc.create_dataset("{:d}".format(
+                    idx), data=lesion, track_times=False)
 
             hfdbt.create_dataset("lesion_type",
-                                 data=np.array(self.lesion_locations["dbt"])[:, 3])
+                                 data=np.array(self.lesion_locations["dbt"])[:, 3], track_times=False)
 
         # SAVE DM ROIs
         pixel_array = np.fromfile("{:s}/{:d}/projection_DM{:d}.raw".format(self.results_folder, self.seed, self.seed),
@@ -1262,11 +1278,12 @@ class Pipeline:
             # dm_rois.append(roi)
 
             hfdm.create_dataset("{:d}".format(idx),
-                                data=roi, compression="gzip", compression_opts=9)
-            hfdm_loc.create_dataset("{:d}".format(idx), data=lesion)
+                                data=roi, compression="gzip", compression_opts=9, track_times=False)
+            hfdm_loc.create_dataset("{:d}".format(
+                idx), data=lesion, track_times=False)
 
         hfdm.create_dataset("lesion_type",
-                            data=np.array(self.lesion_locations["dm"])[:, 2])
+                            data=np.array(self.lesion_locations["dm"])[:, 2], track_times=False)
 
         hf.close()
 
@@ -1331,9 +1348,11 @@ class Pipeline:
                 self.arguments_spiculated["seed"],
                 self.arguments_spiculated["alpha"]), "w") as hf:
             hf.create_dataset("volume", data=lesion_raw,
-                              compression="gzip")
-            hf.create_dataset("seed", data=self.arguments_spiculated["seed"])
-            hf.create_dataset("size", data=self.arguments_spiculated["alpha"])
+                              compression="gzip", track_times=False)
+            hf.create_dataset(
+                "seed", data=self.arguments_spiculated["seed"], track_times=False)
+            hf.create_dataset(
+                "size", data=self.arguments_spiculated["alpha"], track_times=False)
 
         self.lesion_file = "{:s}/lesions/spiculated/mass_{:d}_size{:.2f}.h5".format(
             self.results_folder,
@@ -1342,6 +1361,97 @@ class Pipeline:
 
         cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Generation finished!", 'green', attrs=[
                'bold']) if self.verbosity else None
+
+    def generate_cluster(self, seed=None, size=None, nmin=None, nmax=None, smin=None, smax=None):
+        if size is not None:
+            self.arguments_cluster["size"] = size
+        if seed is not None:
+            self.arguments_cluster["seed"] = seed
+        if nmin is not None:
+            self.arguments_cluster["nmin"] = nmin
+        if nmax is not None:
+            self.arguments_cluster["nmax"] = nmax
+        if smin is not None:
+            self.arguments_cluster["smin"] = smin
+        if smax is not None:
+            self.arguments_cluster["smax"] = smax
+
+        cprint("[" + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "] Generating calcification cluster (seed={:d}, size={:d})...".format(
+            self.arguments_cluster["seed"], self.arguments_cluster["size"]), 'cyan') if self.verbosity else None
+
+        np.random.seed(self.arguments_cluster["seed"])
+
+        size_px = (int(self.arguments_cluster["size"] /
+                       self.arguments_mcgpu["voxel_size"][0]),
+                   int(self.arguments_cluster["size"] /
+                       self.arguments_mcgpu["voxel_size"][1]),
+                   int(self.arguments_cluster["size"] /
+                       self.arguments_mcgpu["voxel_size"][2]))
+
+        lesion_raw = np.zeros(size_px)
+
+        n = np.random.randint(
+            self.arguments_cluster["nmin"], self.arguments_cluster["nmax"])
+
+        def sphere(shape, radius, position):
+            """Generate an n-dimensional spherical mask."""
+            # assume shape and position have the same length and contain ints
+            # the units are pixels / voxels (px for short)
+            # radius is a int or float in px
+            assert len(position) == len(shape)
+            n = len(shape)
+            semisizes = (radius,) * len(shape)
+
+            # genereate the grid for the support points
+            # centered at the position indicated by position
+            grid = [slice(-x0, dim - x0) for x0, dim in zip(position, shape)]
+            position = np.ogrid[grid]
+            # calculate the distance of all points from `position` center
+            # scaled by the radius
+            arr = np.zeros(shape, dtype=float)
+            for x_i, semisize in zip(position, semisizes):
+                # this can be generalized for exponent != 2
+                # in which case `(x_i / semisize)`
+                # would become `np.abs(x_i / semisize)`
+                arr += (x_i / semisize) ** 2 if semisize > 0 else 0
+
+            # the inner part of the sphere will have distance below or equal to 1
+            return arr <= 1.0
+
+        for lesion in range(n):
+            # calc between 50um and 150um radius (included)
+            # which is 5.23e4um3 and 1.41e7um3
+            size_calc = np.random.randint(
+                self.arguments_cluster["smin"] /
+                self.arguments_mcgpu["voxel_size"][0],
+                self.arguments_cluster["smax"] / self.arguments_mcgpu["voxel_size"][0] + 1)
+            x = np.random.randint(
+                size_calc, size_px[0] - size_calc)
+            y = np.random.randint(
+                size_calc, size_px[1] - size_calc)
+            z = np.random.randint(
+                size_calc, size_px[2] - size_calc)
+            calc = sphere(size_px, size_calc, (x, y, z))
+            lesion_raw += calc
+
+        os.makedirs("{:s}/lesions/".format(self.results_folder), exist_ok=True)
+        os.makedirs(
+            "{:s}/lesions/cluster/".format(self.results_folder), exist_ok=True)
+
+        with h5py.File("{:s}/lesions/cluster/calcs_{:d}_n{:d}.h5".format(
+                self.results_folder,
+                self.arguments_cluster["seed"],
+                n), "w") as hf:
+            hf.create_dataset("volume", data=lesion_raw,
+                              compression="gzip", track_times=False)
+            hf.create_dataset(
+                "seed", data=self.arguments_cluster["seed"], track_times=False)
+            hf.create_dataset("n", data=n, track_times=False)
+        self.lesion_file = "{:s}/lesions/cluster/calcs_{:d}_n{:d}.h5".format(
+            self.results_folder,
+            self.arguments_cluster["seed"],
+            n)
+        return n
 
     def insert_lesions(self, lesion_type=None, n=-1, lesion_file=None, lesion_size=None, locations=None, roi_sizes=None, save_phantom=True):
         """
@@ -1368,7 +1478,8 @@ class Pipeline:
             self.lesion_file = lesion_file
 
         # read self.arguments_mcgpu compressed
-        phantom = self._load_phantom_array_from_gzip()
+        if save_phantom or locations is None:
+            phantom = self._load_phantom_array_from_gzip()
 
         if self.lesion_file is not None:
             if n == -1:
@@ -1409,7 +1520,7 @@ class Pipeline:
                 if lesion is None:
                     lesion_shape = self.roi_sizes[np.abs(cand_type)]
 
-                if lesion is not None:
+                if lesion is not None and save_phantom:
                     lesion_shape = lesion.shape
                     roi = phantom[int(cand[0] - lesion_shape[0] / 2):int(cand[0] + lesion_shape[0] / 2),
                                   int(cand[2] - lesion_shape[2] / 2):int(cand[2] + lesion_shape[2] / 2),
@@ -1557,7 +1668,8 @@ class Pipeline:
                        'cyan') if self.verbosity else None
 
                 # We save the phantom in gzip to reduce needed disk space
-                with gzip.open("{:s}/{:d}/pcl_{:d}.raw.gz".format(self.results_folder, self.seed, self.seed), "wb") as gz:
+                with gzip.GzipFile(fileobj=open("{:s}/{:d}/pcl_{:d}.raw.gz".format(self.results_folder, self.seed, self.seed), "wb"),
+                                   filename="", mtime=0) as gz:
                     gz.write(phantom)
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pcl_{:d}.raw.gz".format(
@@ -1909,8 +2021,9 @@ class Pipeline:
         gzip_file = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
             self.results_folder, self.seed, self.seed)
 
-        with gzip.open(gzip_file, 'wb') as f:
-            f.write(np.ascontiguousarray(phantom))
+        with gzip.GzipFile(fileobj=open(gzip_file, "wb"),
+                           filename="", mtime=0) as gz:
+            gz.write(np.ascontiguousarray(phantom))
 
         self.arguments_mcgpu["phantom_file"] = gzip_file
 

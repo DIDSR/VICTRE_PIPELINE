@@ -76,7 +76,8 @@ FLATFIELD_REPETITIONS = 1
 
 FLATFIELD_DOSE_MULTIPLIER = 10
 
-FORBIDDEN_OVERLAP = [PHANTOM_MATERIALS["air"], PHANTOM_MATERIALS["skin"], PHANTOM_MATERIALS["nipple"], PHANTOM_MATERIALS["muscle"]]
+FORBIDDEN_OVERLAP = [PHANTOM_MATERIALS["air"], PHANTOM_MATERIALS["skin"],
+                     PHANTOM_MATERIALS["nipple"], PHANTOM_MATERIALS["muscle"]]
 
 VICTRE_DEFAULT_MATERIALS = [
     {"material": "./Victre/projection/material/air__5-120keV.mcgpu.gz",
@@ -755,13 +756,13 @@ VICTRE_HETERO = {
     # Perlin noise variables
     #####################
     # maximum fraction of radius deviation
-    "perlin_noise_maxDeviation_perlin": 0.1,
+    "perlin_noise_maxDeviation": 0.1,
     # starting frequency
-    "perlin_noise_frequency_perlin": 0.1,
+    "perlin_noise_frequency": 0.1,
     # octave frequency multiplier
-    "perlin_noise_lacunarity_perlin": 2.0,
+    "perlin_noise_lacunarity": 2.0,
     # octave signal decay
-    "perlin_noise_persistence_perlin": 0.5,
+    "perlin_noise_persistence": 0.5,
     # number of frequency octaves
     "perlin_noise_numOctaves": 6,
     # x direction noise generation seed
@@ -1189,13 +1190,13 @@ VICTRE_SCATTERED = {
     # Perlin noise variables
     #####################
     # maximum fraction of radius deviation
-    "perlin_noise_maxDeviation_perlin": 0.1,
+    "perlin_noise_maxDeviation": 0.1,
     # starting frequency
-    "perlin_noise_frequency_perlin": 0.1,
+    "perlin_noise_frequency": 0.1,
     # octave frequency multiplier
-    "perlin_noise_lacunarity_perlin": 2.0,
+    "perlin_noise_lacunarity": 2.0,
     # octave signal decay
-    "perlin_noise_persistence_perlin": 0.5,
+    "perlin_noise_persistence": 0.5,
     # number of frequency octaves
     "perlin_noise_numOctaves": 6,
     # x direction noise generation seed
@@ -1323,9 +1324,9 @@ VICTRE_SCATTERED = {
     # was 35,
     "fat_maxLobuleAxis": 30.0,
     # axial ratio min
-    "fat_minAxialRatio_fat": 0.13,
+    "fat_minAxialRatio": 0.13,
     # axial ratio max
-    "fat_maxAxialRatio_fat": 0.75,
+    "fat_maxAxialRatio": 0.75,
     # minimum ligament separation between lobules
     "fat_minLobuleGap": 0.15,
     # maximum of absolute value of Fourier coefficient as fraction of main radius
@@ -1342,11 +1343,11 @@ VICTRE_SCATTERED = {
     #####################
     "ligament_thickness": 0.1,
     "ligament_targetFrac": 0.85,
-    "ligament_maxTry_ligament": 15000,
+    "ligament_maxTry": 15000,
     "ligament_minAxis": 20.0,
     "ligament_maxAxis": 25.0,
-    "ligament_minAxialRatio_ligament": 0.2,
-    "ligament_maxAxialRatio_ligament": 0.3,
+    "ligament_minAxialRatio": 0.2,
+    "ligament_maxAxialRatio": 0.3,
     "ligament_maxPerturb": 0.05,
     "ligament_maxDeflect": 0.12,
     "ligament_scale": 0.007,
@@ -1917,7 +1918,7 @@ VICTRE_FATTY = {
 }
 
 DENSITY_RANGES = {
-    "breastHeight":[71.7,89.7,108.4,109.9],
+    "breastHeight": [71.7, 89.7, 108.4, 109.9],
     "targetFatFrac": [0.4, 0.66, 0.85, 0.95],
     "surface_a1b": [1.0, 1.2, 1.4, 1.4],
     "surface_a1t": [1.0, 1.2, 1.4, 1.4],
@@ -1931,11 +1932,11 @@ DENSITY_RANGES = {
     "compartment_numBackSeeds": [150, 250, 250, 250],
     "compartment_minSkinScaleNippleDir": [10.0, 10.0, 5.0, 5.0],
     "compartment_maxSkinScaleNippleDir": [20.0, 20.0, 5.0, 5.0],
-    "compartment_maxSkinScale":[400,200,200,200],
-    "compartment_skinStrength":[0.5,1.0,2.0,2.0],
-    "compartment_backStrength":[1.0,2.0,4.0,4.0],
-    "duct_tree_baseLength":[7.6,7.6,7.6,19],
-    "duct_segment_segFrac":[0.25,0.25,0.25,0.15],
+    "compartment_maxSkinScale": [400, 200, 200, 200],
+    "compartment_skinStrength": [0.5, 1.0, 2.0, 2.0],
+    "compartment_backStrength": [1.0, 2.0, 4.0, 4.0],
+    "duct_tree_baseLength": [7.6, 7.6, 7.6, 19],
+    "duct_segment_segFrac": [0.25, 0.25, 0.25, 0.15],
     # mm (this is the objective thickness)
     "compressionThickness": [35, 45, 55, 60],
     "number_histories": [7.8e9, 1.02e10, 2.04e10, 2.22e10],
@@ -1955,6 +1956,16 @@ AnatomicalOrientation = $AnatomicalOrientation
 ElementType = $ElementType
 ObjectType = $ObjectType
 ElementDataFile = $ElementDataFile"""
+
+# cluster configuration file
+VICTRE_DEFAULT_CLUSTER = {
+    "seed": 0,
+    "nmin": 4,
+    "nmax": 10,
+    "size": 5,  # mm ROI side
+    "smin": 0.005,  # mm radius
+    "smax": 0.015  # mm radius
+}
 
 # mass configuration file
 VICTRE_DEFAULT_SPICULATED_MASS = {
@@ -2033,12 +2044,12 @@ VICTRE_DEFAULT_SPICULATED_MASS = {
     "stdBranchAng": 0.62
 }
 
-DICOM_SCALING={"Siemens":
-    {
-        "meanAdditiveNoise":5200,
-        "conversionFactorDM":0.000239,
-        "conversionFactorDBT":0.001469,
-        "offset":50,
-        "toUInt16":8
-    }
-}
+DICOM_SCALING = {"Siemens":
+                 {
+                     "meanAdditiveNoise": 5200,
+                     "conversionFactorDM": 0.000239,
+                     "conversionFactorDBT": 0.001469,
+                     "offset": 50,
+                     "toUInt16": 8
+                 }
+                 }
