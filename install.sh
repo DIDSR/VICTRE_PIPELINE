@@ -5,9 +5,9 @@
 # CUDA_INC=/usr/local/cuda/include 
 # CUDA_SAMPLES=/usr/local/cuda/samples/common/inc
 # MPI_INCLUDE=/usr/include/openmpi
+# BOOST_INCLUDE=/usr/local/boost/ # route to boost source code
 # BOOST_OPTIONS_LIB=/usr/lib64 # route to libboost_program_options
 # VTK_DIR=/usr/local/VTK-build
-
 
 # ------------------ DO NOT MODIFY --------------------------
 
