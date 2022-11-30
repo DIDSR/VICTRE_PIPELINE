@@ -3,7 +3,7 @@ Advanced use
 
 The Victre python class allows you to modify all input parameters for each step. To do that, you can add the parameters you want to modify during the `Pipeline` class definition. For example, to change the number of projections and number of histories during the projection stage, you can use this:
 
-..  code-block:: python
+..  codeblock:: python
     pline = Pipeline(arguments_mcgpu={
                         "number_projections": 1,
                         "number_histories": 7800000000 * 25 * 2 / 3  # 7e7  # 7800000000 * 25 * 2 / 3
@@ -11,7 +11,7 @@ The Victre python class allows you to modify all input parameters for each step.
 
 In general, you can change any input parameter for each step:
 
-..  code-block:: python
+..  codeblock:: python
     pline = Pipeline(
         arguments_generation={},
         arguments_spiculated={},
@@ -24,7 +24,7 @@ Here is the list of default parameters for the different steps of the Victre pip
 
 Breast model generation
 -----------------------
-..  code-block:: python
+..  codeblock:: python
     arguments_generation = {
         "compressionThickness": 35,  # mm
         # phantom voxel size (mm)
@@ -462,7 +462,7 @@ Breast model generation
 
 Mass generation
 ----------------------
-..  code-block:: python
+..  codeblock:: python
     arguments_spiculated = {
         # [base]
         # voxel size (mm)
@@ -542,7 +542,7 @@ Mass generation
 
 Calcification cluster generation
 --------------------------------
-..  code-block:: python
+..  codeblock:: python
     arguments_cluster = {
         "seed": 0,
         "nmin": 4, # min number calcifications
@@ -555,7 +555,7 @@ Calcification cluster generation
 
 MCGPU projection
 ----------------
-..  code-block:: python
+..  codeblock:: python
     arguments_mcgpu = {
         "number_histories": 7.8e9,
         "random_seed": 31415990,
@@ -609,7 +609,7 @@ MCGPU projection
 
 MCGPU default materials
 -----------------------
-..  code-block:: python
+..  codeblock:: python
     materials = [
         {"material": "./Victre/projection/material/air__5-120keV.mcgpu.gz",
         "density": 0.0012,
@@ -667,7 +667,7 @@ FBP Reconstruction
 ------------------
 Most of these values will be automatically filled from the projection parameters but can be modified manually if needed.
 
-..  code-block:: python
+..  codeblock:: python
     arguments_recon = {
     "number_projections" = self.arguments_mcgpu["number_projections"],
     "detector_elements" = self.arguments_mcgpu["image_pixels"][0],
