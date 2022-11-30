@@ -4,6 +4,8 @@ Advanced use
 The Victre python class allows you to modify all input parameters for each step. To do that, you can add the parameters you want to modify during the `Pipeline` class definition. For example, to change the number of projections and number of histories during the projection stage, you can use this:
 
 .. code-block:: python
+    :linenos:
+    
     pline = Pipeline(arguments_mcgpu={
                         "number_projections": 1,
                         "number_histories": 7800000000 * 25 * 2 / 3  # 7e7  # 7800000000 * 25 * 2 / 3
@@ -12,6 +14,8 @@ The Victre python class allows you to modify all input parameters for each step.
 In general, you can change any input parameter for each step:
 
 .. code-block:: python
+    :linenos:
+
     pline = Pipeline(
         arguments_generation={},
         arguments_spiculated={},
@@ -25,6 +29,8 @@ Here is the list of default parameters for the different steps of the Victre pip
 Breast model generation
 -----------------------
 .. code-block:: python
+    :linenos:
+
     arguments_generation = {
         "compressionThickness": 35,  # mm
         # phantom voxel size (mm)
@@ -463,6 +469,8 @@ Breast model generation
 Mass generation
 ----------------------
 .. code-block:: python
+    :linenos:
+
     arguments_spiculated = {
         # [base]
         # voxel size (mm)
@@ -543,6 +551,8 @@ Mass generation
 Calcification cluster generation
 --------------------------------
 .. code-block:: python
+    :linenos:
+
     arguments_cluster = {
         "seed": 0,
         "nmin": 4, # min number calcifications
@@ -556,6 +566,8 @@ Calcification cluster generation
 MCGPU projection
 ----------------
 .. code-block:: python
+    :linenos:
+
     arguments_mcgpu = {
         "number_histories": 7.8e9,
         "random_seed": 31415990,
@@ -610,6 +622,8 @@ MCGPU projection
 MCGPU default materials
 -----------------------
 .. code-block:: python
+    :linenos:
+
     materials = [
         {"material": "./Victre/projection/material/air__5-120keV.mcgpu.gz",
         "density": 0.0012,
@@ -668,33 +682,35 @@ FBP Reconstruction
 Most of these values will be automatically filled from the projection parameters but can be modified manually if needed.
 
 .. code-block:: python
+    :linenos:
+
     arguments_recon = {
-    "number_projections" = self.arguments_mcgpu["number_projections"],
-    "detector_elements" = self.arguments_mcgpu["image_pixels"][0],
-    "detector_elements_perpendicular" = self.arguments_mcgpu["image_pixels"][1],
-    "pixel_size" = self.arguments_mcgpu["image_size"][0] / self.arguments_mcgpu["image_pixels"][0],
-    "distance_source" = self.arguments_mcgpu["distance_source"],
-    "rotation_axis_distance" = self.arguments_mcgpu["rotation_axis_distance"],
-    "detector_offset" = 0.000,
-    "orbit_projection" = 50.0,
-    "voxels_x" = self.arguments_mcgpu["number_voxels"][1],
-    "voxels_y" = self.arguments_mcgpu["number_voxels"][0],
-    "voxels_z" = self.arguments_mcgpu["number_voxels"][2],
-    "voxel_size" = self.arguments_mcgpu["voxel_size"][0],
-    "recon_pixel_size" = self.arguments_mcgpu["image_size"][0] / self.arguments_mcgpu["image_pixels"][0],
-    "recon_thickness" = 0.1,
-    "volume_center_offset_x" = 0,
-    "angular_rotation_first" = self.arguments_mcgpu["angular_rotation_first"],
-    "projections_angle" = self.arguments_mcgpu["projections_angle"],
-    "flatfield_file" = flatfield_DBT,
-    "projection_file" = "{:s}/{:d}/projection_{:s}pixels_{:d}proj.raw".format(
-            self.results_folder,
-            self.seed,
-            'x'.join(map(str, self.arguments_mcgpu["image_pixels"])),
-            self.arguments_mcgpu["number_projections"]),
-    "one" = 1,
-    "reconstruction_file" = "{:s}/{:d}/reconstruction{:d}.raw".format(
-            self.results_folder,
-            self.seed,
-            self.seed)
+        "number_projections" = self.arguments_mcgpu["number_projections"],
+        "detector_elements" = self.arguments_mcgpu["image_pixels"][0],
+        "detector_elements_perpendicular" = self.arguments_mcgpu["image_pixels"][1],
+        "pixel_size" = self.arguments_mcgpu["image_size"][0] / self.arguments_mcgpu["image_pixels"][0],
+        "distance_source" = self.arguments_mcgpu["distance_source"],
+        "rotation_axis_distance" = self.arguments_mcgpu["rotation_axis_distance"],
+        "detector_offset" = 0.000,
+        "orbit_projection" = 50.0,
+        "voxels_x" = self.arguments_mcgpu["number_voxels"][1],
+        "voxels_y" = self.arguments_mcgpu["number_voxels"][0],
+        "voxels_z" = self.arguments_mcgpu["number_voxels"][2],
+        "voxel_size" = self.arguments_mcgpu["voxel_size"][0],
+        "recon_pixel_size" = self.arguments_mcgpu["image_size"][0] / self.arguments_mcgpu["image_pixels"][0],
+        "recon_thickness" = 0.1,
+        "volume_center_offset_x" = 0,
+        "angular_rotation_first" = self.arguments_mcgpu["angular_rotation_first"],
+        "projections_angle" = self.arguments_mcgpu["projections_angle"],
+        "flatfield_file" = flatfield_DBT,
+        "projection_file" = "{:s}/{:d}/projection_{:s}pixels_{:d}proj.raw".format(
+                self.results_folder,
+                self.seed,
+                'x'.join(map(str, self.arguments_mcgpu["image_pixels"])),
+                self.arguments_mcgpu["number_projections"]),
+        "one" = 1,
+        "reconstruction_file" = "{:s}/{:d}/reconstruction{:d}.raw".format(
+                self.results_folder,
+                self.seed,
+                self.seed)
     )
