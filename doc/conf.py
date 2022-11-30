@@ -19,7 +19,6 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'VICTRE PIPELINE'
-copyright = '2021, DIDSR'
 author = 'DIDSR'
 
 # -- General configuration ---------------------------------------------------
@@ -31,7 +30,8 @@ extensions = [
     'sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon', "sphinx_rtd_theme"
 ]
 
-autodoc_mock_imports = ["numpy", "termcolor","progressbar","h5py","pydicom","scipy"]
+autodoc_mock_imports = ["numpy", "termcolor",
+                        "progressbar", "h5py", "pydicom", "scipy"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

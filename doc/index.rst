@@ -1,6 +1,9 @@
 VICTRE AUTOMATIC PIPELINE
 =========================
 
+`Access to VICTRE PIPELINE GitHub repository <https://github.com/DIDSR/VICTRE_PIPELINE>`_
+-------------------------------------------------------------------------
+
 Virtual Imaging Clinical Trial for Regulatory Evaluation
 --------------------------------------------------------
 
@@ -9,6 +12,8 @@ Clinical trials are expensive and delay the regulatory evaluation and early pati
 **Citation:** "Evaluation of Digital Breast Tomosynthesis as Replacement of Full-Field Digital Mammography Using an In Silico Imaging Trial." Aldo Badano, Ph. D., Christian G. Graff, Ph. D., Andreu Badal, Ph. D., Diksha Sharma, M. Sc., Rongping Zeng, Ph. D., Frank W. Samuelson, Ph. D., Stephen Glick, Ph. D., and Kyle J. Myers, Ph. D.  *JAMA Network Open. 2018;1(7):e185474;* `doi:10.1001/jamanetworkopen.2018.5474 <https://doi.org/10.1001/jamanetworkopen.2018.5474>`_. 
 
 **Overview of the VICTRE project** A 1-hour summary presentation of the project and findings was given at the FDA Grand Rounds on 3/14/2019 and can be found `here <https://collaboration.fda.gov/p5wx8epckk7p/>`_.
+
+**Note**: All code is under CC0 (Creative Commons 1.0 Universal License) except for the FBP code that is a derivation of a GPL3 code and remains as GPL3.
 
 *VICTRE team: Aldo Badano, Ph. D., Christian G. Graff, Ph. D., Andreu Badal, Ph. D., Diksha Sharma, M. Sc., Rongping Zeng, Ph. D., Aunnasha Sengupta, Miguel A. Lago, Ph. D., Frank W. Samuelson, Ph. D., Stephen Glick, Ph. D., and Kyle J. Myers, Ph. D.*
 

@@ -1960,8 +1960,8 @@ ElementDataFile = $ElementDataFile"""
 # cluster configuration file
 VICTRE_DEFAULT_CLUSTER = {
     "seed": 0,
-    "nmin": 4,
-    "nmax": 10,
+    "nmin": 4, # min number calcifications
+    "nmax": 10, # max number calcifications
     "size": 5,  # mm ROI side
     "smin": 0.005,  # mm radius
     "smax": 0.015  # mm radius
@@ -2043,13 +2043,3 @@ VICTRE_DEFAULT_SPICULATED_MASS = {
     # std. deviation branch angle.
     "stdBranchAng": 0.62
 }
-
-DICOM_SCALING = {"Siemens":
-                 {
-                     "meanAdditiveNoise": 5200,
-                     "conversionFactorDM": 0.000239,
-                     "conversionFactorDBT": 0.001469,
-                     "offset": 50,
-                     "toUInt16": 8
-                 }
-                 }
