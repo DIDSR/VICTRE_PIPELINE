@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Documentation &mdash; VICTRE PIPELINE  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Advanced use" href="advanced.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html"><img src="_static/victrelogo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">The VICTRE pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced use</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#victre-pipeline">VICTRE PIPELINE</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">VICTRE PIPELINE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Python Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/victreclass.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="module-Victre.Pipeline">
+<span id="python-documentation"></span><h1>Python Documentation<a class="headerlink" href="#module-Victre.Pipeline" title="Permalink to this headline"></a></h1>
+<div class="section" id="victre-pipeline">
+<h2>VICTRE PIPELINE<a class="headerlink" href="#victre-pipeline" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><dl>
+<dt>Author: Miguel A. Lago</dt><dd><p><a class="reference external" href="mailto:miguel&#46;lago&#37;&#52;&#48;fda&#46;hhs&#46;gov">miguel<span>&#46;</span>lago<span>&#64;</span>fda<span>&#46;</span>hhs<span>&#46;</span>gov</a></p>
+<blockquote>
+<div><p>DISCLAIMER</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>This software and documentation (the “Software”) were
+developed at the Food and Drug Administration (FDA) by
+employees of the Federal Government in the course of
+their official duties. Pursuant to Title 17, Section
+105 of the United States Code, this work is not subject
+to copyright protection and is in the public domain.
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of the Software, to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, or sell copies of the
+Software or derivatives, and to permit persons to whom
+the Software is furnished to do so. FDA assumes no
+responsibility whatsoever for use by other parties of
+the Software, its source code, documentation or compiled
+executables, and makes no guarantees, expressed or
+implied, about its quality, reliability, or any other
+characteristic. Further, use of this code in no way
+implies endorsement by the FDA or confers any advantage
+in regulatory decisions. Although this software can be
+redistributed and/or modified freely, we ask that any
+derivative works bear some notice that they are derived
+from it, and any modified versions bear some notice that
+they have been modified.</p>
+<p>More information: <a class="reference external" href="https://github.com/DIDSR/VICTRE_PIPELINE">https://github.com/DIDSR/VICTRE_PIPELINE</a></p>
+</div></blockquote>
+<dl class="class">
+<dt id="Victre.Pipeline.Pipeline">
+<em class="property">class </em><code class="sig-prename descclassname">Victre.Pipeline.</code><code class="sig-name descname">Pipeline</code><span class="sig-paren">(</span><em class="sig-param">ips={'cpu': 'localhost'</em>, <em class="sig-param">'gpu': 'localhost'}</em>, <em class="sig-param">seed=None</em>, <em class="sig-param">results_folder='./results'</em>, <em class="sig-param">phantom_file=None</em>, <em class="sig-param">spectrum_file='./Victre/projection/spectrum/W28kVp_Rh50um_Be1mm.spc'</em>, <em class="sig-param">lesion_file=None</em>, <em class="sig-param">materials=None</em>, <em class="sig-param">roi_sizes=None</em>, <em class="sig-param">arguments_generation={}</em>, <em class="sig-param">arguments_spiculated={}</em>, <em class="sig-param">arguments_mcgpu={}</em>, <em class="sig-param">arguments_recon={}</em>, <em class="sig-param">arguments_cluster={}</em>, <em class="sig-param">flatfield_DBT=None</em>, <em class="sig-param">flatfield_DM=None</em>, <em class="sig-param">density=None</em>, <em class="sig-param">verbosity=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline" title="Permalink to this definition"></a></dt>
+<dd><p>Object constructor for the Victre pipeline class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ips</strong> – Dictionary with two IP addresses to run the pipeline: “gpu” for the projection process. “cpu” for the reconstruction.</p></li>
+<li><p><strong>seed</strong> – Random seed used to generate or read the phantom</p></li>
+<li><p><strong>results_folder</strong> – Path to folder to be used when saving the results</p></li>
+<li><p><strong>phantom_file</strong> – Path to file containing the phantom to be loaded</p></li>
+<li><p><strong>spectrum_file</strong> – Path to file containing the spectrum used to project in MCGPU</p></li>
+<li><p><strong>lesion_file</strong> – Path to file containing the lesion to be inserted (in HDF5 format)</p></li>
+<li><p><strong>materials</strong> – Dictionary including the materials to be used during projection</p></li>
+<li><p><strong>roi_sizes</strong> – Dictionary with the ROI sizes for the extraction</p></li>
+<li><p><strong>arguments_generation</strong> – Arguments to be overriden for the breast phantom generation</p></li>
+<li><p><strong>arguments_spiculated</strong> – Arguments to be overriden for the spiculated mass generation</p></li>
+<li><p><strong>arguments_mcgpu</strong> – Arguments to be overridden for the projection in MCGPU</p></li>
+<li><p><strong>arguments_recon</strong> – Arguments to be overridden for the reconstruction algorithm</p></li>
+<li><p><strong>arguments_cluster</strong> – Arguments to be overridden for the calcification cluster generation</p></li>
+<li><p><strong>flatfield_DBT</strong> – Path to the flatfield file for the DBT reconstruction</p></li>
+<li><p><strong>flatfield_DM</strong> – Path to the flatfield file for the digital mammography</p></li>
+<li><p><strong>density</strong> – [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too</p></li>
+<li><p><strong>verbosity</strong> – True will output the progress of each process and steps</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.add_absent_ROIs">
+<code class="sig-name descname">add_absent_ROIs</code><span class="sig-paren">(</span><em class="sig-param">lesion_type</em>, <em class="sig-param">n=1</em>, <em class="sig-param">locations=None</em>, <em class="sig-param">roi_sizes=None</em>, <em class="sig-param">save_locations=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.add_absent_ROIs" title="Permalink to this definition"></a></dt>
+<dd><p>Adds the specified number of lesion-absent regions of interest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lesion_type</strong> – Constant with the desired lesion type. Check available lesion types and materials in the Constants file.</p></li>
+<li><p><strong>n</strong> – Number of lesions to be added</p></li>
+<li><p><strong>locations</strong> – List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.</p></li>
+<li><p><strong>roi_sizes</strong> – Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. A location file will be saved inside the <cite>phantom</cite> folder with the corresponding seed. Negative lesion type means absent ROI.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.compress_phantom">
+<code class="sig-name descname">compress_phantom</code><span class="sig-paren">(</span><em class="sig-param">thickness=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.compress_phantom" title="Permalink to this definition"></a></dt>
+<dd><p>Runs the FEBio compression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>thickness</strong> – Specifies the objective thickness for the phantom to be compressed (in cm)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>pc_SEED.raw.gz</cite> with the raw data, and <cite>pc_SEED.mhd</cite> with the information about the raw data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.crop">
+<code class="sig-name descname">crop</code><span class="sig-paren">(</span><em class="sig-param">size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.crop" title="Permalink to this definition"></a></dt>
+<dd><p>Runs breast phantom cropping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>pc_SEED_crop.raw.gz</cite> with the raw data, and <cite>pc_SEED_crop.mhd</cite> with the information about the raw data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.generate_cluster">
+<code class="sig-name descname">generate_cluster</code><span class="sig-paren">(</span><em class="sig-param">seed=None</em>, <em class="sig-param">size=None</em>, <em class="sig-param">nmin=None</em>, <em class="sig-param">nmax=None</em>, <em class="sig-param">smin=None</em>, <em class="sig-param">smax=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_cluster" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a random calcification cluster</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed</strong> – Seed to be used when generating the cluster</p></li>
+<li><p><strong>size</strong> – Side of the 3D array (ROI cube) in which to generate the cluster (in mm)</p></li>
+<li><p><strong>nmin</strong> – Minimum number of calcifications to generate</p></li>
+<li><p><strong>nmax</strong> – Maximum number of calcifications to generate</p></li>
+<li><p><strong>smin</strong> – Minimum size of the generated calcifications (in mm)</p></li>
+<li><p><strong>smax</strong> – Maximum size of the generated calcifications (in mm)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. The result is saved in the <cite>lesions</cite> subfolder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.generate_phantom">
+<code class="sig-name descname">generate_phantom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_phantom" title="Permalink to this definition"></a></dt>
+<dd><p>Runs breast phantom generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>p_SEED.raw.gz</cite> with the raw data, and <cite>p_SEED.mhd</cite> with the information about the raw data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.generate_spiculated">
+<code class="sig-name descname">generate_spiculated</code><span class="sig-paren">(</span><em class="sig-param">seed=None</em>, <em class="sig-param">size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_spiculated" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a spiculated mass using the breastMass software</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed</strong> – Seed to be used when generating the mass</p></li>
+<li><p><strong>size</strong> – Size of the mass to be used in the breastMass config file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. The result is saved in the <cite>lesions</cite> subfolder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.get_DBT_segmentation">
+<code class="sig-name descname">get_DBT_segmentation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_DBT_segmentation" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the true segmentation of the DBT volume using the phantom model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>3-dimensional array of integer values of the tissue ID corresponding to each</p>
+</dd>
+</dl>
+<p>voxel of the DBT reconstruction.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.get_coordinates_dbt">
+<code class="sig-name descname">get_coordinates_dbt</code><span class="sig-paren">(</span><em class="sig-param">vx_location</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_coordinates_dbt" title="Permalink to this definition"></a></dt>
+<dd><p>Method to get the corresponding coordinates in the DBT volume from the voxelized coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vx_location</strong> – Coordinates in the voxel/phantom space</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Coordinates in the DBT space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.get_coordinates_dm">
+<code class="sig-name descname">get_coordinates_dm</code><span class="sig-paren">(</span><em class="sig-param">vx_location</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_coordinates_dm" title="Permalink to this definition"></a></dt>
+<dd><p>Method to get the corresponding coordinates in the DM volume from the voxelized coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vx_location</strong> – Coordinates in the voxel/phantom space</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Coordinates in the DM space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.get_folder_contents">
+<em class="property">static </em><code class="sig-name descname">get_folder_contents</code><span class="sig-paren">(</span><em class="sig-param">folder</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_folder_contents" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of files in the given folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>folder</strong> – Path to the folder to be processed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List with files inside the given folder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.insert_lesions">
+<code class="sig-name descname">insert_lesions</code><span class="sig-paren">(</span><em class="sig-param">lesion_type=None</em>, <em class="sig-param">n=-1</em>, <em class="sig-param">lesion_file=None</em>, <em class="sig-param">lesion_size=None</em>, <em class="sig-param">locations=None</em>, <em class="sig-param">roi_sizes=None</em>, <em class="sig-param">save_phantom=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.insert_lesions" title="Permalink to this definition"></a></dt>
+<dd><p>Inserts the specified number of lesions in the phantom.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lesion_type</strong> – Constant with the desired lesion type. Check available lesion types and materials in the Constants file.</p></li>
+<li><p><strong>n</strong> – Number of lesions to be added</p></li>
+<li><p><strong>lesion_file</strong> – Path to file including the lesion to be inserted (in HDF5 format). If specified, it will overrite the lesion file specified in the constructor.</p></li>
+<li><p><strong>lesion_size</strong> – If lesion_file is a raw file, lesion_size indicates the size of this file</p></li>
+<li><p><strong>locations</strong> – List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.</p></li>
+<li><p><strong>roi_sizes</strong> – Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: <cite>pcl_SEED.raw.gz</cite> with the raw data, <cite>pcl_SEED.mhd</cite> with the information about the raw data, and <cite>pcl_SEED.loc</cite> with the voxel coordinates of the lesion centers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.project">
+<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">flatfield_correction=True</em>, <em class="sig-param">clean=True</em>, <em class="sig-param">do_flatfield=0</em>, <em class="sig-param">for_presentation=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.project" title="Permalink to this definition"></a></dt>
+<dd><p>Method that runs MCGPU to project the phantom.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flatfield_correction</strong> – If True, the projections will be corrected using a given flatfield.
+It will be generated if not found and not given.</p></li>
+<li><p><strong>clean</strong> – If True, it will delete the contents of the output folder before projecting.</p></li>
+<li><p><strong>do_flatfield</strong> – If &gt; 0, it will generate an empty flat field projection.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.reconstruct">
+<code class="sig-name descname">reconstruct</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reconstruct" title="Permalink to this definition"></a></dt>
+<dd><p>Method that runs the reconstruction code for the DBT volume</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.reverse_dbt_coordinates">
+<code class="sig-name descname">reverse_dbt_coordinates</code><span class="sig-paren">(</span><em class="sig-param">dbt_location</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reverse_dbt_coordinates" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the 3D coordinate in the model (phantom) space from the
+input 3D digital breast tomosynthesis coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dbt_location</strong> – 3-dimensional tuple or array with the coordinates in the digital breast tomosynthesis space</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>3-dimensional array of coordinates in the model (phantom) space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.reverse_dm_coordinates">
+<code class="sig-name descname">reverse_dm_coordinates</code><span class="sig-paren">(</span><em class="sig-param">dm_location</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reverse_dm_coordinates" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the list of 3D coordinates in the model (phantom) space from the
+input 2D digital mammography coordinates. Note: This will take a long time to compute</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dm_location</strong> – 2-dimensional tuple or array with the coordinates in the digital mammography space</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of 3D coordinates in the model (phantom) space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.save_DICOM">
+<code class="sig-name descname">save_DICOM</code><span class="sig-paren">(</span><em class="sig-param">modality='dbt'</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.save_DICOM" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the DM or DBT images in DICOM format. If present, lesion location will be
+stored in a custom tag 0x009900XX where XX is the lesion number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>modality</strong> – Modality to save: dbt or dm</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Victre.Pipeline.Pipeline.save_ROIs">
+<code class="sig-name descname">save_ROIs</code><span class="sig-paren">(</span><em class="sig-param">roi_sizes=None</em>, <em class="sig-param">clean=True</em>, <em class="sig-param">save_folder=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.save_ROIs" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the generated ROIs (absent and present) in RAW and HDF5 formats</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>roi_sizes</strong> – Size of the ROIs for the defined lesion types</p></li>
+<li><p><strong>clean</strong> – If True, the existing ROI folder will be deleted</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advanced.html" class="btn btn-neutral float-left" title="Advanced use" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

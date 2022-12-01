@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting started &mdash; VICTRE PIPELINE  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Advanced use" href="advanced.html" />
+    <link rel="prev" title="The VICTRE pipeline" href="pipeline.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html"><img src="_static/victrelogo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">The VICTRE pipeline</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="victreclass.html">Python Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">VICTRE PIPELINE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Getting started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/started.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h1>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>For phantom generation</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>cmake 3+</p></li>
+<li><p>gcc/g++</p></li>
+<li><p>VTK library</p></li>
+<li><p>Lapack library</p></li>
+<li><p>boost library</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>For phantom compression</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>FEBio</p></li>
+<li><p>gcc/g++</p></li>
+<li><p>cmake 3+</p></li>
+<li><p>VTK library</p></li>
+<li><p>Lapack library</p></li>
+<li><p>boost library</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>For mass generation</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>gcc/g++</p></li>
+<li><p>cmake 3+</p></li>
+<li><p>VTK library</p></li>
+<li><p>Lapack library</p></li>
+<li><p>boost library</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>For MCGPU projection</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>CUDA 10.4+</p></li>
+<li><p>NVIDIA GPU (8GB+ recommended)</p></li>
+<li><p>gzip</p></li>
+<li><p>(Optional) openMPI</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>For reconstruction</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>gcc/g++</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>For the unified pipeline script</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>Python 3.6+</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<p>Before proceeding, make sure you have all the requirements listed above.
+You can also install the required libraries using this:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">cmake</span> <span class="pre">vtk7</span> <span class="pre">libvtk7-dev</span> <span class="pre">libblas-dev</span> <span class="pre">liblapack-dev</span> <span class="pre">libopenmpi-dev</span> <span class="pre">libboost-dev</span> <span class="pre">libboost-program-options-dev</span> <span class="pre">libproj-dev</span> <span class="pre">zlib1g-dev</span> <span class="pre">gzip</span></code></p>
+</div></blockquote>
+<p>Clone the repository</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/DIDSR/VICTRE_PIPELINE</span></code></p>
+</div></blockquote>
+<p>Execute the installation script:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">install.sh</span></code></p>
+</div></blockquote>
+<p>Follow the instructions and compile the 5 parts. You might need to edit
+the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> file to change the route of some libraries at the
+beginning.</p>
+<p>Install the required python libraries:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">numpy</span> <span class="pre">scipy</span> <span class="pre">termcolor</span> <span class="pre">progressbar2</span> <span class="pre">h5py</span> <span class="pre">pydicom</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You might need to use <code class="docutils literal notranslate"><span class="pre">pip3</span></code> instead of <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+</div>
+</div></blockquote>
+<p>Download <cite>FEBio 2.x</cite> from the <cite>official website  &lt;https://febio.org/febio/febio-downloads/&gt;</cite>
+as a standalone executable and add it to the path (replace <cite>{{{routetofebio}}}</cite>
+with the path to your FEBio installation on this line):</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">PATH=&quot;$PATH:{{{routetofebio}}}/FEBio-2.9.1/bin&quot;</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can also add that line to your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file to make it
+permanent. Note the version number for FEBio on the path, it might
+be different.</p>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>Copy the examples files to the parent folder and run them in a
+GPU-enabled machine with CUDA:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">example1.py</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You might need to use <code class="docutils literal notranslate"><span class="pre">python3</span></code> instead of <code class="docutils literal notranslate"><span class="pre">python</span></code>.</p>
+</div>
+</div></blockquote>
+<p>Each example file starts the pipeline from a different step, use
+<code class="docutils literal notranslate"><span class="pre">example1.py</span></code> to start from the phantom generation (it will need hours
+to complete), use <code class="docutils literal notranslate"><span class="pre">example5.py</span></code> to start from the projection step (it
+will finish in about ~10 minutes depending on your computer). When
+finished, you will find the results in the <code class="docutils literal notranslate"><span class="pre">results</span></code> folder under the
+<code class="docutils literal notranslate"><span class="pre">1</span></code> subfolder.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">p_1.raw.gz</span></code>: original phantom model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pc_1.raw.gz</span></code>: compressed phantom model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pc_1_crop.raw.gz</span></code>: cropped compressed phantom model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pcl_1.raw.gz</span></code>: compressed original phantom model with the inserted lesions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pcl_1.loc</span></code>: file containing the coordinates of the inserted lesions in the phantom model</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Last number is the lesion type: <code class="docutils literal notranslate"><span class="pre">1</span></code> for calcification clusters, <code class="docutils literal notranslate"><span class="pre">2</span></code> for masses</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">projection_DM1.raw</span></code>: contains the DM projection in raw format</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reconstruction1.raw</span></code>: contains the DBT reconstruction in raw format</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ROIs.h5</span></code>: contains the lesion-present and lesion-absent regions of interest.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ROIs</span></code>: subfolder will also contain the ROIs in raw format (size is specified in the code, <code class="docutils literal notranslate"><span class="pre">109</span> <span class="pre">x</span> <span class="pre">109</span> <span class="pre">x</span> <span class="pre">9</span></code> in the examples)</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ROI_DM_XX_typeT</span></code>: DM cropped image for lesion number <code class="docutils literal notranslate"><span class="pre">XX</span></code> of lesion type <code class="docutils literal notranslate"><span class="pre">T</span></code> (absent regions will have <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ROI_DBT_XX_typeT</span></code>: DBT cropped volume for lesion number <code class="docutils literal notranslate"><span class="pre">XX</span></code> of lesion type <code class="docutils literal notranslate"><span class="pre">T</span></code> (absent regions will have <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">=</span> <span class="pre">1</span></code> for calcification clusters, <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">=</span> <span class="pre">2</span></code> for masses</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All <code class="docutils literal notranslate"><span class="pre">raw</span></code> files are acompanied by an <code class="docutils literal notranslate"><span class="pre">.mhd</span></code> file that contains the size information. The <code class="docutils literal notranslate"><span class="pre">.mhd</span></code> file can be opened in software like <a class="reference external" href="https://imagej.nih.gov/ij/">ImageJ</a>.</p>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pipeline.html" class="btn btn-neutral float-left" title="The VICTRE pipeline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advanced.html" class="btn btn-neutral float-right" title="Advanced use" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

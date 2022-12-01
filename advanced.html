@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced use &mdash; VICTRE PIPELINE  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Python Documentation" href="victreclass.html" />
+    <link rel="prev" title="Getting started" href="started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html"><img src="_static/victrelogo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">The VICTRE pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced use</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#breast-model-generation">Breast model generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mass-generation">Mass generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calcification-cluster-generation">Calcification cluster generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mcgpu-projection">MCGPU projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mcgpu-default-materials">MCGPU default materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fbp-reconstruction">FBP Reconstruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="victreclass.html">Python Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">VICTRE PIPELINE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Advanced use</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/advanced.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="advanced-use">
+<h1>Advanced use<a class="headerlink" href="#advanced-use" title="Permalink to this headline"></a></h1>
+<p>The Victre python class allows you to modify all input parameters for each step. To do that, you can add the parameters you want to modify during the <cite>Pipeline</cite> class definition. For example, to change the number of projections and number of histories during the projection stage, you can use this:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">pline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">arguments_mcgpu</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;number_projections&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="s2">&quot;number_histories&quot;</span><span class="p">:</span> <span class="mi">7800000000</span> <span class="o">*</span> <span class="mi">25</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span>  <span class="c1"># 7e7  # 7800000000 * 25 * 2 / 3</span>
+                <span class="p">})</span>
+</pre></div>
+</td></tr></table></div>
+<p>In general, you can change any input parameter for each step:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">pline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">arguments_generation</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">arguments_spiculated</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">arguments_cluster</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">arguments_mcgpu</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">materials</span><span class="o">=</span><span class="p">{}</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Here is the list of default parameters for the different steps of the Victre pipeline that you can modify. Default values are on the <a class="reference external" href="https://github.com/DIDSR/VICTRE_PIPELINE/blob/main/Victre/Constants.py">Constants.py</a> file. Check the full Python documentation for more details.</p>
+<div class="section" id="breast-model-generation">
+<h2>Breast model generation<a class="headerlink" href="#breast-model-generation" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">arguments_generation</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;compressionThickness&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>  <span class="c1"># mm</span>
+    <span class="c1"># phantom voxel size (mm)</span>
+    <span class="s2">&quot;imgRes&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="c1"># thickness of breast skin (mm)</span>
+    <span class="s2">&quot;skinThick&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span>
+    <span class="c1"># nipple length (mm)</span>
+    <span class="s2">&quot;nippleLen&quot;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+    <span class="c1"># nipple radius (mm)</span>
+    <span class="s2">&quot;nippleRad&quot;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+    <span class="c1"># nipple radius (mm)</span>
+    <span class="s2">&quot;areolaRad&quot;</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span>
+    <span class="c1"># left breast - select left or right breast (boolean)</span>
+    <span class="s2">&quot;leftBreast&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span>
+    <span class="c1"># desired fat fraction</span>
+    <span class="s2">&quot;targetFatFrac&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># breast surface shape</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># u resolution of base shape</span>
+    <span class="s2">&quot;surface_ures&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+    <span class="c1"># v resolution of base shape</span>
+    <span class="s2">&quot;surface_vres&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+    <span class="c1"># minimum point separation (mm)</span>
+    <span class="s2">&quot;surface_pointSep&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+    <span class="c1"># back ring thickness (mm)</span>
+    <span class="s2">&quot;surface_ringWidth&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="c1"># back ring step size (mm)</span>
+    <span class="s2">&quot;surface_ringSep&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># angle to preserve while smoothing (degrees)</span>
+    <span class="s2">&quot;surface_featureAngle&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+    <span class="c1"># fraction of triangles to decimate</span>
+    <span class="s2">&quot;surface_targetReduction&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="c1"># bottom scale was 1.3,</span>
+    <span class="s2">&quot;surface_a1b&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># top scale was 1.3,</span>
+    <span class="s2">&quot;surface_a1t&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># left scale</span>
+    <span class="s2">&quot;surface_a2l&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># right scale</span>
+    <span class="s2">&quot;surface_a2r&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># outward scale was 1.75,</span>
+    <span class="s2">&quot;surface_a3&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># u quadric exponent</span>
+    <span class="s2">&quot;surface_eps1&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span>
+    <span class="c1"># v quadric exponent</span>
+    <span class="s2">&quot;surface_eps2&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># do ptosis deformation (boolean)</span>
+    <span class="s2">&quot;surface_doPtosis&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;surface_ptosisB0&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="s2">&quot;surface_ptosisB1&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="c1"># do turn deformation (boolean)</span>
+    <span class="s2">&quot;surface_doTurn&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;surface_turnC0&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.498</span><span class="p">,</span>
+    <span class="s2">&quot;surface_turnC1&quot;</span><span class="p">:</span> <span class="mf">0.213</span><span class="p">,</span>
+    <span class="c1"># do top shape deformation (boolean)</span>
+    <span class="s2">&quot;surface_doTopShape&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;surface_topShapeS0&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;surface_topShapeS1&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="s2">&quot;surface_topShapeT0&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">12.0</span><span class="p">,</span>
+    <span class="s2">&quot;surface_topShapeT1&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>
+    <span class="c1"># do flatten size deformation (boolean)</span>
+    <span class="s2">&quot;surface_doFlattenSide&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;surface_flattenSideG0&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="s2">&quot;surface_flattenSideG1&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># do turn top deformation (boolean)</span>
+    <span class="s2">&quot;surface_doTurnTop&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;surface_turnTopH0&quot;</span><span class="p">:</span> <span class="mf">0.166</span><span class="p">,</span>
+    <span class="s2">&quot;surface_turnTopH1&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.372</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># breast compartment</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># number of breast compartments</span>
+    <span class="s2">&quot;compartment_num&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="c1"># distance along nipple line of compartment seed base (mm)</span>
+    <span class="s2">&quot;compartment_seedBaseDist&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="c1"># fraction of phantom in nipple direction forced to be fat</span>
+    <span class="s2">&quot;compartment_backFatBufferFrac&quot;</span><span class="p">:</span> <span class="mf">0.008</span><span class="p">,</span>
+    <span class="c1"># number of backplane seed points</span>
+    <span class="s2">&quot;compartment_numBackSeeds&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span>
+    <span class="c1"># maximum seed jitter (fraction of subtended angle)</span>
+    <span class="s2">&quot;compartment_angularJitter&quot;</span><span class="p">:</span> <span class="mf">0.125</span><span class="p">,</span>
+    <span class="c1"># maximum seed jitter in nipple direction (mm)</span>
+    <span class="s2">&quot;compartment_zJitter&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+    <span class="c1"># maximum radial distance from base seed as a fraction of distance to breast surface</span>
+    <span class="s2">&quot;compartment_maxFracRadialDist&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># minimum radial distance from base seed as a fraction of distance to breast surface</span>
+    <span class="s2">&quot;compartment_minFracRadialDist&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="c1"># minimum scale in nipple direction</span>
+    <span class="s2">&quot;compartment_minScaleNippleDir&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="c1"># maximum scale in nipple direction</span>
+    <span class="s2">&quot;compartment_maxScaleNippleDir&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="c1"># minimum scale in non-nipple direction</span>
+    <span class="s2">&quot;compartment_minScale&quot;</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>
+    <span class="c1"># maximum scale in non-nipple direction</span>
+    <span class="s2">&quot;compartment_maxScale&quot;</span><span class="p">:</span> <span class="mf">40.0</span><span class="p">,</span>
+    <span class="c1"># minimum gland strength</span>
+    <span class="s2">&quot;compartment_minGlandStrength&quot;</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>
+    <span class="c1"># maximum gland strength</span>
+    <span class="s2">&quot;compartment_maxGlandStrength&quot;</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>
+    <span class="c1"># maximum compartment deflection angle from pointing towards nipple (fraction of pi)</span>
+    <span class="s2">&quot;compartment_maxDeflect&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="c1"># minimum scale skin seeds in nipple direction</span>
+    <span class="s2">&quot;compartment_minSkinScaleNippleDir&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="c1"># maximum scale skin seeds in nipple direction</span>
+    <span class="s2">&quot;compartment_maxSkinScaleNippleDir&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+    <span class="c1"># minimum scale skin in non-nipple direction</span>
+    <span class="s2">&quot;compartment_minSkinScale&quot;</span><span class="p">:</span> <span class="mf">200.0</span><span class="p">,</span>
+    <span class="c1"># maximum scale skin in non-nipple direction</span>
+    <span class="s2">&quot;compartment_maxSkinScale&quot;</span><span class="p">:</span> <span class="mf">400.0</span><span class="p">,</span>
+    <span class="c1"># skin strength</span>
+    <span class="s2">&quot;compartment_skinStrength&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># back scale</span>
+    <span class="s2">&quot;compartment_backScale&quot;</span><span class="p">:</span> <span class="mf">60.0</span><span class="p">,</span>
+    <span class="c1"># back strength</span>
+    <span class="s2">&quot;compartment_backStrength&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># nipple scale</span>
+    <span class="s2">&quot;compartment_nippleScale&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+    <span class="c1"># nipple strength</span>
+    <span class="s2">&quot;compartment_nippleStrength&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="c1"># check seeds within radius (mm)</span>
+    <span class="s2">&quot;compartment_voronSeedRadius&quot;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># TDLU variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># maximum TDLU length</span>
+    <span class="s2">&quot;tdlu_maxLength&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="c1"># minimum TDLU length</span>
+    <span class="s2">&quot;tdlu_minLength&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># maximum TDLU width</span>
+    <span class="s2">&quot;tdlu_maxWidth&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># minimum TDLU width</span>
+    <span class="s2">&quot;tdlu_minWidth&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># Perlin noise variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># maximum fraction of radius deviation</span>
+    <span class="s2">&quot;perlin_noise_maxDeviation&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># starting frequency</span>
+    <span class="s2">&quot;perlin_noise_frequency&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># octave frequency multiplier</span>
+    <span class="s2">&quot;perlin_noise_lacunarity&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="c1"># octave signal decay</span>
+    <span class="s2">&quot;perlin_noise_persistence&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># number of frequency octaves</span>
+    <span class="s2">&quot;perlin_noise_numOctaves&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="c1"># x direction noise generation seed</span>
+    <span class="s2">&quot;perlin_noise_xNoiseGen&quot;</span><span class="p">:</span> <span class="mi">683</span><span class="p">,</span>
+    <span class="c1"># y direction noise generation seed</span>
+    <span class="s2">&quot;perlin_noise_yNoiseGen&quot;</span><span class="p">:</span> <span class="mi">4933</span><span class="p">,</span>
+    <span class="c1"># z direction noise generation seed</span>
+    <span class="s2">&quot;perlin_noise_zNoiseGen&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+    <span class="c1"># seed noise generation</span>
+    <span class="s2">&quot;perlin_noise_seedNoiseGen&quot;</span><span class="p">:</span> <span class="mi">3095</span><span class="p">,</span>
+    <span class="c1"># shift noise generation seed</span>
+    <span class="s2">&quot;perlin_noise_shiftNoiseGen&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># Compartment boundary noise</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># maximum fraction of distance deviation</span>
+    <span class="s2">&quot;compartment_boundary_maxDeviation&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># starting frequency</span>
+    <span class="s2">&quot;compartment_boundary_frequency&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="c1"># octave frequency multiplier</span>
+    <span class="s2">&quot;compartment_boundary_lacunarity&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="c1"># octave signal decay</span>
+    <span class="s2">&quot;compartment_boundary_persistence&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># Lobule boundary perturbation noise</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># maximum fraction of distance deviation</span>
+    <span class="s2">&quot;lobule_boundary_maxDeviation&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="c1"># starting frequency</span>
+    <span class="s2">&quot;lobule_boundary_frequency&quot;</span><span class="p">:</span> <span class="mf">0.09</span><span class="p">,</span>
+    <span class="c1"># octave frequency multiplier</span>
+    <span class="s2">&quot;lobule_boundary_lacunarity&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="c1"># octave signal decay</span>
+    <span class="s2">&quot;lobule_boundary_persistence&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># Lobule glandular buffer noise</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># maximum fraction of distance deviation</span>
+    <span class="s2">&quot;lobule_glandular_maxDeviation&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="c1"># starting frequency</span>
+    <span class="s2">&quot;lobule_glandular_frequency&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="c1"># octave frequency multiplier</span>
+    <span class="s2">&quot;lobule_glandular_lacunarity&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="c1"># octave signal decay</span>
+    <span class="s2">&quot;lobule_glandular_persistence&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># Voronoi segmentation variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># fat voronoi seed density (mm^-3,)</span>
+    <span class="s2">&quot;voronoi_fatInFatSeedDensity&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+    <span class="c1"># fat voronoi seed in glandular tissue density (mm^-3,)</span>
+    <span class="s2">&quot;voronoi_fatInGlandSeedDensity&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>
+    <span class="c1"># glandular voronoi seed density (mm^-3,)</span>
+    <span class="s2">&quot;voronoi_glandInGlandSeedDensity&quot;</span><span class="p">:</span> <span class="mf">0.0005</span><span class="p">,</span>
+    <span class="c1"># maximum deflection (fraction of pi)</span>
+    <span class="s2">&quot;voronoi_TDLUDeflectMax&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="c1"># minimum length scale</span>
+    <span class="s2">&quot;voronoi_minScaleLenTDLU&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># maximum length scale</span>
+    <span class="s2">&quot;voronoi_maxScaleLenTDLU&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="c1"># minimum width scale</span>
+    <span class="s2">&quot;voronoi_minScaleWidTDLU&quot;</span><span class="p">:</span> <span class="mf">40.0</span><span class="p">,</span>
+    <span class="c1"># maximum width scale</span>
+    <span class="s2">&quot;voronoi_maxScaleWidTDLU&quot;</span><span class="p">:</span> <span class="mf">45.0</span><span class="p">,</span>
+    <span class="c1"># minimum strength</span>
+    <span class="s2">&quot;voronoi_minStrTDLU&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+    <span class="c1"># maximum strength</span>
+    <span class="s2">&quot;voronoi_maxStrTDLU&quot;</span><span class="p">:</span> <span class="mf">22.0</span><span class="p">,</span>
+    <span class="c1"># maximum deflection (fraction of pi)</span>
+    <span class="s2">&quot;voronoi_fatInFatDeflectMax&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="c1"># minimum length scale</span>
+    <span class="s2">&quot;voronoi_minScaleLenFatInFat&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+    <span class="c1"># maximum length scale</span>
+    <span class="s2">&quot;voronoi_maxScaleLenFatInFat&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="c1"># minimum width scale</span>
+    <span class="s2">&quot;voronoi_minScaleWidFatInFat&quot;</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">,</span>
+    <span class="c1"># maximum width scale</span>
+    <span class="s2">&quot;voronoi_maxScaleWidFatInFat&quot;</span><span class="p">:</span> <span class="mf">60.0</span><span class="p">,</span>
+    <span class="c1"># minimum strength</span>
+    <span class="s2">&quot;voronoi_minStrFatInFat&quot;</span><span class="p">:</span> <span class="mf">40.0</span><span class="p">,</span>
+    <span class="c1"># maximum strength</span>
+    <span class="s2">&quot;voronoi_maxStrFatInFat&quot;</span><span class="p">:</span> <span class="mf">50.0</span><span class="p">,</span>
+    <span class="c1"># maximum deflection (fraction of pi)</span>
+    <span class="s2">&quot;voronoi_fatInGlandDeflectMax&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="c1"># minimum length scale</span>
+    <span class="s2">&quot;voronoi_minScaleLenFatInGland&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># maximum length scale</span>
+    <span class="s2">&quot;voronoi_maxScaleLenFatInGland&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="c1"># minimum width scale</span>
+    <span class="s2">&quot;voronoi_minScaleWidFatInGland&quot;</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>
+    <span class="c1"># maximum width scale</span>
+    <span class="s2">&quot;voronoi_maxScaleWidFatInGland&quot;</span><span class="p">:</span> <span class="mf">40.0</span><span class="p">,</span>
+    <span class="c1"># minimum strength</span>
+    <span class="s2">&quot;voronoi_minStrFatInGland&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+    <span class="c1"># maximum strength</span>
+    <span class="s2">&quot;voronoi_maxStrFatInGland&quot;</span><span class="p">:</span> <span class="mf">22.0</span><span class="p">,</span>
+    <span class="c1"># maximum deflection (fraction of pi)</span>
+    <span class="s2">&quot;voronoi_glandInGlandDeflectMax&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="c1"># minimum length scale</span>
+    <span class="s2">&quot;voronoi_minScaleLenGlandInGland&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># maximum length scale</span>
+    <span class="s2">&quot;voronoi_maxScaleLenGlandInGland&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+    <span class="c1"># minimum width scale</span>
+    <span class="s2">&quot;voronoi_minScaleWidGlandInGland&quot;</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>
+    <span class="c1"># maximum width scale</span>
+    <span class="s2">&quot;voronoi_maxScaleWidGlandInGland&quot;</span><span class="p">:</span> <span class="mf">40.0</span><span class="p">,</span>
+    <span class="c1"># minimum strength</span>
+    <span class="s2">&quot;voronoi_minStrGlandInGland&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+    <span class="c1"># maximum strength</span>
+    <span class="s2">&quot;voronoi_maxStrGlandInGland&quot;</span><span class="p">:</span> <span class="mf">22.0</span><span class="p">,</span>
+    <span class="c1"># check seeds in radius (mm)</span>
+    <span class="s2">&quot;voronoi_seedRadius&quot;</span><span class="p">:</span> <span class="mf">40.0</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># fat variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># min lobule axis length (mm)</span>
+    <span class="c1"># was 20,</span>
+    <span class="s2">&quot;fat_minLobuleAxis&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+    <span class="c1"># max lobule axis length (mm)</span>
+    <span class="c1"># was 35,</span>
+    <span class="s2">&quot;fat_maxLobuleAxis&quot;</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>
+    <span class="c1"># axial ratio min</span>
+    <span class="s2">&quot;fat_minAxialRatio&quot;</span><span class="p">:</span> <span class="mf">0.13</span><span class="p">,</span>
+    <span class="c1"># axial ratio max</span>
+    <span class="s2">&quot;fat_maxAxialRatio&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span>
+    <span class="c1"># minimum ligament separation between lobules</span>
+    <span class="s2">&quot;fat_minLobuleGap&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="c1"># maximum of absolute value of Fourier coefficient as fraction of main radius</span>
+    <span class="s2">&quot;fat_maxCoeffStr&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># minimum of absolute value of Fourier coefficient as fraction of main radius</span>
+    <span class="s2">&quot;fat_minCoeffStr&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="c1"># maximum number of trial lobules</span>
+    <span class="c1"># was 401,</span>
+    <span class="s2">&quot;fat_maxLobuleTry&quot;</span><span class="p">:</span> <span class="mi">401</span><span class="p">,</span>
+
+
+    <span class="c1">#####################</span>
+    <span class="c1"># ligament variables</span>
+    <span class="c1">#####################</span>
+    <span class="s2">&quot;ligament_thickness&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_targetFrac&quot;</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_maxTry&quot;</span><span class="p">:</span> <span class="mi">15000</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_minAxis&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_maxAxis&quot;</span><span class="p">:</span> <span class="mf">25.0</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_minAxialRatio&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_maxAxialRatio&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_maxPerturb&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_maxDeflect&quot;</span><span class="p">:</span> <span class="mf">0.12</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_scale&quot;</span><span class="p">:</span> <span class="mf">0.007</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_lacunarity&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_persistence&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="s2">&quot;ligament_numOctaves&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># duct tree variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># target number of branches (uint)</span>
+    <span class="s2">&quot;duct_tree_maxBranch&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="c1"># maximum generation (uint)</span>
+    <span class="s2">&quot;duct_tree_maxGen&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="c1"># initial radius of tree (mm)</span>
+    <span class="s2">&quot;duct_tree_initRad&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># base Length of root duct at nipple (mm)</span>
+    <span class="s2">&quot;duct_tree_baseLength&quot;</span><span class="p">:</span> <span class="mf">7.6</span><span class="p">,</span>
+    <span class="c1"># number of voxels for tree density tracking (uint)</span>
+    <span class="s2">&quot;duct_tree_nFillX&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s2">&quot;duct_tree_nFillY&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s2">&quot;duct_tree_nFillZ&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># duct branch variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># minimum branch radius to have children (mm)</span>
+    <span class="s2">&quot;duct_branch_childMinRad&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># minimum starting radius as a fraction of parent end radius</span>
+    <span class="s2">&quot;duct_branch_minRadFrac&quot;</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span>
+    <span class="c1"># maximum starting radius as a fraction of parent end radius</span>
+    <span class="s2">&quot;duct_branch_maxRadFrac&quot;</span><span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>
+    <span class="c1"># length reduction as fraction of parent length</span>
+    <span class="s2">&quot;duct_branch_lenShrink&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># maximum jitter in branch length (fraction)</span>
+    <span class="s2">&quot;duct_branch_lenRange&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># aximuthal angle noise (radians)</span>
+    <span class="s2">&quot;duct_branch_rotateJitter&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># duct segment variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># radius distribution shape parameters</span>
+    <span class="s2">&quot;duct_segment_radiusBetaA&quot;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span>
+    <span class="s2">&quot;duct_segment_radiusBetaB&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="c1"># fraction of branch length per segment</span>
+    <span class="s2">&quot;duct_segment_segFrac&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="c1"># maximum radius of curvature (mm)</span>
+    <span class="s2">&quot;duct_segment_maxCurvRad&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="c1"># maximum length of segment based on</span>
+    <span class="c1"># curvature (fraction of pi radians)</span>
+    <span class="s2">&quot;duct_segment_maxCurvFrac&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># min and max end radius as fraction of start radius</span>
+    <span class="s2">&quot;duct_segment_minEndRad&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="s2">&quot;duct_segment_maxEndRad&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># cost function preferential angle weighting</span>
+    <span class="s2">&quot;duct_segment_angleWt&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># cost function density weighting</span>
+    <span class="s2">&quot;duct_segment_densityWt&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+    <span class="c1"># number of trial segments to generate (uint)</span>
+    <span class="s2">&quot;duct_segment_numTry&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="c1"># maximum number of segments to generate before</span>
+    <span class="c1"># giving up and reducing length (uint)</span>
+    <span class="s2">&quot;duct_segment_maxTry&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="c1"># total number of segment tries before completely giving up</span>
+    <span class="s2">&quot;duct_segment_absMaxTry&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="c1"># step size for checking segment is valid (mm)</span>
+    <span class="s2">&quot;duct_segment_roiStep&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+
+
+    <span class="c1">#####################</span>
+    <span class="c1"># vessel tree variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># target number of branches (uint)</span>
+    <span class="s2">&quot;vessel_tree_maxBranch&quot;</span><span class="p">:</span> <span class="mi">750</span><span class="p">,</span>
+    <span class="c1"># maximum generation (uint)</span>
+    <span class="s2">&quot;vessel_tree_maxGen&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="c1"># initial radius of tree (mm)</span>
+    <span class="s2">&quot;vessel_tree_initRad&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span>
+    <span class="c1"># base length of root vessel (mm)</span>
+    <span class="s2">&quot;vessel_tree_baseLength&quot;</span><span class="p">:</span> <span class="mf">15.0</span><span class="p">,</span>
+    <span class="c1"># number of voxels for tree density tracking (uint)</span>
+    <span class="s2">&quot;vessel_tree_nFillX&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_tree_nFillY&quot;</span><span class="p">:</span> <span class="mi">69</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_tree_nFillZ&quot;</span><span class="p">:</span> <span class="mi">69</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># vessel branch variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># minimum branch radius to have children (mm)</span>
+    <span class="s2">&quot;vessel_branch_childMinRad&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># minimum starting radius as a fraction of parent end radius</span>
+    <span class="s2">&quot;vessel_branch_minRadFrac&quot;</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span>
+    <span class="c1"># maximum starting radius as a fraction of parent end radius</span>
+    <span class="s2">&quot;vessel_branch_maxRadFrac&quot;</span><span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>
+    <span class="c1"># length reduction as fraction of parent length</span>
+    <span class="s2">&quot;vessel_branch_lenShrink&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+    <span class="c1"># maximum jitter in branch length (fraction)</span>
+    <span class="s2">&quot;vessel_branch_lenRange&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="c1"># aximuthal angle noise (radians)</span>
+    <span class="s2">&quot;vessel_branch_rotateJitter&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+
+    <span class="c1">#####################</span>
+    <span class="c1"># vessel segment variables</span>
+    <span class="c1">#####################</span>
+    <span class="c1"># radius distribution shape parameters</span>
+    <span class="s2">&quot;vessel_segment_radiusBetaA&quot;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_segment_radiusBetaB&quot;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="c1"># fraction of branch length to segment</span>
+    <span class="s2">&quot;vessel_segment_segFrac&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="c1"># maximum radius of curvature (mm)</span>
+    <span class="s2">&quot;vessel_segment_maxCurvRad&quot;</span><span class="p">:</span> <span class="mf">200.0</span><span class="p">,</span>
+    <span class="c1"># maximum length of segment based on</span>
+    <span class="c1"># curvature (fraction of pi radians)</span>
+    <span class="s2">&quot;vessel_segment_maxCurvFrac&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="c1"># min and max end radius as fraction of start radius</span>
+    <span class="s2">&quot;vessel_segment_minEndRad&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="s2">&quot;vessel_segment_maxEndRad&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># cost function preferential angle weighting</span>
+    <span class="s2">&quot;vessel_segment_angleWt&quot;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
+    <span class="c1"># cost function density weighting</span>
+    <span class="s2">&quot;vessel_segment_densityWt&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># cost function direction weighting</span>
+    <span class="s2">&quot;vessel_segment_dirWt&quot;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
+    <span class="c1"># number of trial segments to generate (uint)</span>
+    <span class="s2">&quot;vessel_segment_numTry&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="c1"># maximum number of segments to generate before</span>
+    <span class="c1"># giving up and reducing length (uint)</span>
+    <span class="s2">&quot;vessel_segment_maxTry&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="c1"># total number of segment tries before completely giving up</span>
+    <span class="s2">&quot;vessel_segment_absMaxTry&quot;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+    <span class="c1"># step size for checking segment is valid (mm)</span>
+    <span class="s2">&quot;vessel_segment_roiStep&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="mass-generation">
+<h2>Mass generation<a class="headerlink" href="#mass-generation" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">arguments_spiculated</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># [base]</span>
+    <span class="c1"># voxel size (mm)</span>
+    <span class="s2">&quot;imgRes&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="c1"># complexity scaling for VICTRE 0:simple, 1:full complexity</span>
+    <span class="s2">&quot;complexity&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="c1"># random number seed (unsigned int) from /dev/urandom if unspecified</span>
+    <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+
+    <span class="c1"># [mass]</span>
+    <span class="c1"># maximum spherical harmonic order</span>
+    <span class="s2">&quot;lMax&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="c1"># mean mass radius (mm)</span>
+    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span>
+    <span class="c1"># mean mass surface irregularity variance (mm^2)</span>
+    <span class="s2">&quot;meanSigma2&quot;</span><span class="p">:</span> <span class="mf">0.31</span><span class="p">,</span>
+    <span class="c1"># mass surface irregularity standard deviation (mm^2)</span>
+    <span class="s2">&quot;stdSigma2&quot;</span><span class="p">:</span> <span class="mf">0.04</span><span class="p">,</span>
+    <span class="c1"># covariance power law index</span>
+    <span class="s2">&quot;powerLaw&quot;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+    <span class="c1"># mean number of low freq. modifications</span>
+    <span class="s2">&quot;meanLF&quot;</span><span class="p">:</span> <span class="mf">611.2</span><span class="p">,</span>
+    <span class="c1"># std. deviation of number of low freq. modifications</span>
+    <span class="s2">&quot;stdLF&quot;</span><span class="p">:</span> <span class="mf">70.6</span><span class="p">,</span>
+    <span class="c1"># mean LF shape distribution 0:spike, 1:bump</span>
+    <span class="s2">&quot;meanShape&quot;</span><span class="p">:</span> <span class="mf">0.36</span><span class="p">,</span>
+    <span class="c1"># std. deviation of LF shape 0:spike, 1:bump</span>
+    <span class="s2">&quot;stdShape&quot;</span><span class="p">:</span> <span class="mf">0.48</span><span class="p">,</span>
+    <span class="c1"># mean relative LF radius</span>
+    <span class="s2">&quot;meanLFRad&quot;</span><span class="p">:</span> <span class="mf">0.229</span><span class="p">,</span>
+    <span class="c1"># std. deviation of LF radius</span>
+    <span class="s2">&quot;stdLFRad&quot;</span><span class="p">:</span> <span class="mf">0.073</span><span class="p">,</span>
+    <span class="c1"># mean relative LF length</span>
+    <span class="s2">&quot;meanLFLen&quot;</span><span class="p">:</span> <span class="mf">0.113</span><span class="p">,</span>
+    <span class="c1"># std. deviation of LF length</span>
+    <span class="s2">&quot;stdLFLen&quot;</span><span class="p">:</span> <span class="mf">0.021</span><span class="p">,</span>
+    <span class="c1"># mean fuzzy alpha</span>
+    <span class="s2">&quot;meanFuzzAlpha&quot;</span><span class="p">:</span> <span class="mf">0.015</span><span class="p">,</span>
+    <span class="c1"># std. deviation of fuzzy alpha</span>
+    <span class="s2">&quot;stdFuzzAlpha&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+
+    <span class="c1"># [spicule]</span>
+    <span class="c1"># mean number of initial segments</span>
+    <span class="s2">&quot;meanInitial&quot;</span><span class="p">:</span> <span class="mi">1358</span><span class="p">,</span>
+    <span class="c1"># std. deviation number of initial segments</span>
+    <span class="s2">&quot;stdInitial&quot;</span><span class="p">:</span> <span class="mi">365</span><span class="p">,</span>
+    <span class="c1"># mean max number of neighbor segments</span>
+    <span class="s2">&quot;meanNeigh&quot;</span><span class="p">:</span> <span class="mf">8.98</span><span class="p">,</span>
+    <span class="c1"># std. deviation max number of neighbor segments</span>
+    <span class="s2">&quot;stdNeigh&quot;</span><span class="p">:</span> <span class="mf">1.89</span><span class="p">,</span>
+    <span class="c1"># mean initial relative radius</span>
+    <span class="s2">&quot;meanInitRad&quot;</span><span class="p">:</span> <span class="mf">0.024</span><span class="p">,</span>
+    <span class="c1"># std. deviation initial relative radius</span>
+    <span class="s2">&quot;stdInitRad&quot;</span><span class="p">:</span> <span class="mf">0.0053</span><span class="p">,</span>
+    <span class="c1"># mean radius decrease</span>
+    <span class="s2">&quot;meanRadDec&quot;</span><span class="p">:</span> <span class="mf">0.89</span><span class="p">,</span>
+    <span class="c1"># std. deviation radius decrease</span>
+    <span class="s2">&quot;stdRadDec&quot;</span><span class="p">:</span> <span class="mf">0.31</span><span class="p">,</span>
+    <span class="c1"># mean initial relative length</span>
+    <span class="s2">&quot;meanInitLen&quot;</span><span class="p">:</span> <span class="mf">0.173</span><span class="p">,</span>
+    <span class="c1"># std. deviation initial relative length</span>
+    <span class="s2">&quot;stdInitLen&quot;</span><span class="p">:</span> <span class="mf">0.018</span><span class="p">,</span>
+    <span class="c1"># mean length decrease</span>
+    <span class="s2">&quot;meanLenDec&quot;</span><span class="p">:</span> <span class="mf">0.91</span><span class="p">,</span>
+    <span class="c1"># std. deviation length decrease</span>
+    <span class="s2">&quot;stdLenDec&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>
+    <span class="c1"># mean continue prob.</span>
+    <span class="s2">&quot;meanContProb&quot;</span><span class="p">:</span> <span class="mf">0.717</span><span class="p">,</span>
+    <span class="c1"># std. deviation continue prob.</span>
+    <span class="s2">&quot;stdContProb&quot;</span><span class="p">:</span> <span class="mf">0.057</span><span class="p">,</span>
+    <span class="c1"># mean branch angle.</span>
+    <span class="s2">&quot;meanBranchAng&quot;</span><span class="p">:</span> <span class="mf">6.55</span><span class="p">,</span>
+    <span class="c1"># std. deviation branch angle.</span>
+    <span class="s2">&quot;stdBranchAng&quot;</span><span class="p">:</span> <span class="mf">0.62</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="calcification-cluster-generation">
+<h2>Calcification cluster generation<a class="headerlink" href="#calcification-cluster-generation" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">arguments_cluster</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;nmin&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="c1"># min number calcifications</span>
+    <span class="s2">&quot;nmax&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="c1"># max number calcifications</span>
+    <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># mm ROI side</span>
+    <span class="s2">&quot;smin&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>  <span class="c1"># mm radius</span>
+    <span class="s2">&quot;smax&quot;</span><span class="p">:</span> <span class="mf">0.015</span>  <span class="c1"># mm radius</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="mcgpu-projection">
+<h2>MCGPU projection<a class="headerlink" href="#mcgpu-projection" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">arguments_mcgpu</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;number_histories&quot;</span><span class="p">:</span> <span class="mf">7.8e9</span><span class="p">,</span>
+    <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">31415990</span><span class="p">,</span>
+    <span class="s2">&quot;selected_gpu&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;number_gpus&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;gpu_threads&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+    <span class="s2">&quot;histories_per_thread&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="s2">&quot;spectrum_file&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/spectrum/W28kVp_Rh50um_Be1mm.spc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;source_position&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00001</span><span class="p">,</span> <span class="mf">4.825</span><span class="p">,</span> <span class="mf">63.0</span><span class="p">],</span>
+    <span class="s2">&quot;source_direction&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span>
+    <span class="s2">&quot;fam_beam_aperture&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">7.4686667</span><span class="p">],</span>
+    <span class="s2">&quot;euler_angles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">90.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">],</span>
+    <span class="s2">&quot;focal_spot&quot;</span><span class="p">:</span> <span class="mf">0.0300</span><span class="p">,</span>
+    <span class="s2">&quot;angular_blur&quot;</span><span class="p">:</span> <span class="mf">0.18</span><span class="p">,</span>
+    <span class="s2">&quot;collimate_beam&quot;</span><span class="p">:</span> <span class="s2">&quot;YES&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output_file&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;image_pixels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">],</span>
+    <span class="s2">&quot;image_size&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">25.50</span><span class="p">,</span> <span class="mf">12.75</span><span class="p">],</span>
+    <span class="s2">&quot;distance_source&quot;</span><span class="p">:</span> <span class="mf">65.00</span><span class="p">,</span>
+    <span class="s2">&quot;image_offset&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;detector_thickness&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+    <span class="s2">&quot;mean_free_path&quot;</span><span class="p">:</span> <span class="mf">0.004027</span><span class="p">,</span>
+    <span class="s2">&quot;k_edge_energy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">12658.0</span><span class="p">,</span> <span class="mf">11223.0</span><span class="p">,</span> <span class="mf">0.596</span><span class="p">,</span> <span class="mf">0.00593</span><span class="p">],</span>
+    <span class="s2">&quot;detector_gain&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">],</span>
+    <span class="s2">&quot;additive_noise&quot;</span><span class="p">:</span> <span class="mf">5200.0</span><span class="p">,</span>
+    <span class="s2">&quot;cover_thickness&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">1.9616</span><span class="p">],</span>
+    <span class="s2">&quot;antiscatter_grid_ratio&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">31.0</span><span class="p">,</span> <span class="mf">0.0065</span><span class="p">],</span>
+    <span class="s2">&quot;antiscatter_strips&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00089945</span><span class="p">,</span> <span class="mf">1.9616</span><span class="p">],</span>
+    <span class="s2">&quot;antiscatter_grid_lines&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;number_projections&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="s2">&quot;rotation_axis_distance&quot;</span><span class="p">:</span> <span class="mf">60.0</span><span class="p">,</span>
+    <span class="s2">&quot;projections_angle&quot;</span><span class="p">:</span> <span class="mf">2.083333333333</span><span class="p">,</span>
+    <span class="s2">&quot;angular_rotation_first&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">25.0</span><span class="p">,</span>
+    <span class="s2">&quot;rotation_axis&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+    <span class="s2">&quot;axis_translation&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;detector_fixed&quot;</span><span class="p">:</span> <span class="s2">&quot;YES&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;simulate_both&quot;</span><span class="p">:</span> <span class="s2">&quot;YES&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tally_material_dose&quot;</span><span class="p">:</span> <span class="s2">&quot;YES&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tally_voxel_dose&quot;</span><span class="p">:</span> <span class="s2">&quot;NO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output_dose_filename&quot;</span><span class="p">:</span> <span class="s2">&quot;mc-gpu_dose.dat&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;roi_voxel_dose_x&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">751</span><span class="p">],</span>
+    <span class="s2">&quot;roi_voxel_dose_y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1301</span><span class="p">],</span>
+    <span class="s2">&quot;roi_voxel_dose_z&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">],</span>
+    <span class="s2">&quot;phantom_file&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_geometry_offset&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;number_voxels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">810</span><span class="p">,</span> <span class="mi">1920</span><span class="p">,</span> <span class="mi">745</span><span class="p">],</span>
+    <span class="s2">&quot;voxel_size&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span>
+    <span class="s2">&quot;low_resolution_voxel_size&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="mcgpu-default-materials">
+<h2>MCGPU default materials<a class="headerlink" href="#mcgpu-default-materials" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">materials</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/air__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">0.0012</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;air&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/adipose__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">0.92</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;adipose&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/skin__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.09</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;skin&quot;</span><span class="p">],</span> <span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;nipple&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/glandular__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.035</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;glandular&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/connective_Woodard__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.12</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;ligament&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/muscle__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.05</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;muscle&quot;</span><span class="p">],</span> <span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;duct&quot;</span><span class="p">],</span> <span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;TDLU&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/blood__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.00</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;artery&quot;</span><span class="p">],</span> <span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;vein&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/polystyrene__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.06</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;paddle&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/glandular__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>  <span class="c1"># MASS MATERIAL</span>
+    <span class="c1"># &quot;density&quot;: 1.06, # VICTRE 1.0</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.06</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">LESION_MATERIALS</span><span class="p">[</span><span class="n">VICTRE_SPICULATED</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/CalciumOxalate__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>  <span class="c1"># CLUSTER CALC MATERIAL</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.781</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">LESION_MATERIALS</span><span class="p">[</span><span class="n">VICTRE_CLUSTERCALC</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/W__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;antiscatter_grid&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;./Victre/projection/material/Se__5-120keV.mcgpu.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s2">&quot;voxel_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">PHANTOM_MATERIALS</span><span class="p">[</span><span class="s2">&quot;detector&quot;</span><span class="p">]]</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="fbp-reconstruction">
+<h2>FBP Reconstruction<a class="headerlink" href="#fbp-reconstruction" title="Permalink to this headline"></a></h2>
+<p>Most of these values will be automatically filled from the projection parameters but can be modified manually if needed.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">arguments_recon</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;number_projections&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;number_projections&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;detector_elements&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;image_pixels&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;detector_elements_perpendicular&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;image_pixels&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;pixel_size&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;image_size&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;image_pixels&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;distance_source&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;distance_source&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;rotation_axis_distance&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;rotation_axis_distance&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;detector_offset&quot;</span> <span class="o">=</span> <span class="mf">0.000</span><span class="p">,</span>
+    <span class="s2">&quot;orbit_projection&quot;</span> <span class="o">=</span> <span class="mf">50.0</span><span class="p">,</span>
+    <span class="s2">&quot;voxels_x&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;number_voxels&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;voxels_y&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;number_voxels&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;voxels_z&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;number_voxels&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span>
+    <span class="s2">&quot;voxel_size&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;voxel_size&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;recon_pixel_size&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;image_size&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;image_pixels&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;recon_thickness&quot;</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="s2">&quot;volume_center_offset_x&quot;</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;angular_rotation_first&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;angular_rotation_first&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;projections_angle&quot;</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;projections_angle&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;flatfield_file&quot;</span> <span class="o">=</span> <span class="n">flatfield_DBT</span><span class="p">,</span>
+    <span class="s2">&quot;projection_file&quot;</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:s}</span><span class="s2">/</span><span class="si">{:d}</span><span class="s2">/projection_</span><span class="si">{:s}</span><span class="s2">pixels_</span><span class="si">{:d}</span><span class="s2">proj.raw&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results_folder</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="s1">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;image_pixels&quot;</span><span class="p">])),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">arguments_mcgpu</span><span class="p">[</span><span class="s2">&quot;number_projections&quot;</span><span class="p">]),</span>
+    <span class="s2">&quot;one&quot;</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;reconstruction_file&quot;</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:s}</span><span class="s2">/</span><span class="si">{:d}</span><span class="s2">/reconstruction</span><span class="si">{:d}</span><span class="s2">.raw&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results_folder</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="started.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="victreclass.html" class="btn btn-neutral float-right" title="Python Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
