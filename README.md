@@ -7,7 +7,7 @@ Clinical trials are expensive and delay the regulatory evaluation and early pati
 
 * **Citation:** "Evaluation of Digital Breast Tomosynthesis as Replacement of Full-Field Digital Mammography Using an In Silico Imaging Trial." Aldo Badano, Ph. D., Christian G. Graff, Ph. D., Andreu Badal, Ph. D., Diksha Sharma, M. Sc., Rongping Zeng, Ph. D., Frank W. Samuelson, Ph. D., Stephen Glick, Ph. D., and Kyle J. Myers, Ph. D.  *JAMA Network Open. 2018;1(7):e185474; [doi:10.1001/jamanetworkopen.2018.5474](https://doi.org/10.1001/jamanetworkopen.2018.5474)*.
 
-* **Documentation**: Full documentation can be found here: https://victre-pipeline.readthedocs.io/
+* **Documentation**: Full documentation can be found here: https://didsr.github.io/VICTRE_PIPELINE/
 
 * **Test the VICTRE Pipeline on precisionFDA**: We created a sample VICTRE full pipeline app on precision FDA that [you can access here](https://precision.fda.gov/home/apps/app-GFVKP880Gqb7fqkf8VvfXFkV-1)  (needs registration).
 
@@ -129,6 +129,6 @@ Each example file starts the pipeline from a different step, use `example1.py` t
 Documentation
 -------------
 
-Full documentation can be found here: https://victre-pipeline.readthedocs.io/
+Full documentation can be found here: https://didsr.github.io/VICTRE_PIPELINE/
 
 *This code is currently in development, use with caution.*
