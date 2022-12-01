@@ -3,16 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Documentation &mdash; VICTRE PIPELINE  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <title>Python Documentation &mdash; VICTRE PIPELINE  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -24,7 +27,8 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html"><img src="_static/victrelogo.png" class="logo" alt="Logo"/>
+            <a href="index.html">
+            <img src="_static/victrelogo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -34,13 +38,33 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pipeline.html">The VICTRE pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced use</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Python Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#victre-pipeline">VICTRE PIPELINE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Victre.Pipeline.Pipeline"><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.add_absent_ROIs"><code class="docutils literal notranslate"><span class="pre">Pipeline.add_absent_ROIs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.compress_phantom"><code class="docutils literal notranslate"><span class="pre">Pipeline.compress_phantom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.crop"><code class="docutils literal notranslate"><span class="pre">Pipeline.crop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.generate_cluster"><code class="docutils literal notranslate"><span class="pre">Pipeline.generate_cluster()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.generate_phantom"><code class="docutils literal notranslate"><span class="pre">Pipeline.generate_phantom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.generate_spiculated"><code class="docutils literal notranslate"><span class="pre">Pipeline.generate_spiculated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.get_DBT_segmentation"><code class="docutils literal notranslate"><span class="pre">Pipeline.get_DBT_segmentation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.get_coordinates_dbt"><code class="docutils literal notranslate"><span class="pre">Pipeline.get_coordinates_dbt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.get_coordinates_dm"><code class="docutils literal notranslate"><span class="pre">Pipeline.get_coordinates_dm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.get_folder_contents"><code class="docutils literal notranslate"><span class="pre">Pipeline.get_folder_contents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.insert_lesions"><code class="docutils literal notranslate"><span class="pre">Pipeline.insert_lesions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.project"><code class="docutils literal notranslate"><span class="pre">Pipeline.project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.reconstruct"><code class="docutils literal notranslate"><span class="pre">Pipeline.reconstruct()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.reverse_dbt_coordinates"><code class="docutils literal notranslate"><span class="pre">Pipeline.reverse_dbt_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.reverse_dm_coordinates"><code class="docutils literal notranslate"><span class="pre">Pipeline.reverse_dm_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.save_DICOM"><code class="docutils literal notranslate"><span class="pre">Pipeline.save_DICOM()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.Pipeline.save_ROIs"><code class="docutils literal notranslate"><span class="pre">Pipeline.save_ROIs()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -70,9 +94,9 @@
            <div itemprop="articleBody">
              
   <div class="section" id="module-Victre.Pipeline">
-<span id="python-documentation"></span><h1>Python Documentation<a class="headerlink" href="#module-Victre.Pipeline" title="Permalink to this headline"></a></h1>
+<span id="python-documentation"></span><h1>Python Documentation<a class="headerlink" href="#module-Victre.Pipeline" title="Permalink to this heading"></a></h1>
 <div class="section" id="victre-pipeline">
-<h2>VICTRE PIPELINE<a class="headerlink" href="#victre-pipeline" title="Permalink to this headline"></a></h2>
+<h2>VICTRE PIPELINE<a class="headerlink" href="#victre-pipeline" title="Permalink to this heading"></a></h2>
 <blockquote>
 <div><dl>
 <dt>Author: Miguel A. Lago</dt><dd><p><a class="reference external" href="mailto:miguel&#46;lago&#37;&#52;&#48;fda&#46;hhs&#46;gov">miguel<span>&#46;</span>lago<span>&#64;</span>fda<span>&#46;</span>hhs<span>&#46;</span>gov</a></p>
@@ -107,9 +131,10 @@ from it, and any modified versions bear some notice that
 they have been modified.</p>
 <p>More information: <a class="reference external" href="https://github.com/DIDSR/VICTRE_PIPELINE">https://github.com/DIDSR/VICTRE_PIPELINE</a></p>
 </div></blockquote>
-<dl class="class">
-<dt id="Victre.Pipeline.Pipeline">
-<em class="property">class </em><code class="sig-prename descclassname">Victre.Pipeline.</code><code class="sig-name descname">Pipeline</code><span class="sig-paren">(</span><em class="sig-param">ips={'cpu': 'localhost'</em>, <em class="sig-param">'gpu': 'localhost'}</em>, <em class="sig-param">seed=None</em>, <em class="sig-param">results_folder='./results'</em>, <em class="sig-param">phantom_file=None</em>, <em class="sig-param">spectrum_file='./Victre/projection/spectrum/W28kVp_Rh50um_Be1mm.spc'</em>, <em class="sig-param">lesion_file=None</em>, <em class="sig-param">materials=None</em>, <em class="sig-param">roi_sizes=None</em>, <em class="sig-param">arguments_generation={}</em>, <em class="sig-param">arguments_spiculated={}</em>, <em class="sig-param">arguments_mcgpu={}</em>, <em class="sig-param">arguments_recon={}</em>, <em class="sig-param">arguments_cluster={}</em>, <em class="sig-param">flatfield_DBT=None</em>, <em class="sig-param">flatfield_DM=None</em>, <em class="sig-param">density=None</em>, <em class="sig-param">verbosity=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline" title="Permalink to this definition"></a></dt>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.Pipeline.</span></span><span class="sig-name descname"><span class="pre">Pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ips</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'cpu':</span> <span class="pre">'localhost',</span> <span class="pre">'gpu':</span> <span class="pre">'localhost'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./results'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phantom_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectrum_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./Victre/projection/spectrum/W28kVp_Rh50um_Be1mm.spc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">materials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_generation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_spiculated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_mcgpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_recon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatfield_DBT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatfield_DM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline" title="Permalink to this definition"></a></dt>
 <dd><p>Object constructor for the Victre pipeline class</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -137,9 +162,9 @@ they have been modified.</p>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.add_absent_ROIs">
-<code class="sig-name descname">add_absent_ROIs</code><span class="sig-paren">(</span><em class="sig-param">lesion_type</em>, <em class="sig-param">n=1</em>, <em class="sig-param">locations=None</em>, <em class="sig-param">roi_sizes=None</em>, <em class="sig-param">save_locations=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.add_absent_ROIs" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.add_absent_ROIs">
+<span class="sig-name descname"><span class="pre">add_absent_ROIs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lesion_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.add_absent_ROIs" title="Permalink to this definition"></a></dt>
 <dd><p>Adds the specified number of lesion-absent regions of interest.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -156,9 +181,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.compress_phantom">
-<code class="sig-name descname">compress_phantom</code><span class="sig-paren">(</span><em class="sig-param">thickness=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.compress_phantom" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.compress_phantom">
+<span class="sig-name descname"><span class="pre">compress_phantom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.compress_phantom" title="Permalink to this definition"></a></dt>
 <dd><p>Runs the FEBio compression.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -170,9 +195,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.crop">
-<code class="sig-name descname">crop</code><span class="sig-paren">(</span><em class="sig-param">size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.crop" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.crop">
+<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.crop" title="Permalink to this definition"></a></dt>
 <dd><p>Runs breast phantom cropping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -181,9 +206,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.generate_cluster">
-<code class="sig-name descname">generate_cluster</code><span class="sig-paren">(</span><em class="sig-param">seed=None</em>, <em class="sig-param">size=None</em>, <em class="sig-param">nmin=None</em>, <em class="sig-param">nmax=None</em>, <em class="sig-param">smin=None</em>, <em class="sig-param">smax=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_cluster" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.generate_cluster">
+<span class="sig-name descname"><span class="pre">generate_cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_cluster" title="Permalink to this definition"></a></dt>
 <dd><p>Generates a random calcification cluster</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -202,9 +227,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.generate_phantom">
-<code class="sig-name descname">generate_phantom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_phantom" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.generate_phantom">
+<span class="sig-name descname"><span class="pre">generate_phantom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_phantom" title="Permalink to this definition"></a></dt>
 <dd><p>Runs breast phantom generation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -213,9 +238,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.generate_spiculated">
-<code class="sig-name descname">generate_spiculated</code><span class="sig-paren">(</span><em class="sig-param">seed=None</em>, <em class="sig-param">size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_spiculated" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.generate_spiculated">
+<span class="sig-name descname"><span class="pre">generate_spiculated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.generate_spiculated" title="Permalink to this definition"></a></dt>
 <dd><p>Generates a spiculated mass using the breastMass software</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -230,9 +255,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.get_DBT_segmentation">
-<code class="sig-name descname">get_DBT_segmentation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_DBT_segmentation" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.get_DBT_segmentation">
+<span class="sig-name descname"><span class="pre">get_DBT_segmentation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_DBT_segmentation" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates the true segmentation of the DBT volume using the phantom model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -242,9 +267,9 @@ they have been modified.</p>
 <p>voxel of the DBT reconstruction.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.get_coordinates_dbt">
-<code class="sig-name descname">get_coordinates_dbt</code><span class="sig-paren">(</span><em class="sig-param">vx_location</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_coordinates_dbt" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.get_coordinates_dbt">
+<span class="sig-name descname"><span class="pre">get_coordinates_dbt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vx_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_coordinates_dbt" title="Permalink to this definition"></a></dt>
 <dd><p>Method to get the corresponding coordinates in the DBT volume from the voxelized coordinates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -256,9 +281,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.get_coordinates_dm">
-<code class="sig-name descname">get_coordinates_dm</code><span class="sig-paren">(</span><em class="sig-param">vx_location</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_coordinates_dm" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.get_coordinates_dm">
+<span class="sig-name descname"><span class="pre">get_coordinates_dm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vx_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_coordinates_dm" title="Permalink to this definition"></a></dt>
 <dd><p>Method to get the corresponding coordinates in the DM volume from the voxelized coordinates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -270,9 +295,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.get_folder_contents">
-<em class="property">static </em><code class="sig-name descname">get_folder_contents</code><span class="sig-paren">(</span><em class="sig-param">folder</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_folder_contents" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.get_folder_contents">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_folder_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.get_folder_contents" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a list of files in the given folder</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -284,9 +309,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.insert_lesions">
-<code class="sig-name descname">insert_lesions</code><span class="sig-paren">(</span><em class="sig-param">lesion_type=None</em>, <em class="sig-param">n=-1</em>, <em class="sig-param">lesion_file=None</em>, <em class="sig-param">lesion_size=None</em>, <em class="sig-param">locations=None</em>, <em class="sig-param">roi_sizes=None</em>, <em class="sig-param">save_phantom=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.insert_lesions" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.insert_lesions">
+<span class="sig-name descname"><span class="pre">insert_lesions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lesion_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_phantom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.insert_lesions" title="Permalink to this definition"></a></dt>
 <dd><p>Inserts the specified number of lesions in the phantom.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -305,9 +330,9 @@ they have been modified.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.project">
-<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">flatfield_correction=True</em>, <em class="sig-param">clean=True</em>, <em class="sig-param">do_flatfield=0</em>, <em class="sig-param">for_presentation=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.project" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.project">
+<span class="sig-name descname"><span class="pre">project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flatfield_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_flatfield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">for_presentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.project" title="Permalink to this definition"></a></dt>
 <dd><p>Method that runs MCGPU to project the phantom.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -321,15 +346,15 @@ It will be generated if not found and not given.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.reconstruct">
-<code class="sig-name descname">reconstruct</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reconstruct" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.reconstruct">
+<span class="sig-name descname"><span class="pre">reconstruct</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reconstruct" title="Permalink to this definition"></a></dt>
 <dd><p>Method that runs the reconstruction code for the DBT volume</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.reverse_dbt_coordinates">
-<code class="sig-name descname">reverse_dbt_coordinates</code><span class="sig-paren">(</span><em class="sig-param">dbt_location</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reverse_dbt_coordinates" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.reverse_dbt_coordinates">
+<span class="sig-name descname"><span class="pre">reverse_dbt_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbt_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reverse_dbt_coordinates" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the 3D coordinate in the model (phantom) space from the
 input 3D digital breast tomosynthesis coordinates</p>
 <dl class="field-list simple">
@@ -342,9 +367,9 @@ input 3D digital breast tomosynthesis coordinates</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.reverse_dm_coordinates">
-<code class="sig-name descname">reverse_dm_coordinates</code><span class="sig-paren">(</span><em class="sig-param">dm_location</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reverse_dm_coordinates" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.reverse_dm_coordinates">
+<span class="sig-name descname"><span class="pre">reverse_dm_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dm_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.reverse_dm_coordinates" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the list of 3D coordinates in the model (phantom) space from the
 input 2D digital mammography coordinates. Note: This will take a long time to compute</p>
 <dl class="field-list simple">
@@ -357,9 +382,9 @@ input 2D digital mammography coordinates. Note: This will take a long time to co
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.save_DICOM">
-<code class="sig-name descname">save_DICOM</code><span class="sig-paren">(</span><em class="sig-param">modality='dbt'</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.save_DICOM" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.save_DICOM">
+<span class="sig-name descname"><span class="pre">save_DICOM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dbt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.save_DICOM" title="Permalink to this definition"></a></dt>
 <dd><p>Saves the DM or DBT images in DICOM format. If present, lesion location will be
 stored in a custom tag 0x009900XX where XX is the lesion number.</p>
 <dl class="field-list simple">
@@ -369,9 +394,9 @@ stored in a custom tag 0x009900XX where XX is the lesion number.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="Victre.Pipeline.Pipeline.save_ROIs">
-<code class="sig-name descname">save_ROIs</code><span class="sig-paren">(</span><em class="sig-param">roi_sizes=None</em>, <em class="sig-param">clean=True</em>, <em class="sig-param">save_folder=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.save_ROIs" title="Permalink to this definition"></a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.Pipeline.save_ROIs">
+<span class="sig-name descname"><span class="pre">save_ROIs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.Pipeline.save_ROIs" title="Permalink to this definition"></a></dt>
 <dd><p>Saves the generated ROIs (absent and present) in RAW and HDF5 formats</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -385,7 +410,6 @@ stored in a custom tag 0x009900XX where XX is the lesion number.</p>
 
 </dd></dl>
 
-</div>
 </div>
 
 

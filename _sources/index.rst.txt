@@ -2,7 +2,7 @@ VICTRE AUTOMATIC PIPELINE
 =========================
 
 `Access to VICTRE PIPELINE GitHub repository <https://github.com/DIDSR/VICTRE_PIPELINE>`_
--------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 
 Virtual Imaging Clinical Trial for Regulatory Evaluation
 --------------------------------------------------------
