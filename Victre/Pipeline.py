@@ -74,8 +74,10 @@ class Pipeline:
         :param materials: Dictionary including the materials to be used during projection
         :param roi_sizes: Dictionary with the ROI sizes for the extraction
         :param arguments_generation: Arguments to be overriden for the breast phantom generation
+        :param arguments_spiculated: Arguments to be overriden for the spiculated mass generation
         :param arguments_mcgpu: Arguments to be overridden for the projection in MCGPU
         :param arguments_recon: Arguments to be overridden for the reconstruction algorithm
+        :param arguments_cluster: Arguments to be overridden for the calcification cluster generation
         :param flatfield_DBT: Path to the flatfield file for the DBT reconstruction
         :param flatfield_DM: Path to the flatfield file for the digital mammography
         :param density: [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too
@@ -395,6 +397,11 @@ class Pipeline:
         # self.arguments_mcgpu["number_voxels"]
 
     def _load_phantom_array_from_gzip(self):
+        """
+            Loads and returns the phantom byte array using gzip
+
+            :returns: Phantom 3-dimensional byte array
+        """
         with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as gz:
             phantom = gz.read()
         return np.fromstring(phantom, dtype=np.uint8).reshape(
@@ -864,6 +871,13 @@ class Pipeline:
                attrs=['bold']) if self.verbosity else None
 
     def reverse_dm_coordinates(self, dm_location):
+        """
+            Returns the list of 3D coordinates in the model (phantom) space from the
+            input 2D digital mammography coordinates. Note: This will take a long time to compute
+
+            :param dm_location: 2-dimensional tuple or array with the coordinates in the digital mammography space
+            :returns: List of 3D coordinates in the model (phantom) space
+        """
         location = dm_location.copy()
 
         location[1] = self.arguments_mcgpu["image_pixels"][0] - location[1]
@@ -922,6 +936,13 @@ class Pipeline:
         return locations
 
     def reverse_dbt_coordinates(self, dbt_location):
+        """
+            Returns the 3D coordinate in the model (phantom) space from the
+            input 3D digital breast tomosynthesis coordinates
+
+            :param dbt_location: 3-dimensional tuple or array with the coordinates in the digital breast tomosynthesis space
+            :returns: 3-dimensional array of coordinates in the model (phantom) space
+        """
         location = dbt_location.copy()
 
         # interchange X and Y
@@ -1363,6 +1384,17 @@ class Pipeline:
                'bold']) if self.verbosity else None
 
     def generate_cluster(self, seed=None, size=None, nmin=None, nmax=None, smin=None, smax=None):
+        """
+            Generates a random calcification cluster
+
+            :param seed: Seed to be used when generating the cluster
+            :param size: Side of the 3D array (ROI cube) in which to generate the cluster (in mm)
+            :param nmin: Minimum number of calcifications to generate
+            :param nmax: Maximum number of calcifications to generate
+            :param smin: Minimum size of the generated calcifications (in mm)
+            :param smax: Maximum size of the generated calcifications (in mm)
+            :returns: None. The result is saved in the `lesions` subfolder
+        """
         if size is not None:
             self.arguments_cluster["size"] = size
         if seed is not None:
@@ -1590,6 +1622,7 @@ class Pipeline:
                         self.lesions = self.lesions[:-c]
                         self.lesion_locations["dm"] = self.lesion_locations["dm"][:-c]
                         self.lesion_locations["dbt"] = self.lesion_locations["dbt"][:-c]
+
                         c = 0
 
                         if self.candidate_locations is not None:
@@ -2093,6 +2126,12 @@ class Pipeline:
         return mask
 
     def get_DBT_segmentation(self):
+        """
+            Calculates the true segmentation of the DBT volume using the phantom model.
+
+            :returns: 3-dimensional array of integer values of the tissue ID corresponding to each
+            voxel of the DBT reconstruction.
+        """
         phantom = self._load_phantom_array_from_gzip()
 
         recon_mhd = self._read_mhd("{:s}/{:d}/reconstruction{:d}.mhd".format(self.results_folder,
@@ -2123,7 +2162,6 @@ class Pipeline:
             :param folder: Path to the folder to be processed
             :returns: List with files inside the given folder
         """
-
         files = []
         for currentFile in os.listdir(folder):
             files.append(join(folder, currentFile))
@@ -2132,6 +2170,12 @@ class Pipeline:
 
     @staticmethod
     def _read_mhd(filename):
+        """
+            Reads and parses an MHD file.
+
+            :param filename: File name of the MHD file to be parsed
+            :returns: Dictionary containing the values of the MHD file
+        """
         data = {}
         with open(filename, "r") as f:
             for line in f:
@@ -2156,6 +2200,12 @@ class Pipeline:
         return data
 
     def _mm_to_voxels(self, locations):
+        """
+            Transforms coordinates from millimeters to voxels in the breast model space
+
+            :param locations: List of coordinates in millimeters
+            :returns: List of coordinates as voxels
+        """
         if locations is not None:
             for idx, cand in enumerate(locations):
                 locations[idx] = [int(np.round((cand[0] - self.mhd["Offset"][0]) /
