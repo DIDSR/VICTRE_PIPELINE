@@ -1,5 +1,8 @@
 Python Documentation
 ====================
 
-.. automodule:: Victre.Pipeline
+.. automodule:: Victre
+    :members:
+
+.. automodule:: Victre.ModelObserver
     :members:
