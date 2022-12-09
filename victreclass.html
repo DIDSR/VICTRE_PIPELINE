@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Documentation &mdash; VICTRE PIPELINE  documentation</title>
+  <title>Victre Class &mdash; VICTRE PIPELINE  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -43,7 +43,7 @@
 <li class="toctree-l1"><a class="reference internal" href="pipeline.html">The VICTRE pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced use</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Documentation</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Victre Class</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Victre.Pipeline"><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.add_absent_ROIs"><code class="docutils literal notranslate"><span class="pre">Pipeline.add_absent_ROIs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.compress_phantom"><code class="docutils literal notranslate"><span class="pre">Pipeline.compress_phantom()</span></code></a></li>
@@ -64,6 +64,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.save_ROIs"><code class="docutils literal notranslate"><span class="pre">Pipeline.save_ROIs()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-Victre.ModelObserver">Model Observer Class</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Victre.ModelObserver.CHO"><code class="docutils literal notranslate"><span class="pre">CHO</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.CHO.build_template"><code class="docutils literal notranslate"><span class="pre">CHO.build_template()</span></code></a></li>
 </ul>
@@ -110,7 +113,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Python Documentation</li>
+      <li class="breadcrumb-item active">Victre Class</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/victreclass.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,8 +124,8 @@
            <div itemprop="articleBody">
              
   <div class="section" id="module-Victre">
-<span id="python-documentation"></span><h1>Python Documentation<a class="headerlink" href="#module-Victre" title="Permalink to this heading"></a></h1>
-<p>## Documentation for the Victre project.</p>
+<span id="victre-class"></span><h1>Victre Class<a class="headerlink" href="#module-Victre" title="Permalink to this heading"></a></h1>
+<p>Documentation for the Victre project.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Victre.Pipeline">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.</span></span><span class="sig-name descname"><span class="pre">Pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ips</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'cpu':</span> <span class="pre">'localhost',</span> <span class="pre">'gpu':</span> <span class="pre">'localhost'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./results'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phantom_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectrum_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./Victre/projection/spectrum/W28kVp_Rh50um_Be1mm.spc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">materials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_generation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_spiculated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_mcgpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_recon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatfield_DBT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatfield_DM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline" title="Permalink to this definition"></a></dt>
@@ -401,17 +404,46 @@ stored in a custom tag 0x009900XX where XX is the lesion number.</p>
 
 </dd></dl>
 
-<span class="target" id="module-Victre.ModelObserver"></span><p>## Documentation for the Model Observer component of the VICTRE project.</p>
+</div>
+<div class="section" id="module-Victre.ModelObserver">
+<span id="model-observer-class"></span><h1>Model Observer Class<a class="headerlink" href="#module-Victre.ModelObserver" title="Permalink to this heading"></a></h1>
+<p>Documentation for the Model Observer component of the VICTRE project.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Victre.ModelObserver.CHO">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">CHO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.CHO" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>This method initializes a Channelized Hotelling Observer (CHO) given a specific
+channel type. It can receive the signal or a set of training present and
+absent images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>channel_type</strong> – Type of the channels to be created for the CHO: Gabor, LGauss or DoG.</p></li>
+<li><p><strong>channels:</strong> – Alternatively, you can provide your own channels.</p></li>
+<li><p><strong>signal</strong> – Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.</p></li>
+<li><p><strong>nps</strong> – Noise power spectrum used to filter the channels.</p></li>
+<li><p><strong>signal_present_samples</strong> – List of images (2D or 3D) for signal-present trials.</p></li>
+<li><p><strong>signal_absent_samples</strong> – List of images (2D or 3D) for signal-absent trials.</p></li>
+<li><p><strong>results_folder</strong> – Path to the VICTRE results folder if trials are to be extracted from there.</p></li>
+<li><p><strong>modality</strong> – Modality to use when path to VICTRE results folder is given.</p></li>
+<li><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p></li>
+<li><p><strong>channel_filter</strong> – Use of filtered channels.</p></li>
+<li><p><strong>channel_params</strong> – Dictionary with the parameters for the channel generation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.CHO.build_template">
 <span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.CHO.build_template" title="Permalink to this definition"></a></dt>
-<dd><p>!
-This method builds the Channelized Hotelling template with the given
+<dd><p>This method builds the Channelized Hotelling template with the given
 channels and signal.</p>
-<p>&#64;return None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -419,91 +451,132 @@ channels and signal.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">ModelObserver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Initializes the ModelObserver generic class. This should be done on the children classes, not here.</p>
-<p>&#64;param signal_present_samples List of images (2D or 3D) for signal-present trials.
-&#64;param signal_absent_samples List of images (2D or 3D) for signal-absent trials.
-&#64;param signal Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.
-&#64;param results_folder Path to the VICTRE results folder if trials are to be extracted from there.
-&#64;param modality Modality to use when path to VICTRE results folder is given.
-&#64;param training_ratio ratio of samples used to retrain.</p>
-<p>&#64;return None</p>
+<dd><p>Initializes the ModelObserver generic class. This should be done on the children classes, not here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal_present_samples</strong> – List of images (2D or 3D) for signal-present trials.</p></li>
+<li><p><strong>signal_absent_samples</strong> – List of images (2D or 3D) for signal-absent trials.</p></li>
+<li><p><strong>signal</strong> – Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.</p></li>
+<li><p><strong>results_folder</strong> – Path to the VICTRE results folder if trials are to be extracted from there.</p></li>
+<li><p><strong>modality</strong> – Modality to use when path to VICTRE results folder is given.</p></li>
+<li><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.estimate_NPS">
 <span class="sig-name descname"><span class="pre">estimate_NPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.estimate_NPS" title="Permalink to this definition"></a></dt>
-<dd><p>!
-This method estimates the noise power spectrum from samples in any dimension.
-&#64;param samples List of samples.</p>
-<p>&#64;return Noise power spectrum matrix.</p>
+<dd><p>This method estimates the noise power spectrum from samples in any dimension.
+:param samples: List of samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Noise power spectrum matrix.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.extract_from_samples">
 <span class="sig-name descname"><span class="pre">extract_from_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.extract_from_samples" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Extracts the signal only from present and absent samples and saves it as class variables.</p>
-<p>&#64;param signal_present_samples List of signal-present images.
-&#64;param signal_absent_samples List of signal-absent images.</p>
-<p>&#64;return None.</p>
+<dd><p>Extracts the signal only from present and absent samples and saves it as class variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal_present_samples</strong> – List of signal-present images.</p></li>
+<li><p><strong>signal_absent_samples</strong> – List of signal-absent images.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.get_performance">
 <span class="sig-name descname"><span class="pre">get_performance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.get_performance" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Calculates model observer’s performance for the loaded samples.</p>
-<p>&#64;param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
-&#64;param function For search tasks (<cite>LKE = false</cite>), specify the function used to
-combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p>
+<dd><p>Calculates model observer’s performance for the loaded samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LKE</strong> – Indicate a Location-Known Exactly (LKE) task or a search task.</p></li>
+<li><p><strong>function</strong> – For search tasks (<cite>LKE = false</cite>), specify the function used to</p></li>
+</ul>
+</dd>
+</dl>
+<p>combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.read_from_VICTRE">
 <span class="sig-name descname"><span class="pre">read_from_VICTRE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.read_from_VICTRE" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Reads the samples from a VICTRE results folder structure and extracts the signal.</p>
-<p>&#64;param results_folder Path to the results folder from the VICTRE pipeline.
-&#64;param modality Modality to load (dm or dbt)</p>
-<p>&#64;return None.</p>
+<dd><p>Reads the samples from a VICTRE results folder structure and extracts the signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results_folder</strong> – Path to the results folder from the VICTRE pipeline.</p></li>
+<li><p><strong>modality</strong> – Modality to load (dm or dbt)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.retrain">
 <span class="sig-name descname"><span class="pre">retrain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.retrain" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Retrains the model from a different set of samples.</p>
-<p>&#64;param training_ratio: ratio of samples used to retrain.
-&#64;return None.</p>
+<dd><p>Retrains the model from a different set of samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.run" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Computes the result for the model observer template in a LKE or Search task on a set of images.</p>
-<p>&#64;param images List of images to be processed by the model observer.
-&#64;param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
-&#64;param function For search tasks (<cite>LKE = false</cite>), specify the function used to</p>
-<blockquote>
-<div><p>combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p>
-</div></blockquote>
-<p>&#64;param 2-tuple or 3-tuple with the signal coordinates in the image for a LKE task.</p>
-<p>&#64;return List with the resulting statistic of the model observer computation for each image.</p>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.run" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the result for the model observer template in a LKE or Search task on a set of images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>images</strong> – List of images to be processed by the model observer.</p></li>
+<li><p><strong>LKE</strong> – Indicate a Location-Known Exactly (LKE) task or a search task.</p></li>
+<li><p><strong>function</strong> – For search tasks (<cite>LKE = false</cite>), specify the function used to
+combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List with the resulting statistic of the model observer computation for each image.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.run_readers">
 <span class="sig-name descname"><span class="pre">run_readers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_readers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.run_readers" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Run a specified number of readers, retraining them every iteration.</p>
-<p>&#64;param num_readers Number of readers to run.
-&#64;param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
-&#64;param function For search tasks (<cite>LKE = false</cite>), specify the function used to</p>
-<blockquote>
-<div><p>combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>&#64;return 2-tuple with the statistics of each reader and their corresponding responses</dt><dd><p>to each processed trial.</p>
+<dd><p>Run a specified number of readers, retraining them every iteration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_readers</strong> – Number of readers to run.</p></li>
+<li><p><strong>LKE</strong> – Indicate a Location-Known Exactly (LKE) task or a search task.</p></li>
+<li><p><strong>function</strong> – For search tasks (<cite>LKE = false</cite>), specify the function used to
+combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2-tuple with the statistics of each reader and their corresponding responses
+to each processed trial.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -511,14 +584,19 @@ Run a specified number of readers, retraining them every iteration.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.save_iMRMC">
 <span class="sig-name descname"><span class="pre">save_iMRMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.save_iMRMC" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Save the results of the model observer as an iMRMC format file.</p>
-<p>&#64;param filename Output file name to save the result.
-&#64;param scores Alternatively, specify the scores of various modalities to be saved in</p>
-<blockquote>
-<div><p>the file instead of the current model observer’s results.</p>
-</div></blockquote>
-<p>&#64;return None.</p>
+<dd><p>Save the results of the model observer as an iMRMC format file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – Output file name to save the result.</p></li>
+<li><p><strong>scores</strong> – Alternatively, specify the scores of various modalities to be saved in
+the file instead of the current model observer’s results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -526,12 +604,32 @@ Save the results of the model observer as an iMRMC format file.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Victre.ModelObserver.NPW">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">NPW</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPW" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>This method initializes a Non PreWhitening (NPW) model observer. It can receive
+the signal or a set of training present and absent images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> – Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.</p></li>
+<li><p><strong>signal_present_samples</strong> – List of images (2D or 3D) for signal-present trials.</p></li>
+<li><p><strong>signal_absent_samples</strong> – List of images (2D or 3D) for signal-absent trials.</p></li>
+<li><p><strong>results_folder</strong> – Path to the VICTRE results folder if trials are to be extracted from there.</p></li>
+<li><p><strong>modality</strong> – Modality to use when path to VICTRE results folder is given.</p></li>
+<li><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.NPW.build_template">
 <span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPW.build_template" title="Permalink to this definition"></a></dt>
-<dd><p>!
-This method builds the NPW template.</p>
-<p>&#64;return None</p>
+<dd><p>This method builds the NPW template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -539,21 +637,50 @@ This method builds the NPW template.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Victre.ModelObserver.NPWE">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">NPWE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixels_per_degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPWE" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>This method initializes a Non PreWhitening with Eye filter (NPWE) model observer. It can receive
+the signal or a set of training present and absent images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> – Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.</p></li>
+<li><p><strong>signal_present_samples</strong> – List of images (2D or 3D) for signal-present trials.</p></li>
+<li><p><strong>signal_absent_samples</strong> – List of images (2D or 3D) for signal-absent trials.</p></li>
+<li><p><strong>results_folder</strong> – Path to the VICTRE results folder if trials are to be extracted from there.</p></li>
+<li><p><strong>modality</strong> – Modality to use when path to VICTRE results folder is given.</p></li>
+<li><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p></li>
+<li><p><strong>pixels_per_degree</strong> – Pixels per degree of visual angle to generate the eye filter.</p></li>
+<li><p><strong>alpha</strong> – Parameter alpha for the eye filter.</p></li>
+<li><p><strong>beta</strong> – Parameter beta for the eye filter.</p></li>
+<li><p><strong>gamma</strong> – Parameter gamma for the eye filter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.NPWE.build_template">
 <span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPWE.build_template" title="Permalink to this definition"></a></dt>
-<dd><p>!
-This method builds the NPWE template.</p>
-<p>&#64;return None</p>
+<dd><p>This method builds the NPWE template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.NPWE.eye_filter">
 <span class="sig-name descname"><span class="pre">eye_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPWE.eye_filter" title="Permalink to this definition"></a></dt>
-<dd><p>!
-Generates the corresponding eye filter at distance <cite>r</cite>.</p>
-<p>&#64;param r Radial distance to generate the eye filter.</p>
-<p>&#64;return Eye filter response at distance <cite>r</cite>.</p>
+<dd><p>Generates the corresponding eye filter at distance <cite>r</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>r</strong> – Radial distance to generate the eye filter.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Eye filter response at distance <cite>r</cite>.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -561,12 +688,33 @@ Generates the corresponding eye filter at distance <cite>r</cite>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Victre.ModelObserver.PWMF">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">PWMF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.PWMF" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>This method initializes a PreWhitening Matched Filter (PWMF) model observer. It can receive
+the signal or a set of training present and absent images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> – Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.</p></li>
+<li><p><strong>nps</strong> – Noise power spectrum used to filter the channels. If not provided it will be estimated from trials.</p></li>
+<li><p><strong>signal_present_samples</strong> – List of images (2D or 3D) for signal-present trials.</p></li>
+<li><p><strong>signal_absent_samples</strong> – List of images (2D or 3D) for signal-absent trials.</p></li>
+<li><p><strong>results_folder</strong> – Path to the VICTRE results folder if trials are to be extracted from there.</p></li>
+<li><p><strong>modality</strong> – Modality to use when path to VICTRE results folder is given.</p></li>
+<li><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="Victre.ModelObserver.PWMF.build_template">
 <span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.PWMF.build_template" title="Permalink to this definition"></a></dt>
-<dd><p>!
-This method builds the PWMF template.</p>
-<p>&#64;return None</p>
+<dd><p>This method builds the PWMF template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
