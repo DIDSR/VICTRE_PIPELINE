@@ -31,7 +31,7 @@ extensions = [
 ]
 
 autodoc_mock_imports = ["numpy", "termcolor",
-                        "progressbar", "h5py", "pydicom", "scipy"]
+                        "progressbar", "h5py", "pydicom", "scipy", "sklearn"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
