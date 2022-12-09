@@ -43,7 +43,57 @@
 <li class="toctree-l1"><a class="reference internal" href="pipeline.html">The VICTRE pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced use</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Victre.Pipeline"><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.add_absent_ROIs"><code class="docutils literal notranslate"><span class="pre">Pipeline.add_absent_ROIs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.compress_phantom"><code class="docutils literal notranslate"><span class="pre">Pipeline.compress_phantom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.crop"><code class="docutils literal notranslate"><span class="pre">Pipeline.crop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.generate_cluster"><code class="docutils literal notranslate"><span class="pre">Pipeline.generate_cluster()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.generate_phantom"><code class="docutils literal notranslate"><span class="pre">Pipeline.generate_phantom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.generate_spiculated"><code class="docutils literal notranslate"><span class="pre">Pipeline.generate_spiculated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.get_DBT_segmentation"><code class="docutils literal notranslate"><span class="pre">Pipeline.get_DBT_segmentation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.get_coordinates_dbt"><code class="docutils literal notranslate"><span class="pre">Pipeline.get_coordinates_dbt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.get_coordinates_dm"><code class="docutils literal notranslate"><span class="pre">Pipeline.get_coordinates_dm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.get_folder_contents"><code class="docutils literal notranslate"><span class="pre">Pipeline.get_folder_contents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.insert_lesions"><code class="docutils literal notranslate"><span class="pre">Pipeline.insert_lesions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.project"><code class="docutils literal notranslate"><span class="pre">Pipeline.project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.reconstruct"><code class="docutils literal notranslate"><span class="pre">Pipeline.reconstruct()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.reverse_dbt_coordinates"><code class="docutils literal notranslate"><span class="pre">Pipeline.reverse_dbt_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.reverse_dm_coordinates"><code class="docutils literal notranslate"><span class="pre">Pipeline.reverse_dm_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.save_DICOM"><code class="docutils literal notranslate"><span class="pre">Pipeline.save_DICOM()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.Pipeline.save_ROIs"><code class="docutils literal notranslate"><span class="pre">Pipeline.save_ROIs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Victre.ModelObserver.CHO"><code class="docutils literal notranslate"><span class="pre">CHO</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.CHO.build_template"><code class="docutils literal notranslate"><span class="pre">CHO.build_template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver"><code class="docutils literal notranslate"><span class="pre">ModelObserver</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver.estimate_NPS"><code class="docutils literal notranslate"><span class="pre">ModelObserver.estimate_NPS()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver.extract_from_samples"><code class="docutils literal notranslate"><span class="pre">ModelObserver.extract_from_samples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver.get_performance"><code class="docutils literal notranslate"><span class="pre">ModelObserver.get_performance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver.read_from_VICTRE"><code class="docutils literal notranslate"><span class="pre">ModelObserver.read_from_VICTRE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver.retrain"><code class="docutils literal notranslate"><span class="pre">ModelObserver.retrain()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver.run"><code class="docutils literal notranslate"><span class="pre">ModelObserver.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver.run_readers"><code class="docutils literal notranslate"><span class="pre">ModelObserver.run_readers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.ModelObserver.save_iMRMC"><code class="docutils literal notranslate"><span class="pre">ModelObserver.save_iMRMC()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Victre.ModelObserver.NPW"><code class="docutils literal notranslate"><span class="pre">NPW</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.NPW.build_template"><code class="docutils literal notranslate"><span class="pre">NPW.build_template()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Victre.ModelObserver.NPWE"><code class="docutils literal notranslate"><span class="pre">NPWE</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.NPWE.build_template"><code class="docutils literal notranslate"><span class="pre">NPWE.build_template()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.NPWE.eye_filter"><code class="docutils literal notranslate"><span class="pre">NPWE.eye_filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Victre.ModelObserver.PWMF"><code class="docutils literal notranslate"><span class="pre">PWMF</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Victre.ModelObserver.PWMF.build_template"><code class="docutils literal notranslate"><span class="pre">PWMF.build_template()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -73,7 +123,454 @@
   <div class="section" id="module-Victre">
 <span id="python-documentation"></span><h1>Python Documentation<a class="headerlink" href="#module-Victre" title="Permalink to this heading"></a></h1>
 <p>## Documentation for the Victre project.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Victre.Pipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.</span></span><span class="sig-name descname"><span class="pre">Pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ips</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'cpu':</span> <span class="pre">'localhost',</span> <span class="pre">'gpu':</span> <span class="pre">'localhost'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./results'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phantom_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectrum_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./Victre/projection/spectrum/W28kVp_Rh50um_Be1mm.spc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">materials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_generation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_spiculated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_mcgpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_recon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatfield_DBT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatfield_DM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline" title="Permalink to this definition"></a></dt>
+<dd><p>Object constructor for the Victre pipeline class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ips</strong> – Dictionary with two IP addresses to run the pipeline: “gpu” for the projection process. “cpu” for the reconstruction.</p></li>
+<li><p><strong>seed</strong> – Random seed used to generate or read the phantom</p></li>
+<li><p><strong>results_folder</strong> – Path to folder to be used when saving the results</p></li>
+<li><p><strong>phantom_file</strong> – Path to file containing the phantom to be loaded</p></li>
+<li><p><strong>spectrum_file</strong> – Path to file containing the spectrum used to project in MCGPU</p></li>
+<li><p><strong>lesion_file</strong> – Path to file containing the lesion to be inserted (in HDF5 format)</p></li>
+<li><p><strong>materials</strong> – Dictionary including the materials to be used during projection</p></li>
+<li><p><strong>roi_sizes</strong> – Dictionary with the ROI sizes for the extraction</p></li>
+<li><p><strong>arguments_generation</strong> – Arguments to be overriden for the breast phantom generation</p></li>
+<li><p><strong>arguments_spiculated</strong> – Arguments to be overriden for the spiculated mass generation</p></li>
+<li><p><strong>arguments_mcgpu</strong> – Arguments to be overridden for the projection in MCGPU</p></li>
+<li><p><strong>arguments_recon</strong> – Arguments to be overridden for the reconstruction algorithm</p></li>
+<li><p><strong>arguments_cluster</strong> – Arguments to be overridden for the calcification cluster generation</p></li>
+<li><p><strong>flatfield_DBT</strong> – Path to the flatfield file for the DBT reconstruction</p></li>
+<li><p><strong>flatfield_DM</strong> – Path to the flatfield file for the digital mammography</p></li>
+<li><p><strong>density</strong> – [EXPERIMENTAL] Percentage of dense tissue of the phantom to be generated, this will adjust the compression thickness too</p></li>
+<li><p><strong>verbosity</strong> – True will output the progress of each process and steps</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.add_absent_ROIs">
+<span class="sig-name descname"><span class="pre">add_absent_ROIs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lesion_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.add_absent_ROIs" title="Permalink to this definition"></a></dt>
+<dd><p>Adds the specified number of lesion-absent regions of interest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lesion_type</strong> – Constant with the desired lesion type. Check available lesion types and materials in the Constants file.</p></li>
+<li><p><strong>n</strong> – Number of lesions to be added</p></li>
+<li><p><strong>locations</strong> – List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.</p></li>
+<li><p><strong>roi_sizes</strong> – Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. A location file will be saved inside the <cite>phantom</cite> folder with the corresponding seed. Negative lesion type means absent ROI.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.compress_phantom">
+<span class="sig-name descname"><span class="pre">compress_phantom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.compress_phantom" title="Permalink to this definition"></a></dt>
+<dd><p>Runs the FEBio compression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>thickness</strong> – Specifies the objective thickness for the phantom to be compressed (in cm)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>pc_SEED.raw.gz</cite> with the raw data, and <cite>pc_SEED.mhd</cite> with the information about the raw data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.crop">
+<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.crop" title="Permalink to this definition"></a></dt>
+<dd><p>Runs breast phantom cropping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>pc_SEED_crop.raw.gz</cite> with the raw data, and <cite>pc_SEED_crop.mhd</cite> with the information about the raw data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.generate_cluster">
+<span class="sig-name descname"><span class="pre">generate_cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.generate_cluster" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a random calcification cluster</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed</strong> – Seed to be used when generating the cluster</p></li>
+<li><p><strong>size</strong> – Side of the 3D array (ROI cube) in which to generate the cluster (in mm)</p></li>
+<li><p><strong>nmin</strong> – Minimum number of calcifications to generate</p></li>
+<li><p><strong>nmax</strong> – Maximum number of calcifications to generate</p></li>
+<li><p><strong>smin</strong> – Minimum size of the generated calcifications (in mm)</p></li>
+<li><p><strong>smax</strong> – Maximum size of the generated calcifications (in mm)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. The result is saved in the <cite>lesions</cite> subfolder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.generate_phantom">
+<span class="sig-name descname"><span class="pre">generate_phantom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.generate_phantom" title="Permalink to this definition"></a></dt>
+<dd><p>Runs breast phantom generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>p_SEED.raw.gz</cite> with the raw data, and <cite>p_SEED.mhd</cite> with the information about the raw data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.generate_spiculated">
+<span class="sig-name descname"><span class="pre">generate_spiculated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.generate_spiculated" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a spiculated mass using the breastMass software</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed</strong> – Seed to be used when generating the mass</p></li>
+<li><p><strong>size</strong> – Size of the mass to be used in the breastMass config file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. The result is saved in the <cite>lesions</cite> subfolder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.get_DBT_segmentation">
+<span class="sig-name descname"><span class="pre">get_DBT_segmentation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.get_DBT_segmentation" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the true segmentation of the DBT volume using the phantom model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>3-dimensional array of integer values of the tissue ID corresponding to each</p>
+</dd>
+</dl>
+<p>voxel of the DBT reconstruction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.get_coordinates_dbt">
+<span class="sig-name descname"><span class="pre">get_coordinates_dbt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vx_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.get_coordinates_dbt" title="Permalink to this definition"></a></dt>
+<dd><p>Method to get the corresponding coordinates in the DBT volume from the voxelized coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vx_location</strong> – Coordinates in the voxel/phantom space</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Coordinates in the DBT space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.get_coordinates_dm">
+<span class="sig-name descname"><span class="pre">get_coordinates_dm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vx_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.get_coordinates_dm" title="Permalink to this definition"></a></dt>
+<dd><p>Method to get the corresponding coordinates in the DM volume from the voxelized coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vx_location</strong> – Coordinates in the voxel/phantom space</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Coordinates in the DM space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.get_folder_contents">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_folder_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.get_folder_contents" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of files in the given folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>folder</strong> – Path to the folder to be processed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List with files inside the given folder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.insert_lesions">
+<span class="sig-name descname"><span class="pre">insert_lesions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lesion_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_phantom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.insert_lesions" title="Permalink to this definition"></a></dt>
+<dd><p>Inserts the specified number of lesions in the phantom.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lesion_type</strong> – Constant with the desired lesion type. Check available lesion types and materials in the Constants file.</p></li>
+<li><p><strong>n</strong> – Number of lesions to be added</p></li>
+<li><p><strong>lesion_file</strong> – Path to file including the lesion to be inserted (in HDF5 format). If specified, it will overrite the lesion file specified in the constructor.</p></li>
+<li><p><strong>lesion_size</strong> – If lesion_file is a raw file, lesion_size indicates the size of this file</p></li>
+<li><p><strong>locations</strong> – List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.</p></li>
+<li><p><strong>roi_sizes</strong> – Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: <cite>pcl_SEED.raw.gz</cite> with the raw data, <cite>pcl_SEED.mhd</cite> with the information about the raw data, and <cite>pcl_SEED.loc</cite> with the voxel coordinates of the lesion centers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.project">
+<span class="sig-name descname"><span class="pre">project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flatfield_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_flatfield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">for_presentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.project" title="Permalink to this definition"></a></dt>
+<dd><p>Method that runs MCGPU to project the phantom.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flatfield_correction</strong> – If True, the projections will be corrected using a given flatfield.
+It will be generated if not found and not given.</p></li>
+<li><p><strong>clean</strong> – If True, it will delete the contents of the output folder before projecting.</p></li>
+<li><p><strong>do_flatfield</strong> – If &gt; 0, it will generate an empty flat field projection.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.reconstruct">
+<span class="sig-name descname"><span class="pre">reconstruct</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.reconstruct" title="Permalink to this definition"></a></dt>
+<dd><p>Method that runs the reconstruction code for the DBT volume</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.reverse_dbt_coordinates">
+<span class="sig-name descname"><span class="pre">reverse_dbt_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbt_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.reverse_dbt_coordinates" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the 3D coordinate in the model (phantom) space from the
+input 3D digital breast tomosynthesis coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dbt_location</strong> – 3-dimensional tuple or array with the coordinates in the digital breast tomosynthesis space</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>3-dimensional array of coordinates in the model (phantom) space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.reverse_dm_coordinates">
+<span class="sig-name descname"><span class="pre">reverse_dm_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dm_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.reverse_dm_coordinates" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the list of 3D coordinates in the model (phantom) space from the
+input 2D digital mammography coordinates. Note: This will take a long time to compute</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dm_location</strong> – 2-dimensional tuple or array with the coordinates in the digital mammography space</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of 3D coordinates in the model (phantom) space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.save_DICOM">
+<span class="sig-name descname"><span class="pre">save_DICOM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dbt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.save_DICOM" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the DM or DBT images in DICOM format. If present, lesion location will be
+stored in a custom tag 0x009900XX where XX is the lesion number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>modality</strong> – Modality to save: dbt or dm</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.Pipeline.save_ROIs">
+<span class="sig-name descname"><span class="pre">save_ROIs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.save_ROIs" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the generated ROIs (absent and present) in RAW and HDF5 formats</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>roi_sizes</strong> – Size of the ROIs for the defined lesion types</p></li>
+<li><p><strong>clean</strong> – If True, the existing ROI folder will be deleted</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <span class="target" id="module-Victre.ModelObserver"></span><p>## Documentation for the Model Observer component of the VICTRE project.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Victre.ModelObserver.CHO">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">CHO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.CHO" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.CHO.build_template">
+<span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.CHO.build_template" title="Permalink to this definition"></a></dt>
+<dd><p>!
+This method builds the Channelized Hotelling template with the given
+channels and signal.</p>
+<p>&#64;return None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">ModelObserver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Initializes the ModelObserver generic class. This should be done on the children classes, not here.</p>
+<p>&#64;param signal_present_samples List of images (2D or 3D) for signal-present trials.
+&#64;param signal_absent_samples List of images (2D or 3D) for signal-absent trials.
+&#64;param signal Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.
+&#64;param results_folder Path to the VICTRE results folder if trials are to be extracted from there.
+&#64;param modality Modality to use when path to VICTRE results folder is given.
+&#64;param training_ratio ratio of samples used to retrain.</p>
+<p>&#64;return None</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.estimate_NPS">
+<span class="sig-name descname"><span class="pre">estimate_NPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.estimate_NPS" title="Permalink to this definition"></a></dt>
+<dd><p>!
+This method estimates the noise power spectrum from samples in any dimension.
+&#64;param samples List of samples.</p>
+<p>&#64;return Noise power spectrum matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.extract_from_samples">
+<span class="sig-name descname"><span class="pre">extract_from_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.extract_from_samples" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Extracts the signal only from present and absent samples and saves it as class variables.</p>
+<p>&#64;param signal_present_samples List of signal-present images.
+&#64;param signal_absent_samples List of signal-absent images.</p>
+<p>&#64;return None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.get_performance">
+<span class="sig-name descname"><span class="pre">get_performance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.get_performance" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Calculates model observer’s performance for the loaded samples.</p>
+<p>&#64;param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
+&#64;param function For search tasks (<cite>LKE = false</cite>), specify the function used to
+combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.read_from_VICTRE">
+<span class="sig-name descname"><span class="pre">read_from_VICTRE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.read_from_VICTRE" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Reads the samples from a VICTRE results folder structure and extracts the signal.</p>
+<p>&#64;param results_folder Path to the results folder from the VICTRE pipeline.
+&#64;param modality Modality to load (dm or dbt)</p>
+<p>&#64;return None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.retrain">
+<span class="sig-name descname"><span class="pre">retrain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.retrain" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Retrains the model from a different set of samples.</p>
+<p>&#64;param training_ratio: ratio of samples used to retrain.
+&#64;return None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.run" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Computes the result for the model observer template in a LKE or Search task on a set of images.</p>
+<p>&#64;param images List of images to be processed by the model observer.
+&#64;param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
+&#64;param function For search tasks (<cite>LKE = false</cite>), specify the function used to</p>
+<blockquote>
+<div><p>combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p>
+</div></blockquote>
+<p>&#64;param 2-tuple or 3-tuple with the signal coordinates in the image for a LKE task.</p>
+<p>&#64;return List with the resulting statistic of the model observer computation for each image.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.run_readers">
+<span class="sig-name descname"><span class="pre">run_readers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_readers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.run_readers" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Run a specified number of readers, retraining them every iteration.</p>
+<p>&#64;param num_readers Number of readers to run.
+&#64;param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
+&#64;param function For search tasks (<cite>LKE = false</cite>), specify the function used to</p>
+<blockquote>
+<div><p>combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>&#64;return 2-tuple with the statistics of each reader and their corresponding responses</dt><dd><p>to each processed trial.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.ModelObserver.save_iMRMC">
+<span class="sig-name descname"><span class="pre">save_iMRMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.save_iMRMC" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Save the results of the model observer as an iMRMC format file.</p>
+<p>&#64;param filename Output file name to save the result.
+&#64;param scores Alternatively, specify the scores of various modalities to be saved in</p>
+<blockquote>
+<div><p>the file instead of the current model observer’s results.</p>
+</div></blockquote>
+<p>&#64;return None.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Victre.ModelObserver.NPW">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">NPW</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPW" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.NPW.build_template">
+<span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPW.build_template" title="Permalink to this definition"></a></dt>
+<dd><p>!
+This method builds the NPW template.</p>
+<p>&#64;return None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Victre.ModelObserver.NPWE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">NPWE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixels_per_degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPWE" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.NPWE.build_template">
+<span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPWE.build_template" title="Permalink to this definition"></a></dt>
+<dd><p>!
+This method builds the NPWE template.</p>
+<p>&#64;return None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.NPWE.eye_filter">
+<span class="sig-name descname"><span class="pre">eye_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPWE.eye_filter" title="Permalink to this definition"></a></dt>
+<dd><p>!
+Generates the corresponding eye filter at distance <cite>r</cite>.</p>
+<p>&#64;param r Radial distance to generate the eye filter.</p>
+<p>&#64;return Eye filter response at distance <cite>r</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Victre.ModelObserver.PWMF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">PWMF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.PWMF" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="Victre.ModelObserver.PWMF.build_template">
+<span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.PWMF.build_template" title="Permalink to this definition"></a></dt>
+<dd><p>!
+This method builds the PWMF template.</p>
+<p>&#64;return None</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
