@@ -1,5 +1,5 @@
 """
-## Documentation for the Model Observer component of the VICTRE project.
+    Documentation for the Model Observer component of the VICTRE project.
 """
 
 from .ModelObserver import ModelObserver

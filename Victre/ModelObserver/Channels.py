@@ -4,42 +4,43 @@ import numpy as np
 
 
 class Channels:
-    def __init__(self, space, channel_params, channel_type):
-        """!
+    """
         Initialize the channels for the CHO model.
 
-        @param space 2-tuple with the space in which the channels will be generated (e.g. `self._euclidean2D(SIZE)`).
-        @param channel_params The dictionary maps all parameter value names for the 
-            corresponding channel to sequences of those parameter values. This 
-            creates a channel set for the specified channel_type arguement below. 
-        @param channel_type Type of the channels to be created for the CHO: Gabor, LGauss or DoG.
-        @return None
+        :param space: 2-tuple with the space in which the channels will be generated (e.g. `self._euclidean2D(SIZE)`).
+        :param channel_params: The dictionary maps all parameter value names for the
+            corresponding channel to sequences of those parameter values. This
+            creates a channel set for the specified channel_type arguement below.
+        :param channel_type: Type of the channels to be created for the CHO: Gabor, LGauss or DoG.
+        :returns: None
 
-        """
+    """
+
+    def __init__(self, space, channel_params, channel_type):
         self.space = space
         self.channel_type = channel_type
         self.channel_params = channel_params
 
     def _norm_channels(self, channel):
-        """!
+        """
         Normalize the values in the 2D channel template. 
 
-        @param channel Channel to be normalized
-        @return Normalized channel
+        :param channel: Channel to be normalized
+        :returns: Normalized channel
 
         """
         return (channel / np.sum(channel))
 
     def _frequency_DoG(self, q=1.67, alpha=1.4, s0=.005, n=1, norm=True):
-        """!
+        """
         Create a Difference of Gaussians (DoG) channel in the frequency domain
 
-        @param q Parameter q for the DoG formula.
-        @param alpha Parameter alpha for the DoG formula.
-        @param s0 Parameter s0 for the DoG formula.
-        @param n Channel number.
-        @param norm Activate channel normalization.
-        @return DoG channel in the frequency domain with the DC component in the center.
+        :param q: Parameter q for the DoG formula.
+        :param alpha: Parameter alpha for the DoG formula.
+        :param s0: Parameter s0 for the DoG formula.
+        :param n: Channel number.
+        :param norm: Activate channel normalization.
+        :returns: DoG channel in the frequency domain with the DC component in the center.
 
         """
         u, v = self.space[0] / self.dim[1], self.space[1] / self.dim[0]
@@ -55,14 +56,14 @@ class Channels:
         return dog
 
     def _spatial_Laguerre_Gaussian(self, a=30, b=25, c=30, n=5, norm=True, signal=None):
-        """!
+        """
         Generate a Laguerre—Gauss (LGauss) channel in the spatial domain. 
 
-        @param q Parameter a for the LGauss formula.
-        @param b Parameter b for the LGauss formula.
-        @param n Channel number.
-        @param norm Activate channel normalization.
-        @return LGauss channel in the spatial domain.
+        :param q: Parameter a for the LGauss formula.
+        :param b: Parameter b for the LGauss formula.
+        :param n: Channel number.
+        :param norm: Activate channel normalization.
+        :returns: LGauss channel in the spatial domain.
         """
         xc, yc, zc = 0, 0, 0
 
@@ -114,24 +115,24 @@ class Channels:
 
     def _spatial_Gabor(self, b=2.5, theta=3.14159265359 / 2, lmbd=20,
                        phi=3.14159265359 / 4, gamma=1, k=3.14159265359, norm=True):
-        """!
+        """
         Generate a Gabor channel in the spatial domain. 
 
-        @param b Specifies the spatial-frequency bandwidth of the
+        :param b: Specifies the spatial-frequency bandwidth of the
                 filter. The bandwidth is specified in octaves.
-        @param theta Orientation of the normal to the parallel
+        :param theta: Orientation of the normal to the parallel
                 stripes of a Gabor function. Specified in radians.
-        @param lmbd Lambda. Wavelength of the sinusoidal (cosine) factor. 
+        :param lmbd: Lambda. Wavelength of the sinusoidal (cosine) factor. 
                 Specified in pixels.
-        @param phi Phase offset of cosine factor. Specified in 
+        :param phi: Phase offset of cosine factor. Specified in 
                 radians. 
-        @param gamma Spatial aspect ratio, specifies the ellipticity 
+        :param gamma: Spatial aspect ratio, specifies the ellipticity 
                 of the support of the Gabor function. Specified as
                 a ratio.
-        @param k Parameter k for the Gabor formula.
-        @param norm Activate channel normalization.
+        :param k: Parameter k for the Gabor formula.
+        :param norm: Activate channel normalization.
 
-        @return Gabor channel in the spatial domain.
+        :returns: Gabor channel in the spatial domain.
         """
 
         sigma = lmbd * ((1 / k) * np.sqrt(np.log(2) / 2) *
@@ -170,10 +171,10 @@ class Channels:
             pass
 
     def get_channels(self):
-        """!
+        """
         Creates the channel set. 
 
-        @return List of channels.
+        :returns: List of channels.
         """
         # check whether a valid channel type has been chosen.
         Channels.checkChannelName(self.channel_type)

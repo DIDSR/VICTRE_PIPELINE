@@ -12,17 +12,17 @@ from .. import Exceptions
 
 
 class ModelObserver:
-    """!
+    """
     Initializes the ModelObserver generic class. This should be done on the children classes, not here.
 
-    @param signal_present_samples List of images (2D or 3D) for signal-present trials.
-    @param signal_absent_samples List of images (2D or 3D) for signal-absent trials.
-    @param signal Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.
-    @param results_folder Path to the VICTRE results folder if trials are to be extracted from there.
-    @param modality Modality to use when path to VICTRE results folder is given.
-    @param training_ratio ratio of samples used to retrain.
+    :param signal_present_samples: List of images (2D or 3D) for signal-present trials.
+    :param signal_absent_samples: List of images (2D or 3D) for signal-absent trials.
+    :param signal: Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.
+    :param results_folder: Path to the VICTRE results folder if trials are to be extracted from there.
+    :param modality: Modality to use when path to VICTRE results folder is given.
+    :param training_ratio: ratio of samples used to retrain.
 
-    @return None
+    :returns: None
     """
 
     def __init__(self, signal_present_samples=None, signal_absent_samples=None, signal=None, results_folder=None, modality="dm", training_ratio=1, subtract_mean_background=False):
@@ -49,11 +49,11 @@ class ModelObserver:
             self.signal = signal
 
     def estimate_NPS(self, samples):
-        """!
+        """
         This method estimates the noise power spectrum from samples in any dimension.
-        @param samples List of samples.
+        :param samples: List of samples.
 
-        @return Noise power spectrum matrix.
+        :returns: Noise power spectrum matrix.
         """
         mean = np.mean(samples, axis=0)
         # mean = np.mean(samples, 0)
@@ -65,15 +65,15 @@ class ModelObserver:
         return nps / len(samples)
 
     def run_readers(self, num_readers, LKE=True, function="sum"):
-        """!
+        """
         Run a specified number of readers, retraining them every iteration.
 
-        @param num_readers Number of readers to run.
-        @param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
-        @param function For search tasks (`LKE = false`), specify the function used to
+        :param num_readers: Number of readers to run.
+        :param LKE: Indicate a Location-Known Exactly (LKE) task or a search task.
+        :param function: For search tasks (`LKE = false`), specify the function used to
                 combine the results of the convolution. Valid options are `sum` or `max`.
 
-        @return 2-tuple with the statistics of each reader and their corresponding responses
+        :returns: 2-tuple with the statistics of each reader and their corresponding responses
                 to each processed trial.
         """
         self.responses_MR = [None] * num_readers
@@ -87,14 +87,14 @@ class ModelObserver:
         return self.statistics_MR, self.responses_MR
 
     def save_iMRMC(self, filename, scores=None):
-        """!
+        """
         Save the results of the model observer as an iMRMC format file.
 
-        @param filename Output file name to save the result.
-        @param scores Alternatively, specify the scores of various modalities to be saved in
+        :param filename: Output file name to save the result.
+        :param scores: Alternatively, specify the scores of various modalities to be saved in
                       the file instead of the current model observer's results.
 
-        @return None.
+        :returns: None.
         """
         if self.responses_MR is None and scores is None:
             raise Exceptions.VictreError("Model needs to be run first!")
@@ -138,17 +138,16 @@ class ModelObserver:
         with open(filename, "w") as outfile:
             outfile.write("\n".join(lines))
 
-    def run(self, images=None, LKE=True, function="sum", location=None):
-        """!
+    def run(self, images=None, LKE=True, function="sum"):
+        """
         Computes the result for the model observer template in a LKE or Search task on a set of images.
 
-        @param images List of images to be processed by the model observer.
-        @param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
-        @param function For search tasks (`LKE = false`), specify the function used to
+        :param images: List of images to be processed by the model observer.
+        :param LKE: Indicate a Location-Known Exactly (LKE) task or a search task.
+        :param function: For search tasks (`LKE = false`), specify the function used to
                 combine the results of the convolution. Valid options are `sum` or `max`.
-        @param 2-tuple or 3-tuple with the signal coordinates in the image for a LKE task.
 
-        @return List with the resulting statistic of the model observer computation for each image.
+        :returns: List with the resulting statistic of the model observer computation for each image.
         """
 
         auto = False
@@ -252,11 +251,11 @@ class ModelObserver:
             return responses, max_location, LR, max_location_LR
 
     def get_performance(self, LKE=True, function="sum"):
-        """!
+        """
         Calculates model observer's performance for the loaded samples.
 
-        @param LKE Indicate a Location-Known Exactly (LKE) task or a search task.
-        @param function For search tasks (`LKE = false`), specify the function used to
+        :param LKE: Indicate a Location-Known Exactly (LKE) task or a search task.
+        :param function: For search tasks (`LKE = false`), specify the function used to
         combine the results of the convolution. Valid options are `sum` or `max`.
         """
         responses = {"present": [[], []], "absent": [[], []]}
@@ -281,10 +280,10 @@ class ModelObserver:
         return {"fpr": fpr, "tpr": tpr, "auc": auc(fpr, tpr), "dP": dP}, responses
 
     def _calculate_template_statistics(self):
-        """!
+        """
         Calculates the analytical template statistics.
 
-        @return Dictionary with the mean response for present samples,
+        :returns: Dictionary with the mean response for present samples,
                 the mean response for absent samples and the standard deviation.
         """
         if self.samples is not None and self.samples["absent"].shape[-1] > 1 and self.samples["absent"].shape[-1] > 1:
@@ -327,12 +326,12 @@ class ModelObserver:
 
     @ staticmethod
     def _euclidean2D(dim):
-        """!
+        """
         Creates a linear space.
 
-        @param dim 2-tuple with the dimensions.
+        :param dim: 2-tuple with the dimensions.
 
-        @return 2-tuple with the linear space.
+        :returns: 2-tuple with the linear space.
         """
         halfc = int(np.ceil((dim[1] - 1) / 2))
         halfr = int(np.ceil((dim[0] - 1) / 2))
@@ -343,12 +342,12 @@ class ModelObserver:
 
     @ staticmethod
     def _euclidean3D(dim):
-        """!
+        """
         Creates a linear space in 3D.
 
-        @param dim 3-tuple with the dimensions.
+        :param dim: 3-tuple with the dimensions.
 
-        @return 3-tuple with the linear space.
+        :returns: 3-tuple with the linear space.
         """
         halfc = int(np.ceil((dim[1] - 1) / 2))
         halfr = int(np.ceil((dim[0] - 1) / 2))
@@ -360,11 +359,11 @@ class ModelObserver:
         return (x, y, z)
 
     def retrain(self, training_ratio=None):
-        """!
+        """
         Retrains the model from a different set of samples.
 
-        @param training_ratio: ratio of samples used to retrain.
-        @return None.
+        :param training_ratio: ratio of samples used to retrain.
+        :returns: None.
         """
         if training_ratio is not None:
             self.training_ratio = training_ratio
@@ -374,13 +373,13 @@ class ModelObserver:
         self.build_template()
 
     def extract_from_samples(self, signal_present_samples, signal_absent_samples):
-        """!
+        """
         Extracts the signal only from present and absent samples and saves it as class variables.
 
-        @param signal_present_samples List of signal-present images.
-        @param signal_absent_samples List of signal-absent images.
+        :param signal_present_samples: List of signal-present images.
+        :param signal_absent_samples: List of signal-absent images.
 
-        @return None.
+        :returns: None.
         """
 
         shuffled_present, idx_shuffled_present = shuffle(
@@ -422,13 +421,13 @@ class ModelObserver:
         self.nps /= 2
 
     def read_from_VICTRE(self, results_folder, modality, subtract_mean_background=True):
-        """!
+        """
         Reads the samples from a VICTRE results folder structure and extracts the signal.
 
-        @param results_folder Path to the results folder from the VICTRE pipeline.
-        @param modality Modality to load (dm or dbt)
+        :param results_folder: Path to the results folder from the VICTRE pipeline.
+        :param modality: Modality to load (dm or dbt)
 
-        @return None.
+        :returns: None.
         """
         cases = glob.glob("{:s}/*/".format(results_folder))
 

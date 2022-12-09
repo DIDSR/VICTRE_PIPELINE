@@ -6,29 +6,28 @@ import copy
 
 
 class CHO(ModelObserver):
-
-    def __init__(self, channel_type=None, channels=None, signal=None, nps=None, signal_present_samples=None,
-                 signal_absent_samples=None, results_folder=None, modality="dm", training_ratio=1, channel_filter=None, channel_params=None, subtract_mean_background=False):
-        """!
+    """
         This method initializes a Channelized Hotelling Observer (CHO) given a specific
         channel type. It can receive the signal or a set of training present and
         absent images.
 
-        @param channel_type Type of the channels to be created for the CHO: Gabor, LGauss or DoG.
-        @param channels Alternatively, you can provide your own channels.
-        @param signal Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.
-        @param nps Noise power spectrum used to filter the channels.
-        @param signal_present_samples List of images (2D or 3D) for signal-present trials.
-        @param signal_absent_samples List of images (2D or 3D) for signal-absent trials.
-        @param results_folder Path to the VICTRE results folder if trials are to be extracted from there.
-        @param modality Modality to use when path to VICTRE results folder is given.
-        @param training_ratio ratio of samples used to retrain.
-        @param channel_filter Use of filtered channels.
-        @param channel_params Dictionary with the parameters for the channel generation.
+        :param channel_type: Type of the channels to be created for the CHO: Gabor, LGauss or DoG.
+        :param channels:: Alternatively, you can provide your own channels.
+        :param signal: Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.
+        :param nps: Noise power spectrum used to filter the channels.
+        :param signal_present_samples: List of images (2D or 3D) for signal-present trials.
+        :param signal_absent_samples: List of images (2D or 3D) for signal-absent trials.
+        :param results_folder: Path to the VICTRE results folder if trials are to be extracted from there.
+        :param modality: Modality to use when path to VICTRE results folder is given.
+        :param training_ratio: ratio of samples used to retrain.
+        :param channel_filter: Use of filtered channels.
+        :param channel_params: Dictionary with the parameters for the channel generation.
 
-        @return None
-        """
+        :returns: None
+    """
 
+    def __init__(self, channel_type=None, channels=None, signal=None, nps=None, signal_present_samples=None,
+                 signal_absent_samples=None, results_folder=None, modality="dm", training_ratio=1, channel_filter=None, channel_params=None, subtract_mean_background=False):
         super().__init__(signal_present_samples,
                          signal_absent_samples, signal, results_folder, modality, training_ratio, subtract_mean_background)
 
@@ -117,11 +116,11 @@ class CHO(ModelObserver):
         self.template_statistics = self._calculate_template_statistics()
 
     def build_template(self):
-        """!
+        """
         This method builds the Channelized Hotelling template with the given
         channels and signal.
 
-        @return None
+        :returns: None
 
         """
         # if we have samples, we can do it this way
@@ -195,11 +194,11 @@ class CHO(ModelObserver):
         self.fft_template = np.fft.fftn(np.fft.fftshift(self.template))
 
     def _analytic_covariance_matrix(self):
-        """!
+        """
         This method calculates the channel covariance matrix given
         a noise power spectrum for the background noise.
 
-        @return 2D array containing the covariance matrix for the channels.
+        :returns: 2D array containing the covariance matrix for the channels.
 
         """
         K = np.zeros((len(self.channels), len(self.channels)))
