@@ -112,8 +112,8 @@ class Channels:
 
         return Clg
 
-    def _spatial_Gabor(self, b=2.5, theta=np.pi / 2, lmbd=20,
-                       phi=np.pi / 4, gamma=1, k=np.pi, norm=True):
+    def _spatial_Gabor(self, b=2.5, theta=3.14159265359 / 2, lmbd=20,
+                       phi=3.14159265359 / 4, gamma=1, k=3.14159265359, norm=True):
         """!
         Generate a Gabor channel in the spatial domain. 
 
