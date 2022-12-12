@@ -43,7 +43,9 @@ class Channels:
         :returns: DoG channel in the frequency domain with the DC component in the center.
 
         """
-        u, v = self.space[0] / self.dim[1], self.space[1] / self.dim[0]
+        u, v = self.space[0] / \
+            self.space[0].shape[0], self.space[1] / self.space[0].shape[1]
+
         freqs = np.sqrt(u**2 + v**2)  # 2D spatial frequency domain
 
         sj = s0 * (alpha**n)
@@ -226,7 +228,7 @@ class Channels:
                         for la in self.channel_params["Lambda"]:
                             for t in self.channel_params['Theta']:
                                 chnls.append(self._spatial_Gabor(
-                                             b=b, theta=t, Lambda=la, phi=p,
+                                             b=b, theta=t, lmbd=la, phi=p,
                                              gamma=g, norm=True))
 
         return chnls

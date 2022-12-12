@@ -34,6 +34,8 @@ class ModelObserver:
         self.training_ratio = training_ratio
         self.responses = None
         self.responses_MR = None
+        self.signal_present_samples = signal_present_samples
+        self.signal_absent_samples = signal_absent_samples
 
         if results_folder is not None:
             # samples not provided, try to get them from the results folder
