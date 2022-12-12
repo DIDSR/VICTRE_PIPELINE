@@ -4,4 +4,4 @@ progressbar
 pydicom
 scipy
 termcolor
-sklearn
+scikit-learn

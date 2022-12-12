@@ -1,12 +1,9 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath('.'))  # noqa
 import numpy as np
 from scipy import ndimage
 from Victre.ModelObserver import CHO, NPW, PWMF
 import unittest
-from collections import deque
-import matplotlib.pyplot as plt
 
 
 class TestModelObserver(unittest.TestCase):
