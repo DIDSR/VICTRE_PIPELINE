@@ -13,7 +13,7 @@ jobs:
         run: |
           sudo apt-get -qq update 
           sudo apt-get -y -qq upgrade 
-          sudo apt-get -y -qq install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev libbz2-dev cmake libblas-dev liblapack-dev libopenmpi-dev libboost-dev libboost-program-options-dev libproj-dev libtet1.5-dev zlib1g-dev gzip python3-pip fftw3 vtk9 libvtk9-dev libomp5 libomp-dev
+          sudo apt-get -y -qq install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev libbz2-dev cmake libblas-dev liblapack-dev libopenmpi-dev libboost-dev libboost-program-options-dev libproj-dev libtet1.5-dev zlib1g-dev gzip python3-pip fftw3 vtk9 libvtk9-dev libomp5 libomp-dev qtbase5-dev
           python -m pip install --upgrade pip
           pip install -r ./requirements.txt
       - name: Build breastGeneration
