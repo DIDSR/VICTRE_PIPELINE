@@ -13,7 +13,8 @@ class TestPipeline(unittest.TestCase):
     roi_sizes = {Constants.VICTRE_SPICULATED: [65, 65, 5],
                  Constants.VICTRE_CLUSTERCALC: [65, 65, 5]}
 
-    truth = {"insert": {"phantom_coord": [[81, 76, 277, 2],
+    truth = {"generate": [505, 896, 717],
+             "insert": {"phantom_coord": [[81, 76, 277, 2],
                                           [183, 29, 384, 2],
                                           [125, 138, 244, 2]],
                         "dbt_coord": [[477, 180, 16, 2],
@@ -52,11 +53,22 @@ class TestPipeline(unittest.TestCase):
         segm = self.pline.get_DBT_segmentation()
         self.assertEqual(hashlib.sha256(segm.tobytes()).hexdigest(),
                          self.truth["dbt_mask"])
+
+    def test_generation(self):
+        pline = Pipeline(seed=7127433,
+                         roi_sizes=self.roi_sizes,
+                         arguments_generation={
+                             "imgRes": 0.1
+                         }
+                         )
+        pline.generate_phantom()
+        self.assertAlmostEqual(
+            pline.arguments_mcgpu["number_voxels"], self.truth["generate"], delta=5)
         pass
 
 
 if __name__ == '__main__':
-    # unittest.main()
-    t = TestPipeline()
-    t.setUpClass()
-    t.test_DBT_segmentation()
+    unittest.main()
+    # t = TestPipeline()
+    # t.setUpClass()
+    # t.test_generation()

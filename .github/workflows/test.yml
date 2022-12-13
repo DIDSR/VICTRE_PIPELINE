@@ -11,8 +11,29 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: |
+          apt-get -qq update &>/dev/null
+          apt-get -y -qq upgrade &>/dev/null
+          apt-get -y -qq install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev libbz2-dev cmake libblas-dev liblapack-dev libopenmpi-dev libboost-dev libboost-program-options-dev libproj-dev libtet1.5-dev zlib1g-dev gzip python3-pip fftw3 vtk6 libvtk6-dev libiomp5 libiomp-dev &>/dev/null
           python -m pip install --upgrade pip
           pip install -r ./requirements.txt
+      - name: Build breastGeneration
+        run: |
+          rm -rf ./Victre/generation/build 
+          mkdir ./Victre/generation/build
+          (cd ./Victre/generation/build && cmake .. &>/dev/null)
+          (cd ./Victre/generation/build && make &>/dev/null)
+      - name: Build breastCompression
+        run: |
+          rm -rf ./Victre/compression/build 
+          mkdir ./Victre/compression/build
+          (cd ./Victre/compression/build && cmake .. &>/dev/null)
+          (cd ./Victre/compression/build && make &>/dev/null)              
+      - name: Build breastMass
+        run: |
+          rm -rf ./Victre/breastMass/build 
+          mkdir ./Victre/breastMass/build
+          (cd ./Victre/breastMass/build && cmake .. &>/dev/null)
+          (cd ./Victre/breastMass/build && make &>/dev/null)        
       - name: Test with unittest
         run: |
           python -m unittest discover -s ./test -p 'test_*.py'
