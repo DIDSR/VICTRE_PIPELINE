@@ -1,6 +1,6 @@
 h5py
 numpy
-progressbar
+progressbar2
 pydicom
 scipy
 termcolor
