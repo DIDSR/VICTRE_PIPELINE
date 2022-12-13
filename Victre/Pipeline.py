@@ -2134,12 +2134,17 @@ class Pipeline:
         """
         phantom = self._load_phantom_array_from_gzip()
 
-        recon_mhd = self._read_mhd("{:s}/{:d}/reconstruction{:d}.mhd".format(self.results_folder,
-                                                                             self.seed,
-                                                                             self.seed))
-
-        mask = np.zeros(
-            [recon_mhd["DimSize"][2], recon_mhd["DimSize"][1], recon_mhd["DimSize"][0]], dtype=np.uint8)
+        if os.path.exists("{:s}/{:d}/reconstruction{:d}.mhd".format(self.results_folder,
+                                                                    self.seed,
+                                                                    self.seed)):
+            recon_mhd = self._read_mhd("{:s}/{:d}/reconstruction{:d}.mhd".format(self.results_folder,
+                                                                                 self.seed,
+                                                                                 self.seed))
+            mask = np.zeros(
+                [recon_mhd["DimSize"][2], recon_mhd["DimSize"][1], recon_mhd["DimSize"][0]], dtype=np.uint8)
+        else:
+            mask = np.zeros(
+                [self.recon_size["z"], self.recon_size["y"], self.recon_size["x"]], dtype=np.uint8)
 
         for x in progressbar.progressbar(range(mask.shape[0])):
             for y in range(mask.shape[1]):

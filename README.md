@@ -1,3 +1,5 @@
+![](https://github.com/DIDSR/VICTRE_PIPELINE/actions/workflows/test.yml/badge.svg) ![](https://img.shields.io/github/license/DIDSR/VICTRE_PIPELINE)
+
 VICTRE AUTOMATIC PIPELINE
 ===========
 ![](https://user-images.githubusercontent.com/5750606/41682198-0b250648-74a5-11e8-9578-f93602efa5ab.png)\

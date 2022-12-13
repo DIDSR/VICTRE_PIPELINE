@@ -1,5 +1,3 @@
-import sys
-import os
 import numpy as np
 from scipy import ndimage
 from Victre.ModelObserver import CHO, NPW, PWMF
