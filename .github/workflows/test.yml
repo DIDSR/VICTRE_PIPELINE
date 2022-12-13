@@ -20,20 +20,20 @@ jobs:
         run: |
           rm -rf ./Victre/generation/build 
           mkdir ./Victre/generation/build
-          (cd ./Victre/generation/build && cmake .. &>/dev/null)
-          (cd ./Victre/generation/build && make &>/dev/null)
+          (cd ./Victre/generation/build && cmake ..)
+          (cd ./Victre/generation/build && make)
       - name: Build breastCompression
         run: |
           rm -rf ./Victre/compression/build 
           mkdir ./Victre/compression/build
-          (cd ./Victre/compression/build && cmake .. &>/dev/null)
-          (cd ./Victre/compression/build && make &>/dev/null)              
+          (cd ./Victre/compression/build && cmake ..)
+          (cd ./Victre/compression/build && make)              
       - name: Build breastMass
         run: |
           rm -rf ./Victre/breastMass/build 
           mkdir ./Victre/breastMass/build
-          (cd ./Victre/breastMass/build && cmake .. &>/dev/null)
-          (cd ./Victre/breastMass/build && make &>/dev/null)        
+          (cd ./Victre/breastMass/build && cmake ..)
+          (cd ./Victre/breastMass/build && make)        
       - name: Test with unittest
         run: |
           python -m unittest discover -s ./test -p 'test_*.py'
