@@ -402,7 +402,7 @@ class Pipeline:
 
             :returns: Phantom 3-dimensional byte array
         """
-        with gzip.open(self.arguments_mcgpu["phantom_file"], 'rb') as gz:
+        with gzip.GzipFile(filename=self.arguments_mcgpu["phantom_file"], mode='rb') as gz:
             phantom = gz.read()
         return np.fromstring(phantom, dtype=np.uint8).reshape(
             self.arguments_mcgpu["number_voxels"][2],
@@ -435,9 +435,8 @@ class Pipeline:
             filename = "flatfield"
             empty_phantom = np.zeros(
                 self.arguments_mcgpu["number_voxels"], np.uint8)
-            with gzip.GzipFile(fileobj=open("{:s}/{:d}/empty_phantom.raw.gz".format(
-                self.results_folder, self.seed), "wb"),
-                    filename="", mtime=0) as gz:
+            with gzip.GzipFile(filename="{:s}/{:d}/empty_phantom.raw.gz".format(
+                    self.results_folder, self.seed), mode="wb", mtime=0) as gz:
                 gz.write(empty_phantom)
             del empty_phantom
 
@@ -465,9 +464,8 @@ class Pipeline:
         elif for_presentation:
             phantom = self._load_phantom_array_from_gzip()
             phantom[phantom != 0] = Constants.PHANTOM_MATERIALS["adipose"]
-            with gzip.GzipFile(fileobj=open("{:s}/{:d}/presentation.raw.gz".format(
-                self.results_folder, self.seed), "wb"),
-                    filename="", mtime=0) as gz:
+            with gzip.GzipFile(filename="{:s}/{:d}/presentation.raw.gz".format(
+                    self.results_folder, self.seed), mode="wb", mtime=0) as gz:
                 gz.write(phantom)
             del phantom
             filename = "presentation"
@@ -1701,8 +1699,7 @@ class Pipeline:
                        'cyan') if self.verbosity else None
 
                 # We save the phantom in gzip to reduce needed disk space
-                with gzip.GzipFile(fileobj=open("{:s}/{:d}/pcl_{:d}.raw.gz".format(self.results_folder, self.seed, self.seed), "wb"),
-                                   filename="", mtime=0) as gz:
+                with gzip.GzipFile(filename="{:s}/{:d}/pcl_{:d}.raw.gz".format(self.results_folder, self.seed, self.seed), mode="wb", mtime=0) as gz:
                     gz.write(phantom)
 
                 self.arguments_mcgpu["phantom_file"] = "{:s}/{:d}/pcl_{:d}.raw.gz".format(
@@ -2054,8 +2051,7 @@ class Pipeline:
         gzip_file = "{:s}/{:d}/pc_{:d}_crop.raw.gz".format(
             self.results_folder, self.seed, self.seed)
 
-        with gzip.GzipFile(fileobj=open(gzip_file, "wb"),
-                           filename="", mtime=0) as gz:
+        with gzip.GzipFile(filename=gzip_file, mode="wb", mtime=0) as gz:
             gz.write(np.ascontiguousarray(phantom))
 
         self.arguments_mcgpu["phantom_file"] = gzip_file
@@ -2093,7 +2089,7 @@ class Pipeline:
                            crop["from"][1]) * self.mhd["ElementSpacing"][1] + self.mhd["Offset"][1]
                 cand[2] = ((cand[2] - prevOffset[2]) / self.mhd["ElementSpacing"][2] -
                            crop["from"][2]) * self.mhd["ElementSpacing"][2] + self.mhd["Offset"][2]
-            #saving in mm
+            # saving in mm
             np.savetxt("{:s}/{:d}/pc_{:d}_crop.loc".format(self.results_folder,
                                                            self.seed,
                                                            self.seed),
@@ -2159,7 +2155,7 @@ class Pipeline:
                         pass
         return mask
 
-    @staticmethod
+    @ staticmethod
     def get_folder_contents(folder):
         """
             Gets a list of files in the given folder
@@ -2173,7 +2169,7 @@ class Pipeline:
 
         return files
 
-    @staticmethod
+    @ staticmethod
     def _read_mhd(filename):
         """
             Reads and parses an MHD file.
