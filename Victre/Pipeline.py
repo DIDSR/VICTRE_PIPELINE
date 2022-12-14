@@ -404,7 +404,7 @@ class Pipeline:
         """
         with gzip.GzipFile(filename=self.arguments_mcgpu["phantom_file"], mode='rb') as gz:
             phantom = gz.read()
-        return np.fromstring(phantom, dtype=np.uint8).reshape(
+        return np.frombuffer(phantom, dtype=np.uint8).reshape(
             self.arguments_mcgpu["number_voxels"][2],
             self.arguments_mcgpu["number_voxels"][1],
             self.arguments_mcgpu["number_voxels"][0])
@@ -1531,7 +1531,7 @@ class Pipeline:
             else:  # raw
                 with open(self.lesion_file, "rb") as f:
                     lesion = f.read()
-                lesion = np.fromstring(
+                lesion = np.frombuffer(
                     lesion, dtype=np.uint8).reshape(lesion_size)
 
         if roi_sizes is None and lesion is not None:
