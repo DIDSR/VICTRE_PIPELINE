@@ -8,7 +8,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2    
+      - uses: actions/upload-artifact@v1
+        with:
+          name: results_generation
+          path: results_generation/     
+      - uses: actions/upload-artifact@v1
+        with:
+          name: results_insert
+          path: results_insert/
+      - uses: actions/upload-artifact@v1
+        with:
+          name: results_segmentation
+          path: results_segmentation/            
       - name: Install dependencies
         run: |
           sudo apt-get -qq update 
