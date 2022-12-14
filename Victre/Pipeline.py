@@ -334,15 +334,6 @@ class Pipeline:
         self.arguments_generation["outputDir"] = os.path.abspath("{:s}/{:d}/".format(
             self.results_folder, self.seed))
 
-        self.recon_size = dict(
-            x=np.ceil(self.arguments_recon["voxels_x"] * self.arguments_recon["voxel_size"] /
-                      self.arguments_recon["recon_pixel_size"]).astype(int),
-            y=np.ceil(self.arguments_recon["voxels_y"] * self.arguments_recon["voxel_size"] /
-                      self.arguments_recon["recon_pixel_size"]).astype(int),
-            z=np.ceil(self.arguments_recon["voxels_z"] * self.arguments_recon["voxel_size"] /
-                      self.arguments_recon["recon_thickness"]).astype(int)
-        )
-
         os.makedirs("{:s}".format(self.results_folder), exist_ok=True)
         os.makedirs("{:s}/{:d}".format(self.results_folder,
                                        self.seed), exist_ok=True)
@@ -384,6 +375,15 @@ class Pipeline:
                 voxels_z=self.arguments_mcgpu["number_voxels"][2],
                 voxel_size=self.arguments_mcgpu["voxel_size"][0]
             ))
+
+        self.recon_size = dict(
+            x=np.ceil(self.arguments_recon["voxels_x"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_pixel_size"]).astype(int),
+            y=np.ceil(self.arguments_recon["voxels_y"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_pixel_size"]).astype(int),
+            z=np.ceil(self.arguments_recon["voxels_z"] * self.arguments_recon["voxel_size"] /
+                      self.arguments_recon["recon_thickness"]).astype(int)
+        )
 
         self.arguments_mcgpu["source_position"][1] = self.arguments_mcgpu["number_voxels"][1] * \
             self.arguments_mcgpu["voxel_size"][1] / 2
