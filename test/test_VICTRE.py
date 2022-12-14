@@ -15,9 +15,9 @@ class TestPipeline(unittest.TestCase):
              "insert": {"phantom_coord": [[81, 76, 277, 2],
                                           [183, 29, 384, 2],
                                           [125, 138, 244, 2]],
-                        "dbt_coord": [[477, 180, 16, 2],
-                                      [225, 69, 37, 2],
-                                      [555, 326, 25, 2]],
+                        "dbt_coord": [[616, 180, 16, 2],
+                                      [364, 69, 37, 2],
+                                      [694, 326, 25, 2]],
                         "dm_coord": [[191, 1480, 2],
                                      [76, 1204, 2],
                                      [350, 1563, 2]]
@@ -35,8 +35,6 @@ class TestPipeline(unittest.TestCase):
         np.random.seed(7127433)
         pline.insert_lesions(lesion_type=Constants.VICTRE_SPICULATED,
                              n=3)
-        print(
-            f'{pline.lesions} | {pline.lesion_locations["dbt"]} | {pline.lesion_locations["dm"]}')
         self.assertTrue(np.all(pline.lesions == np.array(
             self.truth["insert"]["phantom_coord"])))
         self.assertTrue(np.all(pline.lesion_locations["dbt"] == np.array(
@@ -55,17 +53,17 @@ class TestPipeline(unittest.TestCase):
         self.assertEqual(hashlib.sha256(segm.tobytes()).hexdigest(),
                          self.truth["dbt_mask"])
 
-    # def test_generation(self):
-    #     pline = Pipeline(seed=7127433,
-    #                      roi_sizes=self.roi_sizes,
-    #                      results_folder="results_generation",
-    #                      arguments_generation={
-    #                          "imgRes": 0.1
-    #                      }
-    #                      )
-    #     pline.generate_phantom()
-    #     self.assertAlmostEqual(
-    #         pline.arguments_mcgpu["number_voxels"], self.truth["generate"], delta=10)
+    def test_generation(self):
+        pline = Pipeline(seed=7127433,
+                         roi_sizes=self.roi_sizes,
+                         results_folder="results_generation",
+                         arguments_generation={
+                             "imgRes": 0.1
+                         }
+                         )
+        pline.generate_phantom()
+        self.assertAlmostEqual(
+            pline.arguments_mcgpu["number_voxels"], self.truth["generate"], delta=10)
 
 
 if __name__ == '__main__':
