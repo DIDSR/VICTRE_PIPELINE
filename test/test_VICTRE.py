@@ -8,8 +8,6 @@ import hashlib
 
 
 class TestPipeline(unittest.TestCase):
-
-    pline = None
     roi_sizes = {Constants.VICTRE_SPICULATED: [65, 65, 5],
                  Constants.VICTRE_CLUSTERCALC: [65, 65, 5]}
 
@@ -27,43 +25,47 @@ class TestPipeline(unittest.TestCase):
              "dbt_mask": "ebbc92604273bb53eab38abf1437579ee2462fdd686ed0b31f75384d6b096275"
              }
 
-    @classmethod
-    def setUpClass(cls):
-        cls.pline = Pipeline(seed=1,
-                             phantom_file="phantoms/pc_1_crop.raw.gz",
-                             lesion_file="lesions/spiculated/mass_11_size1.00.h5",
-                             roi_sizes=cls.roi_sizes
-                             )
-
     def test_insert(self):
-        self.pline.results_folder = "results_insert"
-        os.makedirs(
-            f"{self.pline.results_folder}/{self.pline.seed}", exist_ok=True)
+        pline = Pipeline(seed=1,
+                         phantom_file="phantoms/pc_1_crop.raw.gz",
+                         lesion_file="lesions/spiculated/mass_11_size1.00.h5",
+                         roi_sizes=self.roi_sizes,
+                         results_folder="results_insert"
+                         )
         np.random.seed(7127433)
-        self.pline.insert_lesions(lesion_type=Constants.VICTRE_SPICULATED,
-                                  n=3)
-        self.assertTrue(np.all(self.pline.lesions == np.array(
+        pline.insert_lesions(lesion_type=Constants.VICTRE_SPICULATED,
+                             n=3)
+        self.assertTrue(np.all(pline.lesions == np.array(
             self.truth["insert"]["phantom_coord"])))
-        self.assertTrue(np.all(self.pline.lesion_locations["dbt"] == np.array(
+        self.assertTrue(np.all(pline.lesion_locations["dbt"] == np.array(
             self.truth["insert"]["dbt_coord"])))
-        self.assertTrue(np.all(self.pline.lesion_locations["dm"] == np.array(
+        self.assertTrue(np.all(pline.lesion_locations["dm"] == np.array(
             self.truth["insert"]["dm_coord"])))
 
     def test_DBT_segmentation(self):
-        segm = self.pline.get_DBT_segmentation()
+        pline = Pipeline(seed=1,
+                         phantom_file="phantoms/pc_1_crop.raw.gz",
+                         lesion_file="lesions/spiculated/mass_11_size1.00.h5",
+                         roi_sizes=self.roi_sizes,
+                         results_folder="results_segmentation"
+                         )
+        segm = pline.get_DBT_segmentation()
         self.assertEqual(hashlib.sha256(segm.tobytes()).hexdigest(),
                          self.truth["dbt_mask"])
 
     def test_generation(self):
         pline = Pipeline(seed=7127433,
                          roi_sizes=self.roi_sizes,
+                         results_folder="results_generation",
                          arguments_generation={
                              "imgRes": 0.1
                          }
                          )
         pline.generate_phantom()
+        print(
+            f'{pline.arguments_mcgpu["number_voxels"]} == {self.truth["generate"]}')
         self.assertAlmostEqual(
-            pline.arguments_mcgpu["number_voxels"], self.truth["generate"], delta=5)
+            pline.arguments_mcgpu["number_voxels"], self.truth["generate"], delta=10)
         pass
 
 
