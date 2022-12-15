@@ -15,9 +15,9 @@ class TestPipeline(unittest.TestCase):
              "insert": {"phantom_coord": [[81, 76, 277, 2],
                                           [183, 29, 384, 2],
                                           [125, 138, 244, 2]],
-                        "dbt_coord": [[477, 180, 16, 2],
-                                      [225, 69, 37, 2],
-                                      [555, 326, 25, 2]],
+                        "dbt_coord": [[616, 180, 16, 2],
+                                      [364, 69, 37, 2],
+                                      [694, 326, 25, 2]],
                         "dm_coord": [[191, 1480, 2],
                                      [76, 1204, 2],
                                      [350, 1563, 2]]
@@ -26,6 +26,7 @@ class TestPipeline(unittest.TestCase):
              }
 
     def test_insert(self):
+        # from new insertion
         plineI = Pipeline(seed=1,
                           phantom_file="phantoms/pc_1_crop.raw.gz",
                           lesion_file="lesions/spiculated/mass_11_size1.00.h5",
@@ -35,21 +36,42 @@ class TestPipeline(unittest.TestCase):
         np.random.seed(7127433)
         plineI.insert_lesions(lesion_type=Constants.VICTRE_SPICULATED,
                               n=3)
-        self.assertTrue(np.all(plineI.lesions == np.array(
-            self.truth["insert"]["phantom_coord"])))
-        self.assertTrue(np.all(plineI.lesion_locations["dbt"] == np.array(
-            self.truth["insert"]["dbt_coord"])))
-        self.assertTrue(np.all(plineI.lesion_locations["dm"] == np.array(
-            self.truth["insert"]["dm_coord"])))
+        for les in range(len(plineI.lesions)):
+            for coord in range(len(plineI.lesions[les])):
+                self.assertAlmostEqual(plineI.lesions[les][coord],
+                                       np.array(self.truth["insert"]["phantom_coord"][les][coord]), delta=10)
+            for coord in range(len(plineI.lesion_locations["dbt"][les])):
+                self.assertAlmostEqual(plineI.lesion_locations["dbt"][les][coord],
+                                       np.array(self.truth["insert"]["dbt_coord"][les][coord]), delta=10)
+            for coord in range(len(plineI.lesion_locations["dm"][les])):
+                self.assertAlmostEqual(plineI.lesion_locations["dm"][les][coord],
+                                       np.array(self.truth["insert"]["dm_coord"][les][coord]), delta=10)
+
+        # from loaded trial
+        plineI = Pipeline(seed=1,
+                          roi_sizes=self.roi_sizes,
+                          results_folder="results_insert"
+                          )
+
+        for les in range(len(plineI.lesions)):
+            for coord in range(len(plineI.lesions[les])):
+                self.assertAlmostEqual(plineI.lesions[les][coord],
+                                       np.array(self.truth["insert"]["phantom_coord"][les][coord]), delta=10)
+            for coord in range(len(plineI.lesion_locations["dbt"][les])):
+                self.assertAlmostEqual(plineI.lesion_locations["dbt"][les][coord],
+                                       np.array(self.truth["insert"]["dbt_coord"][les][coord]), delta=10)
+            for coord in range(len(plineI.lesion_locations["dm"][les])):
+                self.assertAlmostEqual(plineI.lesion_locations["dm"][les][coord],
+                                       np.array(self.truth["insert"]["dm_coord"][les][coord]), delta=10)
 
     def test_DBT_segmentation(self):
-        plineS = Pipeline(seed=1,
+        plineD = Pipeline(seed=1,
                           phantom_file="phantoms/pc_1_crop.raw.gz",
                           lesion_file="lesions/spiculated/mass_11_size1.00.h5",
                           roi_sizes=self.roi_sizes,
                           results_folder="results_segmentation"
                           )
-        segm = plineS.get_DBT_segmentation()
+        segm = plineD.get_DBT_segmentation()
         self.assertEqual(hashlib.sha256(segm.tobytes()).hexdigest(),
                          self.truth["dbt_mask"])
 
