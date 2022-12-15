@@ -35,7 +35,7 @@ jobs:
           (cd ./Victre/breastMass/build && cmake ..)
           (cd ./Victre/breastMass/build && make)        
       - name: Test with unittest
-        is_skippable: true
+        continue-on-error: true
         run: |
           python -m unittest discover -s ./test -p 'test_*.py'
       - uses: actions/upload-artifact@v1
