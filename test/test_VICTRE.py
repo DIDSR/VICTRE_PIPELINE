@@ -22,7 +22,7 @@ class TestPipeline(unittest.TestCase):
                                      [76, 1204, 2],
                                      [350, 1563, 2]]
                         },
-             "dbt_mask": "ebbc92604273bb53eab38abf1437579ee2462fdd686ed0b31f75384d6b096275"
+             "dbt_mask": "0a5dd71a35bd8441834ad59ae2dfc74873465ea6aa701d831a26698fe66fea32"
              }
 
     def test_insert(self):
