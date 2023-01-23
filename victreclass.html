@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Victre Class &mdash; VICTRE PIPELINE  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -11,9 +12,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -27,8 +25,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html">
-            <img src="_static/victrelogo.png" class="logo" alt="Logo"/>
+            <a href="index.html" class="icon icon-home"> VICTRE PIPELINE
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -123,7 +120,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="module-Victre">
+  <section id="module-Victre">
 <span id="victre-class"></span><h1>Victre Class<a class="headerlink" href="#module-Victre" title="Permalink to this heading"></a></h1>
 <p>Documentation for the Victre project.</p>
 <dl class="py class">
@@ -131,7 +128,7 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.</span></span><span class="sig-name descname"><span class="pre">Pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ips</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'cpu':</span> <span class="pre">'localhost',</span> <span class="pre">'gpu':</span> <span class="pre">'localhost'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./results'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phantom_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectrum_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./Victre/projection/spectrum/W28kVp_Rh50um_Be1mm.spc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">materials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_generation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_spiculated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_mcgpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_recon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments_cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatfield_DBT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatfield_DM</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline" title="Permalink to this definition"></a></dt>
 <dd><p>Object constructor for the Victre pipeline class</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ips</strong> – Dictionary with two IP addresses to run the pipeline: “gpu” for the projection process. “cpu” for the reconstruction.</p></li>
 <li><p><strong>seed</strong> – Random seed used to generate or read the phantom</p></li>
@@ -152,7 +149,7 @@
 <li><p><strong>verbosity</strong> – True will output the progress of each process and steps</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -161,7 +158,7 @@
 <span class="sig-name descname"><span class="pre">add_absent_ROIs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lesion_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.add_absent_ROIs" title="Permalink to this definition"></a></dt>
 <dd><p>Adds the specified number of lesion-absent regions of interest.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lesion_type</strong> – Constant with the desired lesion type. Check available lesion types and materials in the Constants file.</p></li>
 <li><p><strong>n</strong> – Number of lesions to be added</p></li>
@@ -169,7 +166,7 @@
 <li><p><strong>roi_sizes</strong> – Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None. A location file will be saved inside the <cite>phantom</cite> folder with the corresponding seed. Negative lesion type means absent ROI.</p>
 </dd>
 </dl>
@@ -180,10 +177,10 @@
 <span class="sig-name descname"><span class="pre">compress_phantom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.compress_phantom" title="Permalink to this definition"></a></dt>
 <dd><p>Runs the FEBio compression.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>thickness</strong> – Specifies the objective thickness for the phantom to be compressed (in cm)</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>pc_SEED.raw.gz</cite> with the raw data, and <cite>pc_SEED.mhd</cite> with the information about the raw data.</p>
 </dd>
 </dl>
@@ -194,7 +191,7 @@
 <span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.crop" title="Permalink to this definition"></a></dt>
 <dd><p>Runs breast phantom cropping.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>pc_SEED_crop.raw.gz</cite> with the raw data, and <cite>pc_SEED_crop.mhd</cite> with the information about the raw data.</p>
 </dd>
 </dl>
@@ -205,7 +202,7 @@
 <span class="sig-name descname"><span class="pre">generate_cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.generate_cluster" title="Permalink to this definition"></a></dt>
 <dd><p>Generates a random calcification cluster</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>seed</strong> – Seed to be used when generating the cluster</p></li>
 <li><p><strong>size</strong> – Side of the 3D array (ROI cube) in which to generate the cluster (in mm)</p></li>
@@ -215,7 +212,7 @@
 <li><p><strong>smax</strong> – Maximum size of the generated calcifications (in mm)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None. The result is saved in the <cite>lesions</cite> subfolder</p>
 </dd>
 </dl>
@@ -226,7 +223,7 @@
 <span class="sig-name descname"><span class="pre">generate_phantom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.generate_phantom" title="Permalink to this definition"></a></dt>
 <dd><p>Runs breast phantom generation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Two files will be generated: <cite>p_SEED.raw.gz</cite> with the raw data, and <cite>p_SEED.mhd</cite> with the information about the raw data.</p>
 </dd>
 </dl>
@@ -237,13 +234,13 @@
 <span class="sig-name descname"><span class="pre">generate_spiculated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.generate_spiculated" title="Permalink to this definition"></a></dt>
 <dd><p>Generates a spiculated mass using the breastMass software</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>seed</strong> – Seed to be used when generating the mass</p></li>
 <li><p><strong>size</strong> – Size of the mass to be used in the breastMass config file</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None. The result is saved in the <cite>lesions</cite> subfolder</p>
 </dd>
 </dl>
@@ -254,7 +251,7 @@
 <span class="sig-name descname"><span class="pre">get_DBT_segmentation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.get_DBT_segmentation" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates the true segmentation of the DBT volume using the phantom model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>3-dimensional array of integer values of the tissue ID corresponding to each</p>
 </dd>
 </dl>
@@ -266,10 +263,10 @@
 <span class="sig-name descname"><span class="pre">get_coordinates_dbt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vx_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.get_coordinates_dbt" title="Permalink to this definition"></a></dt>
 <dd><p>Method to get the corresponding coordinates in the DBT volume from the voxelized coordinates</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vx_location</strong> – Coordinates in the voxel/phantom space</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Coordinates in the DBT space</p>
 </dd>
 </dl>
@@ -280,10 +277,10 @@
 <span class="sig-name descname"><span class="pre">get_coordinates_dm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vx_location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.get_coordinates_dm" title="Permalink to this definition"></a></dt>
 <dd><p>Method to get the corresponding coordinates in the DM volume from the voxelized coordinates</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vx_location</strong> – Coordinates in the voxel/phantom space</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Coordinates in the DM space</p>
 </dd>
 </dl>
@@ -294,10 +291,10 @@
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_folder_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.get_folder_contents" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a list of files in the given folder</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>folder</strong> – Path to the folder to be processed</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List with files inside the given folder</p>
 </dd>
 </dl>
@@ -308,7 +305,7 @@
 <span class="sig-name descname"><span class="pre">insert_lesions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lesion_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lesion_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_phantom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.insert_lesions" title="Permalink to this definition"></a></dt>
 <dd><p>Inserts the specified number of lesions in the phantom.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lesion_type</strong> – Constant with the desired lesion type. Check available lesion types and materials in the Constants file.</p></li>
 <li><p><strong>n</strong> – Number of lesions to be added</p></li>
@@ -318,7 +315,7 @@
 <li><p><strong>roi_sizes</strong> – Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: <cite>pcl_SEED.raw.gz</cite> with the raw data, <cite>pcl_SEED.mhd</cite> with the information about the raw data, and <cite>pcl_SEED.loc</cite> with the voxel coordinates of the lesion centers.</p>
 </dd>
 </dl>
@@ -329,7 +326,7 @@
 <span class="sig-name descname"><span class="pre">project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flatfield_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_flatfield</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">for_presentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.project" title="Permalink to this definition"></a></dt>
 <dd><p>Method that runs MCGPU to project the phantom.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>flatfield_correction</strong> – If True, the projections will be corrected using a given flatfield.
 It will be generated if not found and not given.</p></li>
@@ -352,10 +349,10 @@ It will be generated if not found and not given.</p></li>
 <dd><p>Returns the 3D coordinate in the model (phantom) space from the
 input 3D digital breast tomosynthesis coordinates</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dbt_location</strong> – 3-dimensional tuple or array with the coordinates in the digital breast tomosynthesis space</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>3-dimensional array of coordinates in the model (phantom) space</p>
 </dd>
 </dl>
@@ -367,10 +364,10 @@ input 3D digital breast tomosynthesis coordinates</p>
 <dd><p>Returns the list of 3D coordinates in the model (phantom) space from the
 input 2D digital mammography coordinates. Note: This will take a long time to compute</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dm_location</strong> – 2-dimensional tuple or array with the coordinates in the digital mammography space</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of 3D coordinates in the model (phantom) space</p>
 </dd>
 </dl>
@@ -382,7 +379,7 @@ input 2D digital mammography coordinates. Note: This will take a long time to co
 <dd><p>Saves the DM or DBT images in DICOM format. If present, lesion location will be
 stored in a custom tag 0x009900XX where XX is the lesion number.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>modality</strong> – Modality to save: dbt or dm</p>
 </dd>
 </dl>
@@ -393,7 +390,7 @@ stored in a custom tag 0x009900XX where XX is the lesion number.</p>
 <span class="sig-name descname"><span class="pre">save_ROIs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">roi_sizes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.Pipeline.save_ROIs" title="Permalink to this definition"></a></dt>
 <dd><p>Saves the generated ROIs (absent and present) in RAW and HDF5 formats</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>roi_sizes</strong> – Size of the ROIs for the defined lesion types</p></li>
 <li><p><strong>clean</strong> – If True, the existing ROI folder will be deleted</p></li>
@@ -404,8 +401,8 @@ stored in a custom tag 0x009900XX where XX is the lesion number.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-Victre.ModelObserver">
+</section>
+<section id="module-Victre.ModelObserver">
 <span id="model-observer-class"></span><h1>Model Observer Class<a class="headerlink" href="#module-Victre.ModelObserver" title="Permalink to this heading"></a></h1>
 <p>Documentation for the Model Observer component of the VICTRE project.</p>
 <dl class="py class">
@@ -415,7 +412,7 @@ stored in a custom tag 0x009900XX where XX is the lesion number.</p>
 channel type. It can receive the signal or a set of training present and
 absent images.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>channel_type</strong> – Type of the channels to be created for the CHO: Gabor, LGauss or DoG.</p></li>
 <li><p><strong>channels:</strong> – Alternatively, you can provide your own channels.</p></li>
@@ -430,7 +427,7 @@ absent images.</p>
 <li><p><strong>channel_params</strong> – Dictionary with the parameters for the channel generation.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -440,7 +437,7 @@ absent images.</p>
 <dd><p>This method builds the Channelized Hotelling template with the given
 channels and signal.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -453,7 +450,7 @@ channels and signal.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Victre.ModelObserver.</span></span><span class="sig-name descname"><span class="pre">ModelObserver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver" title="Permalink to this definition"></a></dt>
 <dd><p>Initializes the ModelObserver generic class. This should be done on the children classes, not here.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>signal_present_samples</strong> – List of images (2D or 3D) for signal-present trials.</p></li>
 <li><p><strong>signal_absent_samples</strong> – List of images (2D or 3D) for signal-absent trials.</p></li>
@@ -463,7 +460,7 @@ channels and signal.</p>
 <li><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -473,7 +470,7 @@ channels and signal.</p>
 <dd><p>This method estimates the noise power spectrum from samples in any dimension.
 :param samples: List of samples.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Noise power spectrum matrix.</p>
 </dd>
 </dl>
@@ -484,13 +481,13 @@ channels and signal.</p>
 <span class="sig-name descname"><span class="pre">extract_from_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_present_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_absent_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.extract_from_samples" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts the signal only from present and absent samples and saves it as class variables.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>signal_present_samples</strong> – List of signal-present images.</p></li>
 <li><p><strong>signal_absent_samples</strong> – List of signal-absent images.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
 </dd>
 </dl>
@@ -501,7 +498,7 @@ channels and signal.</p>
 <span class="sig-name descname"><span class="pre">get_performance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.get_performance" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates model observer’s performance for the loaded samples.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>LKE</strong> – Indicate a Location-Known Exactly (LKE) task or a search task.</p></li>
 <li><p><strong>function</strong> – For search tasks (<cite>LKE = false</cite>), specify the function used to</p></li>
@@ -516,13 +513,13 @@ channels and signal.</p>
 <span class="sig-name descname"><span class="pre">read_from_VICTRE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modality</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subtract_mean_background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.read_from_VICTRE" title="Permalink to this definition"></a></dt>
 <dd><p>Reads the samples from a VICTRE results folder structure and extracts the signal.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>results_folder</strong> – Path to the results folder from the VICTRE pipeline.</p></li>
 <li><p><strong>modality</strong> – Modality to load (dm or dbt)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
 </dd>
 </dl>
@@ -533,10 +530,10 @@ channels and signal.</p>
 <span class="sig-name descname"><span class="pre">retrain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.retrain" title="Permalink to this definition"></a></dt>
 <dd><p>Retrains the model from a different set of samples.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
 </dd>
 </dl>
@@ -547,7 +544,7 @@ channels and signal.</p>
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.run" title="Permalink to this definition"></a></dt>
 <dd><p>Computes the result for the model observer template in a LKE or Search task on a set of images.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>images</strong> – List of images to be processed by the model observer.</p></li>
 <li><p><strong>LKE</strong> – Indicate a Location-Known Exactly (LKE) task or a search task.</p></li>
@@ -555,7 +552,7 @@ channels and signal.</p>
 combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List with the resulting statistic of the model observer computation for each image.</p>
 </dd>
 </dl>
@@ -566,7 +563,7 @@ combine the results of the convolution. Valid options are <cite>sum</cite> or <c
 <span class="sig-name descname"><span class="pre">run_readers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_readers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LKE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.run_readers" title="Permalink to this definition"></a></dt>
 <dd><p>Run a specified number of readers, retraining them every iteration.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num_readers</strong> – Number of readers to run.</p></li>
 <li><p><strong>LKE</strong> – Indicate a Location-Known Exactly (LKE) task or a search task.</p></li>
@@ -574,7 +571,7 @@ combine the results of the convolution. Valid options are <cite>sum</cite> or <c
 combine the results of the convolution. Valid options are <cite>sum</cite> or <cite>max</cite>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>2-tuple with the statistics of each reader and their corresponding responses
 to each processed trial.</p>
 </dd>
@@ -586,14 +583,14 @@ to each processed trial.</p>
 <span class="sig-name descname"><span class="pre">save_iMRMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.ModelObserver.save_iMRMC" title="Permalink to this definition"></a></dt>
 <dd><p>Save the results of the model observer as an iMRMC format file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> – Output file name to save the result.</p></li>
 <li><p><strong>scores</strong> – Alternatively, specify the scores of various modalities to be saved in
 the file instead of the current model observer’s results.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
 </dd>
 </dl>
@@ -607,7 +604,7 @@ the file instead of the current model observer’s results.</p></li>
 <dd><p>This method initializes a Non PreWhitening (NPW) model observer. It can receive
 the signal or a set of training present and absent images.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>signal</strong> – Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.</p></li>
 <li><p><strong>signal_present_samples</strong> – List of images (2D or 3D) for signal-present trials.</p></li>
@@ -617,7 +614,7 @@ the signal or a set of training present and absent images.</p>
 <li><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -626,7 +623,7 @@ the signal or a set of training present and absent images.</p>
 <span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPW.build_template" title="Permalink to this definition"></a></dt>
 <dd><p>This method builds the NPW template.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -640,7 +637,7 @@ the signal or a set of training present and absent images.</p>
 <dd><p>This method initializes a Non PreWhitening with Eye filter (NPWE) model observer. It can receive
 the signal or a set of training present and absent images.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>signal</strong> – Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.</p></li>
 <li><p><strong>signal_present_samples</strong> – List of images (2D or 3D) for signal-present trials.</p></li>
@@ -654,7 +651,7 @@ the signal or a set of training present and absent images.</p>
 <li><p><strong>gamma</strong> – Parameter gamma for the eye filter.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -663,7 +660,7 @@ the signal or a set of training present and absent images.</p>
 <span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPWE.build_template" title="Permalink to this definition"></a></dt>
 <dd><p>This method builds the NPWE template.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -674,10 +671,10 @@ the signal or a set of training present and absent images.</p>
 <span class="sig-name descname"><span class="pre">eye_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.NPWE.eye_filter" title="Permalink to this definition"></a></dt>
 <dd><p>Generates the corresponding eye filter at distance <cite>r</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>r</strong> – Radial distance to generate the eye filter.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Eye filter response at distance <cite>r</cite>.</p>
 </dd>
 </dl>
@@ -691,7 +688,7 @@ the signal or a set of training present and absent images.</p>
 <dd><p>This method initializes a PreWhitening Matched Filter (PWMF) model observer. It can receive
 the signal or a set of training present and absent images.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>signal</strong> – Provide your own signal profile, otherwise, samples will be used to calculate the signal profile.</p></li>
 <li><p><strong>nps</strong> – Noise power spectrum used to filter the channels. If not provided it will be estimated from trials.</p></li>
@@ -702,7 +699,7 @@ the signal or a set of training present and absent images.</p>
 <li><p><strong>training_ratio</strong> – ratio of samples used to retrain.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -711,7 +708,7 @@ the signal or a set of training present and absent images.</p>
 <span class="sig-name descname"><span class="pre">build_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Victre.ModelObserver.PWMF.build_template" title="Permalink to this definition"></a></dt>
 <dd><p>This method builds the PWMF template.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -719,7 +716,7 @@ the signal or a set of training present and absent images.</p>
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
