@@ -148,6 +148,7 @@ The organization of the Victre pipeline python class is as follows:
 | `generation` | Folder including the [breastPhantom](https://github.com/DIDSR/breastPhantom) software, needs to be pre-compiled |
 | `projection` | Folder including the [MC-GPU](https://github.com/DIDSR/VICTRE_MCGPU) software, needs to be pre-compiled |
 | `reconstruction` | Folder including the [FBP](https://github.com/DIDSR/VICTRE/tree/master/FBP%20DBT%20reconstruction%20in%20C) software, needs to be pre-compiled |
+| `ModelObserver` | Folder including the Model Observer class |
 
 See the [examples](https://github.com/DIDSR/VICTRE_PIPELINE/tree/main/examples) and [documentation](https://didsr.github.io/VICTRE_PIPELINE/) to know more about the usage of the Victre pipeline.
 
