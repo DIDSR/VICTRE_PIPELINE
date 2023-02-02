@@ -8,13 +8,13 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - uses: ammaraskar/sphinx-action@master
       with:
         pre-build-command: "apt-get update -y && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended" 
         docs-folder: "doc/"
     # Create an artifact of the html output.
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v3
       with:
         name: DocumentationHTML
         path: doc/_build/html/      
