@@ -1483,7 +1483,7 @@ class Pipeline:
             n)
         return n
 
-    def insert_lesions(self, lesion_type=None, n=-1, lesion_file=None, lesion_size=None, locations=None, roi_sizes=None, save_phantom=True):
+    def insert_lesions(self, lesion_type=None, n=-1, lesion_file=None, lesion_size=None, locations=None, roi_sizes=None, save_phantom=True, seed=None):
         """
             Inserts the specified number of lesions in the phantom.
 
@@ -1493,6 +1493,7 @@ class Pipeline:
             :param lesion_size: If lesion_file is a raw file, lesion_size indicates the size of this file
             :param locations: List of coordinates in the voxel/phantom space where the lesions will be inserted. If not specified, random locations will be generated.
             :param roi_sizes: Size of the region of interest to be calculated to avoid overlapping with other tissues and check out of bounds locations
+            :param seed: Specific seed for randomized insertion, defaults to phantom seed, set to -1 to randomize every insertion
 
             :returns: None. A phantom file will be saved inside the results folder with the corresponding raw phantom. Three files will be generated: `pcl_SEED.raw.gz` with the raw data, `pcl_SEED.mhd` with the information about the raw data, and `pcl_SEED.loc` with the voxel coordinates of the lesion centers.
 
@@ -1581,6 +1582,11 @@ class Pipeline:
                     list(np.round([loc["dbt"][0], loc["dbt"][1], loc["dbt"][2], cand_type]).astype(int)))
         else:
             current_seed = self.seed
+
+            if seed is not None:
+                current_seed = seed if seed >= 0 else int(
+                    datetime.datetime.now().timestamp())
+
             np.random.seed(current_seed)
 
             if self.candidate_locations is not None:
