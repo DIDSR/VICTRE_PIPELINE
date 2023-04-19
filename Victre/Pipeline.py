@@ -1412,13 +1412,13 @@ class Pipeline:
         np.random.seed(self.arguments_cluster["seed"])
 
         size_px = (int(self.arguments_cluster["size"] /
-                       self.arguments_mcgpu["voxel_size"][0]),
+                       (self.arguments_mcgpu["voxel_size"][0] * 10)),
                    int(self.arguments_cluster["size"] /
-                       self.arguments_mcgpu["voxel_size"][1]),
+                       (self.arguments_mcgpu["voxel_size"][1] * 10)),
                    int(self.arguments_cluster["size"] /
-                       self.arguments_mcgpu["voxel_size"][2]))
+                       (self.arguments_mcgpu["voxel_size"][2] * 10)))
 
-        lesion_raw = np.zeros(size_px)
+        lesion_raw = np.zeros(size_px, dtype=np.uint8)
 
         n = np.random.randint(
             self.arguments_cluster["nmin"], self.arguments_cluster["nmax"])
@@ -1453,8 +1453,8 @@ class Pipeline:
             # which is 5.23e4um3 and 1.41e7um3
             size_calc = np.random.randint(
                 self.arguments_cluster["smin"] /
-                self.arguments_mcgpu["voxel_size"][0],
-                self.arguments_cluster["smax"] / self.arguments_mcgpu["voxel_size"][0] + 1)
+                (self.arguments_mcgpu["voxel_size"][0] * 10),
+                self.arguments_cluster["smax"] / (self.arguments_mcgpu["voxel_size"][0] * 10) + 1)
             x = np.random.randint(
                 size_calc, size_px[0] - size_calc)
             y = np.random.randint(
