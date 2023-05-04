@@ -1,4 +1,5 @@
-![](https://github.com/DIDSR/VICTRE_PIPELINE/actions/workflows/test.yml/badge.svg) ![](https://img.shields.io/github/license/DIDSR/VICTRE_PIPELINE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7883676.svg)](https://doi.org/10.5281/zenodo.7883676)
+ ![](https://github.com/DIDSR/VICTRE_PIPELINE/actions/workflows/test.yml/badge.svg) ![](https://img.shields.io/github/license/DIDSR/VICTRE_PIPELINE)
 
 VICTRE AUTOMATIC PIPELINE
 ===========
@@ -13,7 +14,9 @@ Clinical trials are expensive and delay the regulatory evaluation and early pati
 
 * **Test the VICTRE Pipeline on precisionFDA**: We created a sample VICTRE full pipeline app on precision FDA that [you can access here](https://precision.fda.gov/home/apps/app-GFVKP880Gqb7fqkf8VvfXFkV-1)  (needs registration).
 
-* **Overview of the VICTRE project** A 1-hour summary presentation of the project and findings was given at the FDA Grand Rounds on 3/14/2019 and [can be found here](https://collaboration.fda.gov/p5wx8epckk7p/).
+* **Regulatory Science Tool**: Check the [FDA website](https://www.fda.gov/medical-devices/science-and-research-medical-devices/victre-silico-breast-imaging-pipeline) to see the VICTRE pipeline in the Regulatory Science Tool catalog.
+
+* **Overview of the VICTRE project**: A 1-hour summary presentation of the project and findings was given at the FDA Grand Rounds on 3/14/2019 and [can be found here](https://collaboration.fda.gov/p5wx8epckk7p/).
 
 **Note**: All code is under CC0 (Creative Commons 1.0 Universal License) except for the FBP code that is a derivation of a GPL3 code and remains as GPL3.
 
