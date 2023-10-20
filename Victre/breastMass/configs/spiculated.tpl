@@ -2,9 +2,9 @@
 
 [base]
 # voxel size (mm)
-imgRes=0.05
+imgRes=$imgRes
 # complexity scaling for VICTRE 0=simple, 1=full complexity
-complexity=1.0
+complexity=$complexity
 # random number seed (unsigned int) from /dev/urandom if unspecified
 seed=$seed
 
