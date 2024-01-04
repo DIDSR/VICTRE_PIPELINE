@@ -93,7 +93,7 @@ class Pipeline:
                  spectrum_file="./Victre/projection/spectrum/W28kVp_Rh50um_Be1mm.spc",
                  lesion_file=None,
                  materials=None,
-                 roi_sizes=None,
+                 roi_sizes=Constants.DEFAULT_ROI,
                  arguments_generation=dict(),
                  arguments_spiculated=dict(),
                  arguments_mcgpu=dict(),
