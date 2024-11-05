@@ -12,7 +12,7 @@ Clinical trials are expensive and delay the regulatory evaluation and early pati
 
 * **Documentation**: Full documentation can be found here: https://didsr.github.io/VICTRE_PIPELINE/
 
-* **Test the VICTRE Pipeline on precisionFDA**: We created a sample VICTRE full pipeline app on precision FDA that [you can access here](https://precision.fda.gov/home/apps/app-GFVKP880Gqb7fqkf8VvfXFkV-1)  (needs registration).
+* **Test the VICTRE Pipeline on precisionFDA**: We created a sample VICTRE full pipeline app on precision FDA that [you can access here](https://precision.fda.gov/home/apps/app-Gvb5G6j0Fgz0JBz1zKg17X0z-1)  (needs registration).
 
 * **Regulatory Science Tool**: Check the [FDA website](https://www.fda.gov/medical-devices/science-and-research-medical-devices/victre-silico-breast-imaging-pipeline) to see the VICTRE pipeline in the Regulatory Science Tool catalog.
 
