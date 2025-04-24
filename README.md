@@ -25,7 +25,7 @@ Clinical trials are expensive and delay the regulatory evaluation and early pati
 ## Regulatory Science Tool (RST) Reference
 * RST Reference Number: RST24MD10.01
 * Date of Publication: May, 2021
-* Recommended Citation: U.S. Food and Drug Administration (2021). _VICTRE: In Silico Breast Imaging Pipeline_ (RST24MD10.01). [https://cdrh-rst.fda.gov/m-synth-dataset-comparative-evaluation-mammography-ai](https://cdrh-rst.fda.gov/victre-silico-breast-imaging-pipeline)
+* Recommended Citation: U.S. Food and Drug Administration (2021). _VICTRE: In Silico Breast Imaging Pipeline_ (RST24MD10.01). [https://cdrh-rst.fda.gov/victre-silico-breast-imaging-pipeline](https://cdrh-rst.fda.gov/victre-silico-breast-imaging-pipeline)
 
 ## For More Information:
 * [Catalog of Regulatory Science Tools to Help Assess New Medical Devices](https://www.fda.gov/medical-devices/science-and-research-medical-devices/catalog-regulatory-science-tools-help-assess-new-medical-devices) 
